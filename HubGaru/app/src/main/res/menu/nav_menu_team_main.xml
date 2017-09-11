@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="Team">
+            <menu>
+                <item
+                    android:id="@+id/nav_alam"
+                    android:title="팀알림" />
+                <item
+                    android:id="@+id/nav_request"
+                    android:title="요청" />
+                <item
+                    android:id="@+id/nav_verson"
+                    android:title="버전" />
+            </menu>
+        </item>
+
+        <item android:title="ChatChannel">
+            <menu>
+                <item
+                    android:id="@+id/nav_chat"
+                    android:title="회의실" />
+                <item android:id="@+id/nav_personal"
+                    android:title="개인톡"/>
+
+            </menu>
+        </item>
+
+        <item android:title="Communicate">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:title="피드백" />
+                <item
+                    android:id="@+id/nav_invite"
+                    android:title="초대" />
+            </menu>
+        </item>
+    </group>
+</menu>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     알림" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     설정 뭐넣지" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     설정 할게 더 있나" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     이따가 생각하지 뭐" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     일단 창부터" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:textSize="50px"
+        android:text="     만들고 보자" />
+
+    <View android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary" />
+
+</LinearLayout>

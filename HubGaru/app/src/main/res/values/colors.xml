@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D9F5BF</color>
+    <color name="colorPrimaryDark">#ACC297</color>
+    <color name="colorAccent">#EFBFF5</color>
+    <color name="background">#EFFFE0</color>
+    <color name="fontColor">#ACC297</color>
+
+    <color name="DrawerItem">#555555</color>>
+    <color name="SelectedDrawerItem">#FFFFFF</color>>
+</resources>
