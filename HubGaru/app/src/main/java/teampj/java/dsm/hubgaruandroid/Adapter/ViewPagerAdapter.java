@@ -19,7 +19,6 @@ import teampj.java.dsm.hubgaruandroid.Fragment.SproutHubFragment;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
     private final int PAGE_NUM = 4;
-    private final List<String> titleList = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);

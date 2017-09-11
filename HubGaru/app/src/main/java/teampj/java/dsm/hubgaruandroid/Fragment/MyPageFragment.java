@@ -30,7 +30,7 @@ public class MyPageFragment extends Fragment{
         profilePic = (ImageView) view.findViewById(R.id.profilePic);
 
         Glide.with(getActivity())
-                .load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb5Vi5Fqf2PHGdMK-3ddX2s9lQ-NoyejJET1NPcFvPktS0KUDX")
+                .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
                 .apply(RequestOptions.bitmapTransform(new CircleCrop(getActivity())))
                 .into(profilePic);
 

@@ -24,5 +24,6 @@
         <activity android:name=".Activity.TeamRecoardThemeActivity"></activity>
         <activity android:name=".Activity.TeamRequestActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
