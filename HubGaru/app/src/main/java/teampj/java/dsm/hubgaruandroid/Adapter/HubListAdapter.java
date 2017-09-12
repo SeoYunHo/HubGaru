@@ -29,10 +29,6 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
         this.context = context;
     }
 
-    public HubListAdapter(List<HubItem> items) {
-        this.items = items;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.hub_list_item, parent, false);
