@@ -16,7 +16,7 @@ router.route('/garu').post(function (req, res) {
         res.end();
         return;
     }
-    
+
     let garuId;
     let leaderId=req.session.user.user_Id; 
     let name = req.body.name;
@@ -58,3 +58,6 @@ router.route('/garu').get(function (req, res) {
         res.end();
     });
 });
+
+
+module.exports = router;

@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "apistore-sms": "^0.10.29",
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.0",
     "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
     "debug": "^2.6.8",

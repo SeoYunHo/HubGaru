@@ -6,12 +6,12 @@ const key = 'this_is_key';
 let manager = {}
 
 //회원가입
-manager.signup = function (id, password, email, part, user_intro, picture_url, nick_name, name, callback) {
+manager.signup = function (id, password, email, part, user_intro, picture_uri, nick_name, name, callback) {
     let response = {
         success: false
     };
 
-    conn.query('insert into account (id, password, name, phone) values(?,?,?,?,?,?,?,?);', [id, password, email, part, user_intro, picture_url, nick_name, name], function (err, result) {
+    conn.query('insert into account (id, password, name, phone) values(?,?,?,?,?,?,?,?);', [id, password, email, part, user_intro, picture_uri, nick_name, name], function (err, result) {
         if (err) response.error = true;
         else if (result.affectedRows) response.success = true;
 

@@ -11,16 +11,18 @@ let certifyString;
 
 //회원가입
 router.route('/account/signup').post(function (req, res) {
+    console.log(req.body.params);
+    console.log(req.body.id, req.body.password);
     let id = req.body.id;
     let name = req.body.name;
     let nick_name = req.body.nickname;
     let part = req.body.part;
     let email = req.body.email;
     let password = SHA256(req.body.password);
-    let picture_url=req.body.picture_url;
+    let picture_uri=req.body.picture_url;
     let user_intro=req.body.user_intro;
 
-    console.log(id, password, email, part, user_intro, picture_url, nick_name, name);
+    console.log(id, password, email, part, user_intro, picture_uri, nick_name, name);
 
     manager.signup(id, password, email, part, user_intro, picture_url, nick_name, name, function (response) {
         if (response.success) {
