@@ -1,6 +1,8 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import teampj.java.dsm.hubgaruandroid.Activity.HubOnViewActivity;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.R;
 
@@ -36,11 +39,19 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         String url = items.get(position).getPicSrc();
         Glide.with(context).load(url).into(holder.profilePic);
         holder.dateText.setText(items.get(position).getDate());
         holder.titleText.setText(items.get(position).getSongTitle());
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HubOnViewActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -52,12 +63,14 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
         TextView titleText;
         TextView dateText;
         ImageView profilePic;
+        View view;
         public ViewHolder(View itemView) {
             super(itemView);
 
             titleText = (TextView) itemView.findViewById(R.id.songTitle);
             dateText = (TextView) itemView.findViewById(R.id.date);
             profilePic = (ImageView) itemView.findViewById(R.id.profilePic);
+            view = (CardView) itemView.findViewById(R.id.verticalCarView);
         }
     }
 }

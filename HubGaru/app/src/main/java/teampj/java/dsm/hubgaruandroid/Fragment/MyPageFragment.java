@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,13 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class MyPageFragment extends Fragment{
 
+    // name, position, email
+
     private ImageView profilePic;
     private ImageButton editBtn;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
-    private TextView nameText, positionText, emailText;
+    private TextView[] tInfos;
 
     @Nullable
     @Override
@@ -55,9 +58,10 @@ public class MyPageFragment extends Fragment{
         recyclerView = (RecyclerView) view.findViewById(R.id.myPageRecyclerView);
         recyclerView.hasFixedSize();
 
-        nameText = (TextView) view.findViewById(R.id.nameText);
-        positionText = (TextView) view.findViewById(R.id.positionText);
-        emailText = (TextView) view.findViewById(R.id.emailText);
+        tInfos = new TextView[3];
+        tInfos[0] = (TextView) view.findViewById(R.id.nameText);
+        tInfos[1] = (TextView) view.findViewById(R.id.positionText);
+        tInfos[2] = (TextView) view.findViewById(R.id.emailText);
 
         Glide.with(getActivity())
                 .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
@@ -80,9 +84,9 @@ public class MyPageFragment extends Fragment{
 
         final String name, position, email;
 
-        name = nameText.getText().toString();
-        position = positionText.getText().toString();
-        email = emailText.getText().toString();
+        name = tInfos[0].getText().toString();
+        position = tInfos[1].getText().toString();
+        email = tInfos[2].getText().toString();
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +113,9 @@ public class MyPageFragment extends Fragment{
     class InfoEditDialog extends Dialog {
 
         private Context context;
-        private TextInputEditText positionEText, emailEText, nameEText;
+        private TextInputEditText[] editTexts;
         private Button yesBtn, noBtn;
-        String name, position, email;
+        String[] sInfos;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -125,40 +129,33 @@ public class MyPageFragment extends Fragment{
 
             setContentView(R.layout.edit_my_info);
 
-            nameEText = (TextInputEditText) findViewById(R.id.nameEditText);
-            positionEText = (TextInputEditText) findViewById(R.id.positionEditText);
-            emailEText = (TextInputEditText) findViewById(R.id.emailEditText);
+//            editTexts = new TextInputEditText[]{(TextInputEditText) findViewById(R.id.nameEditText),
+//                    (TextInputEditText) findViewById(R.id.positionEditText),
+//                    (TextInputEditText) findViewById(R.id.emailEditText)};
+
+            editTexts = new TextInputEditText[3];
+            editTexts[0] = (TextInputEditText) findViewById(R.id.nameEditText);
+            editTexts[1] = (TextInputEditText) findViewById(R.id.positionEditText);
+            editTexts[2] = (TextInputEditText) findViewById(R.id.emailEditText);
+
             yesBtn = (Button) findViewById(R.id.yesBtn);
             noBtn = (Button) findViewById(R.id.noBtn);
 
-            String tmp[] = new String[3];
-
-            nameEText.setHint(name);
-            positionEText.setHint(position);
-            emailEText.setHint(email);
+            editTexts[0].setHint(sInfos[0]);
+            editTexts[1].setHint(sInfos[1]);
+            editTexts[2].setHint(sInfos[2]);
 
             yesBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    name = nameEText.getText().toString();
-                    position = positionEText.getText().toString();
-                    email = emailText.getText().toString();
+                    sInfos[0] = editTexts[0].getText().toString();
+                    sInfos[1] = editTexts[1].getText().toString();
+                    sInfos[2] = editTexts[2].getText().toString();
 
-                    if(nameEText == null)
-                        nameText.setText(nameEText.getHint());
-                    else
-                        nameText.setText(name);
-
-                    if(positionEText == null)
-                        positionText.setText(positionEText.getHint());
-                    else
-                        positionText.setText(position);
-
-                    if(emailEText == null)
-                        emailText.setText(email);
-                    else
-                        emailText.setText(email);
+                    for(int i = 0; i < sInfos.length; i++) {
+                        tInfos[i].setText(sInfos[i]);
+                    }
 
                     dismiss();
                 }
@@ -175,9 +172,10 @@ public class MyPageFragment extends Fragment{
         public InfoEditDialog(@NonNull Context context, String position, String email, String name) {
             super(context);
             this.context = context;
-            this.name = name;
-            this.position = position;
-            this.email = email;
+            sInfos = new String[3];
+            sInfos[0] = name;
+            sInfos[1] = position;
+            sInfos[2] = email;
         }
     }
 }

@@ -23,6 +23,7 @@
         <activity android:name=".Activity.TeamCreateActivity"></activity>
         <activity android:name=".Activity.TeamRecoardThemeActivity"></activity>
         <activity android:name=".Activity.TeamRequestActivity"></activity>
+        <activity android:name=".Activity.HubOnViewActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 
