@@ -13,9 +13,6 @@ import teampj.java.dsm.hubgaruandroid.Network.Interceptor.ReceivedCookiesInterce
 
 public class APIAdapter {
 
-//    private static Retrofit retrofit;
-//    private static Context context;
-
     protected static Object retrofit(Context context, Class<?> serviceName) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new ReceivedCookiesInterceptor(context))
@@ -29,18 +26,4 @@ public class APIAdapter {
 
         return retrofit.create(serviceName);
     }
-
-//    public static Retrofit getRetrofit() {
-//        OkHttpClient client = new OkHttpClient.Builder()
-//                .addInterceptor(new ReceivedCookiesInterceptor(context))
-//                .addNetworkInterceptor(new AddCookiesInterceptor(context))
-//                .build();
-//
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl("")
-//                .client(client)
-//                .build();
-//
-//        return retrofit;
-//    }
 }

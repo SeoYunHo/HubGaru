@@ -4,13 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teampj.java.dsm.hubgaruandroid.Activity.MainActivity;
 import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
+import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
+import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
+import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -20,11 +28,19 @@ import teampj.java.dsm.hubgaruandroid.R;
 public class MyHubFragment extends Fragment{
 
     private Button teamMainBtn;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager manager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_hub, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
+        manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
+        recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(new HubListVerticalAdapter(getContext(), getList()));
 
         teamMainBtn = (Button) view.findViewById(R.id.team_main_button);
         teamMainBtn.setOnClickListener(new View.OnClickListener() {
@@ -37,4 +53,28 @@ public class MyHubFragment extends Fragment{
 
         return view;
     }
+    public List<HubItem> getList() {
+        List<HubItem> hubItems = new ArrayList<>();
+        HubItem hubItem1 = new HubItem();
+        HubItem hubItem2 = new HubItem();
+        HubItem hubItem3 = new HubItem();
+
+        hubItem1.setDate("yy-mm-dd");
+        hubItem1.setSongTitle("title");
+        hubItem1.setPicSrc("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
+        hubItems.add(hubItem1);
+
+        hubItem2.setDate("yy-mm-dd");
+        hubItem2.setSongTitle("2nd");
+        hubItem2.setPicSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
+        hubItems.add(hubItem2);
+
+        hubItem3.setDate("yy-mm-dd");
+        hubItem3.setSongTitle("3rd");
+        hubItem3.setPicSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
+        hubItems.add(hubItem3);
+
+        return hubItems;
+    }
+
 }

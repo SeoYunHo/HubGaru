@@ -31,19 +31,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="nameText"
-                    android:id="@+id/name"/>
+                    android:id="@+id/nameText"/>
                 <TextView
                     android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="positionText"
-                    android:id="@+id/position"/>
+                    android:id="@+id/positionText"/>
                 <TextView
                     android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="email"
+                    android:text="emailText"
                     android:id="@+id/emailText"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/infoEditBtn"/>
             </LinearLayout>
 
     </LinearLayout>
@@ -70,9 +74,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_margin="20dp"
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/myPageRecyclerView"/>
 
     </LinearLayout>
