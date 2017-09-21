@@ -4,12 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +34,6 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class MyHubFragment extends Fragment{
 
-    private Button teamMainBtn;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
 
@@ -36,23 +42,21 @@ public class MyHubFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_hub, container, false);
 
+        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
+        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
+
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new HubListVerticalAdapter(getContext(), getList()));
 
-        teamMainBtn = (Button) view.findViewById(R.id.team_main_button);
-        teamMainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent main_to_team = new Intent(getActivity(), TeamMainActivity.class);
-                startActivity(main_to_team);
-            }
-        });
+
 
         return view;
     }
+
     public List<HubItem> getList() {
         List<HubItem> hubItems = new ArrayList<>();
         HubItem hubItem1 = new HubItem();
@@ -75,6 +79,16 @@ public class MyHubFragment extends Fragment{
         hubItems.add(hubItem3);
 
         return hubItems;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);
+        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(searchViewMenuItem);
+        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
+        ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+        v.setImageResource(R.drawable.search);
+        super.onPrepareOptionsMenu(menu);
     }
 
 }

@@ -6,30 +6,31 @@ package teampj.java.dsm.hubgaruandroid.Model;
 
 public class HubItem {
 
-    private String picSrc;
+    private String picUri;
     private String date;
     private String songTitle;
+    private String musicUri;
+    private int like;
+    private Object listView;
 
     public HubItem() {
     }
 
-    public HubItem(String picSrc, String date, String songTitle) {
-        this.picSrc = picSrc;
+    public HubItem(String picUri, String date, String songTitle, String musicUri, int like, Object listView) {
+        this.picUri = picUri;
         this.date = date;
         this.songTitle = songTitle;
+        this.musicUri = musicUri;
+        this.like = like;
+        this.listView = listView;
     }
 
-    public HubItem(String date, String songTitle) {
-        this.date = date;
-        this.songTitle = songTitle;
+    public String getPicUri() {
+        return picUri;
     }
 
-    public String getPicSrc() {
-        return picSrc;
-    }
-
-    public void setPicSrc(String picSrc) {
-        this.picSrc = picSrc;
+    public void setPicUri(String picUri) {
+        this.picUri = picUri;
     }
 
     public String getDate() {
@@ -48,4 +49,27 @@ public class HubItem {
         this.songTitle = songTitle;
     }
 
+    public String getMusicUri() {
+        return musicUri;
+    }
+
+    public void setMusicUri(String musicUri) {
+        this.musicUri = musicUri;
+    }
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
+    public Object getListView() {
+        return listView;
+    }
+
+    public void setListView(Object listView) {
+        this.listView = listView;
+    }
 }

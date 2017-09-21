@@ -43,10 +43,6 @@ Context context;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_top_hub, container, false);
 
-        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-
         newLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         topLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
@@ -85,15 +81,5 @@ Context context;
         hubItems.add(hubItem3);
 
         return hubItems;
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);
-        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(searchViewMenuItem);
-        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
-        ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
-        v.setImageResource(R.drawable.search);
-        super.onPrepareOptionsMenu(menu);
     }
 }
