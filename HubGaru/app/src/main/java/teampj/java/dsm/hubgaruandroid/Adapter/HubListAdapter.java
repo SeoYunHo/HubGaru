@@ -40,7 +40,7 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String url = items.get(position).getPicSrc();
+        String url = items.get(position).getPicUri();
         Glide.with(context).load(url).into(holder.profilePic);
         holder.dateText.setText(items.get(position).getDate());
         holder.titleText.setText(items.get(position).getSongTitle());

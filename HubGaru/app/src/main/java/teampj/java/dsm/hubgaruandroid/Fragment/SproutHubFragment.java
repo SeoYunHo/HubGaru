@@ -73,17 +73,17 @@ public class SproutHubFragment extends Fragment {
 
         hubItem1.setDate("yy-mm-dd");
         hubItem1.setSongTitle("title");
-        hubItem1.setPicSrc("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
+        hubItem1.setPicUri("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
         hubItems.add(hubItem1);
 
         hubItem2.setDate("yy-mm-dd");
         hubItem2.setSongTitle("2nd");
-        hubItem2.setPicSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
+        hubItem2.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
         hubItems.add(hubItem2);
 
         hubItem3.setDate("yy-mm-dd");
         hubItem3.setSongTitle("3rd");
-        hubItem3.setPicSrc("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
+        hubItem3.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
         hubItems.add(hubItem3);
 
         return hubItems;

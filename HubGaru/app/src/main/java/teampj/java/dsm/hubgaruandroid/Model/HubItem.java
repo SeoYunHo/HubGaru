@@ -16,6 +16,12 @@ public class HubItem {
     public HubItem() {
     }
 
+    public HubItem(String picUri, String date, String songTitle) {
+        this.picUri = picUri;
+        this.date = date;
+        this.songTitle = songTitle;
+    }
+
     public HubItem(String picUri, String date, String songTitle, String musicUri, int like, Object listView) {
         this.picUri = picUri;
         this.date = date;

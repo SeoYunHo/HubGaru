@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -15,7 +16,9 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class HubOnViewActivity extends AppCompatActivity {
 
+    static boolean likeBtnStatus = false;
     private Button teamMainBtn;
+    private Button likeBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +31,18 @@ public class HubOnViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
                 startActivity(main_to_team);
+            }
+        });
+
+        likeBtn = (Button) findViewById(R.id.likeBtn);
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(likeBtnStatus == false) {
+                    likeBtnStatus = true;
+                } else {
+                    likeBtnStatus = false;
+                }
             }
         });
     }
