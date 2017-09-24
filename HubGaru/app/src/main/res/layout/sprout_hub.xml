@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:textColor="@color/fontColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sprout hub"/>
-
-    <Button
-        android:id="@+id/team_create_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create HubGaru" />
-
-    <android.support.v7.widget.SearchView
-        android:background="@color/colorPrimary"
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:defaultQueryHint="Search.."
-        style="@style/SearchViewStyle"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myhubRecyclerView"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end|bottom"
+        android:id="@+id/team_create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus"
+        android:background="@color/colorPrimary"
+        android:elevation="40dp"
+        android:text="Create HubGaru" />
+
+</RelativeLayout>

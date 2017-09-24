@@ -5,20 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:textColor="@color/fontColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="my hub page"/>
-
-    <Button
-        android:id="@+id/team_main_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="team main"/>
-
     <android.support.v7.widget.SearchView
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="50dp"

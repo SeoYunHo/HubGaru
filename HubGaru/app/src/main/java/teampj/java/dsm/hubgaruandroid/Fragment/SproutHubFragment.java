@@ -3,6 +3,7 @@ package teampj.java.dsm.hubgaruandroid.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -33,18 +34,15 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class SproutHubFragment extends Fragment {
 
-    private Button createTeamBtn;
+    private FloatingActionButton createTeamBtn;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
+    private SearchView searchView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sprout_hub, container, false);
-
-        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
@@ -53,7 +51,7 @@ public class SproutHubFragment extends Fragment {
         recyclerView.setAdapter(new HubListVerticalAdapter(getContext(), getList()));
 
 
-        createTeamBtn = (Button) view.findViewById(R.id.team_create_button);
+        createTeamBtn = (FloatingActionButton) view.findViewById(R.id.team_create_button);
         createTeamBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
