@@ -18,8 +18,7 @@ import teampj.java.dsm.hubgaruandroid.Holder.TeamChatViewHolder;
 public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
     ArrayList<TeamChatItem> items = new ArrayList<TeamChatItem>();
 
-    public void add(String name, String desc) {
-        TeamChatItem newItem = new TeamChatItem(name, desc);
+    public void add(TeamChatItem newItem) {
         items.add(newItem);
         notifyDataSetChanged();
     }
@@ -34,8 +33,8 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
     @Override
     public void onBindViewHolder(TeamChatViewHolder holder, int position) {
         TeamChatItem item = items.get(position);
-        holder.nameView.setText(item.getName());
-        holder.descView.setText(item.getDesc());
+        holder.nameView.setText(item.getNameStr());
+        holder.descView.setText(item.getDescStr());
     }
 
     @Override

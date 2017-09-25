@@ -10,15 +10,17 @@ public class TeamChatItem {
     private String nameStr;
     private String descStr;
 
+    public TeamChatItem(){ }
+
     public TeamChatItem(String name, String desc){
         this.nameStr = name;
         this.descStr = desc;
     }
 
-    public String getName() {
+    public String getNameStr() {
         return this.nameStr;
     }
-    public String getDesc() {
+    public String getDescStr() {
         return this.descStr;
     }
 }

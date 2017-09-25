@@ -19,10 +19,14 @@
         </activity>
         <activity android:name=".Activity.TeamMainActivity"></activity>
         <activity android:name=".Activity.TeamCreateActivity"></activity>
-        <activity android:name=".Activity.TeamRecoardThemeActivity"></activity>
+        <activity android:name=".Activity.TeamRecordThemeActivity"></activity>
+        <activity android:name=".Activity.TeamRecordThemeCheckActivity"></activity>
         <activity android:name=".Activity.TeamRequestActivity"></activity>
         <activity android:name=".Activity.HubOnViewActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
 
 </manifest>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import teampj.java.dsm.hubgaruandroid.R;
@@ -18,8 +19,7 @@ import teampj.java.dsm.hubgaruandroid.Holder.TeamRequestViewHolder;
 public class TeamRequestAdapter extends RecyclerView.Adapter<TeamRequestViewHolder>{
     ArrayList<TeamRequestItem> items = new ArrayList<TeamRequestItem>();
 
-    public void add(String nName, String time, String rName, String rDesc) {
-        TeamRequestItem newItem = new TeamRequestItem(nName, time, rName, rDesc);
+    public void add(TeamRequestItem newItem) {
         items.add(newItem);
         notifyDataSetChanged();
     }
@@ -38,6 +38,7 @@ public class TeamRequestAdapter extends RecyclerView.Adapter<TeamRequestViewHold
         holder.timeView.setText(item.getDateTime());
         holder.rNameView.setText(item.getRequestName());
         holder.rDescView.setText(item.getRequestDesc());
+        holder.rFileView.setText(new File(item.getRequestFile().getPath()).getName());
     }
 
     @Override

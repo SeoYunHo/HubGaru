@@ -18,11 +18,13 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:id="@+id/chatText"/>
 
         <Button android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="60dp"/>
+            android:layout_marginRight="60dp"
+            android:id="@+id/sendChatBtn"/>
 
     </LinearLayout>
 

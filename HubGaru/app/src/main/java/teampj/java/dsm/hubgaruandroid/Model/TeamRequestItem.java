@@ -1,5 +1,7 @@
 package teampj.java.dsm.hubgaruandroid.Model;
 
+import android.net.Uri;
+
 import java.io.File;
 
 /**
@@ -11,12 +13,16 @@ public class TeamRequestItem {
     private String dateTime;
     private String requestName;
     private String requestDesc;
+    private Uri requestFile;
 
-    public TeamRequestItem(String nName, String time, String rName, String rDesc){
+    public TeamRequestItem(){ }
+
+    public TeamRequestItem(String nName, String time, String rName, String rDesc, Uri rFile){
         this.nickName = nName;
         this.dateTime = time;
         this.requestName = rName;
         this.requestDesc = rDesc;
+        this.requestFile = rFile;
     }
 
     public String getNickName() {
@@ -30,5 +36,8 @@ public class TeamRequestItem {
     }
     public String getRequestDesc() {
         return requestDesc;
+    }
+    public Uri getRequestFile() {
+        return requestFile;
     }
 }

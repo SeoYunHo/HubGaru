@@ -5,4 +5,4 @@ package teampj.java.dsm.hubgaruandroid.Activity;
  */
 
 public class TeamSettingActivity {
-}
+    }

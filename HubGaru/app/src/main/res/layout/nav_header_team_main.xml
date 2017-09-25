@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:gravity="center_vertical"
     android:orientation="vertical"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:text="Team Name"
-        android:textSize="16pt"
+        android:textSize="48pt"
         android:textColor="#FFFFFF"
         />
     <TextView
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:text="Invite code : WIDJQIJAA"
-        android:textSize="5pt"
+        android:textSize="28pt"
         android:textColor="#FFFFFF"
         />
 
