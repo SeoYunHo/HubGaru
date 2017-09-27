@@ -11,10 +11,11 @@ import teampj.java.dsm.hubgaruandroid.R;
  */
 
 public class TeamChatViewHolder extends RecyclerView.ViewHolder{
-    public TextView nameView, descView;
+    public TextView nameView, descView, timeView;
     public TeamChatViewHolder(View itemView){
         super(itemView);
         nameView = (TextView) itemView.findViewById(R.id.nicknameView);
         descView = (TextView) itemView.findViewById(R.id.descView);
+        timeView = (TextView) itemView.findViewById(R.id.timeView);
     }
 }

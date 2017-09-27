@@ -35,6 +35,7 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
         TeamChatItem item = items.get(position);
         holder.nameView.setText(item.getNameStr());
         holder.descView.setText(item.getDescStr());
+        holder.timeView.setText(item.getDateTime());
     }
 
     @Override

@@ -13,16 +13,20 @@ public class TeamRequestItem {
     private String dateTime;
     private String requestName;
     private String requestDesc;
-    private Uri requestFile;
+    private String requestFile;
 
     public TeamRequestItem(){ }
 
-    public TeamRequestItem(String nName, String time, String rName, String rDesc, Uri rFile){
+    public TeamRequestItem(String nName, String time, String rName, String rDesc, String rFile){
         this.nickName = nName;
         this.dateTime = time;
         this.requestName = rName;
         this.requestDesc = rDesc;
         this.requestFile = rFile;
+    }
+
+    public TeamRequestItem(String str){
+        //str 로 받았을 경우
     }
 
     public String getNickName() {
@@ -37,7 +41,7 @@ public class TeamRequestItem {
     public String getRequestDesc() {
         return requestDesc;
     }
-    public Uri getRequestFile() {
+    public String getRequestFile() {
         return requestFile;
     }
 }

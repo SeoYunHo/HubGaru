@@ -9,12 +9,14 @@ import android.graphics.drawable.Drawable;
 public class TeamChatItem {
     private String nameStr;
     private String descStr;
+    private String dateTime;
 
     public TeamChatItem(){ }
 
-    public TeamChatItem(String name, String desc){
+    public TeamChatItem(String name, String desc, String time){
         this.nameStr = name;
         this.descStr = desc;
+        this.dateTime = time;
     }
 
     public String getNameStr() {
@@ -22,5 +24,8 @@ public class TeamChatItem {
     }
     public String getDescStr() {
         return this.descStr;
+    }
+    public String getDateTime() {
+        return dateTime;
     }
 }

@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 import teampj.java.dsm.hubgaruandroid.Model.TeamChatItem;
 import teampj.java.dsm.hubgaruandroid.Model.TeamRequestItem;
@@ -44,6 +48,9 @@ public class TeamMainActivity extends AppCompatActivity
     private EditText chatEditText;
     private Button chatSendBtn;
 
+    private Button drawerBtn;
+    private Button setttingBtn;
+
     private LinearLayout newRequestActionBar;
     private Button newRequestBtn;
 
@@ -64,9 +71,38 @@ public class TeamMainActivity extends AppCompatActivity
         chattingBar = (LinearLayout) findViewById(R.id.team_chat_bar);
         chatEditText = (EditText) findViewById(R.id.chatText);
         chatSendBtn = (Button) findViewById(R.id.sendChatBtn);
+        chatSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                TeamChatItem chatItem = new TeamChatItem("김지수",chatEditText.getText().toString(), calendar.getTime().toString().substring(0,24));
+                databaseReference.child("Chat").push().setValue(chatItem);
+            }
+        });
+
+        drawerBtn = (Button)findViewById(R.id.drawer_btn);
+        drawerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TeamMainActivity.this, TeamSettingActivity.class));
+            }
+        });
+        setttingBtn = (Button)findViewById(R.id.setting_btn);
+        setttingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                teamMainDrawer.openDrawer(Gravity.LEFT);
+            }
+        });
 
         newRequestActionBar = (LinearLayout) findViewById(R.id.team_action_bar);
         newRequestBtn = (Button) findViewById(R.id.button1);
+        newRequestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TeamMainActivity.this, TeamRequestActivity.class));
+            }
+        });
 
         contentLayoutManager = new LinearLayoutManager(this);
         contentView.setLayoutManager(contentLayoutManager);
@@ -78,21 +114,6 @@ public class TeamMainActivity extends AppCompatActivity
         toggle.syncState();
 
         teamMainNavView.setNavigationItemSelectedListener(this);
-
-        chatSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TeamChatItem chatItem = new TeamChatItem("김지수",chatEditText.getText().toString());
-                databaseReference.child("Chat").push().setValue(chatItem);
-            }
-        });
-
-        newRequestBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TeamMainActivity.this, TeamRequestActivity.class));
-            }
-        });
 
         SetRealTimeDataBase();
         chattingBar.setVisibility(View.GONE);
@@ -134,7 +155,7 @@ public class TeamMainActivity extends AppCompatActivity
     }
 
     public void SetRealTimeDataBase(){
-        databaseReference.child("Request").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("Request_s").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TeamRequestItem requestItem = dataSnapshot.getValue(TeamRequestItem.class);

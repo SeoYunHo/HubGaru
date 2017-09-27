@@ -22,7 +22,8 @@
         <activity android:name=".Activity.TeamRecordThemeActivity"></activity>
         <activity android:name=".Activity.TeamRecordThemeCheckActivity"></activity>
         <activity android:name=".Activity.TeamRequestActivity"></activity>
-        <activity android:name=".Activity.HubOnViewActivity"/>
+        <activity android:name=".Activity.HubOnViewActivity"></activity>
+        <activity android:name=".Activity.TeamSettingActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />

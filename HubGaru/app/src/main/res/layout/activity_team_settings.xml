@@ -5,25 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/appbar_team" />
+
     <TextView
+        android:id="@+id/alam_set"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:gravity="center_vertical"
         android:background="#ffffff"
         android:textSize="50px"
-        android:text="     알림" />
+        android:text="     알림 off" />
 
     <View android:layout_height="2dp"
         android:layout_width="match_parent"
         android:background="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/set_set"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:gravity="center_vertical"
         android:background="#ffffff"
         android:textSize="50px"
-        android:text="     설정 뭐넣지" />
+        android:text="     설정 뭐넣지 off" />
 
     <View android:layout_height="2dp"
         android:layout_width="match_parent"

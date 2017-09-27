@@ -81,8 +81,10 @@ public class TeamRequestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
                 Uri file = Uri.fromFile(newFile);
-                TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(),file);
-                databaseReference.child("Request").push().setValue(teamRequestItem);
+                //TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), file);
+                String filename = new File(file.getPath()).getName();
+                TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), filename);
+                databaseReference.child("Request_s").push().setValue(teamRequestItem);
                 TeamRequestActivity.this.finish();
             }
         });

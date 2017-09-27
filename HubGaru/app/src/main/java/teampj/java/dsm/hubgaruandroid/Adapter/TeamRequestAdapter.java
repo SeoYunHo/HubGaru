@@ -38,7 +38,8 @@ public class TeamRequestAdapter extends RecyclerView.Adapter<TeamRequestViewHold
         holder.timeView.setText(item.getDateTime());
         holder.rNameView.setText(item.getRequestName());
         holder.rDescView.setText(item.getRequestDesc());
-        holder.rFileView.setText(new File(item.getRequestFile().getPath()).getName());
+        //holder.rFileView.setText(new File(item.getRequestFile().getPath()).getName());
+        holder.rFileView.setText(item.getRequestFile());
     }
 
     @Override
