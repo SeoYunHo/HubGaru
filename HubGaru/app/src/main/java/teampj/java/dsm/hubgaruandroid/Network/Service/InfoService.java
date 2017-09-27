@@ -2,6 +2,10 @@ package teampj.java.dsm.hubgaruandroid.Network.Service;
 
 import android.content.Context;
 
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
 
 /**
@@ -17,5 +21,8 @@ public class InfoService extends APIAdapter {
     public interface InfoApi {
 //        개인정보 가져오는 메소드
 //        편짐
+
+        @GET("/user/info")
+        Call<JSONObject> getInfo();
     }
 }

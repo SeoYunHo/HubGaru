@@ -25,16 +25,12 @@ public class HubService extends APIAdapter {
 //        좋아요 -1
 //        허브 만들고 올리기
 //        허브 삭제하기
-/*
+
         @GET("/hub")
-        Call<JSONArray>
+        Call<JSONArray> getHub();
 
         @GET("/user/garu")
-        Call<JSONArray>
-
-        @GET("/user/info")
-        Call<JSONObject>*/
-
+        Call<JSONArray> getGaru();
 
     }
 }

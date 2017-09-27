@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import teampj.java.dsm.hubgaruandroid.Activity.HubOnViewActivity;
+import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
 import teampj.java.dsm.hubgaruandroid.Model.GaruItem;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.R;
@@ -50,7 +51,7 @@ public class GaruAdapter extends RecyclerView.Adapter<GaruAdapter.ViewHolder> {
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HubOnViewActivity.class);
+                Intent intent = new Intent(context, TeamMainActivity.class);
                 context.startActivity(intent);
             }
         });

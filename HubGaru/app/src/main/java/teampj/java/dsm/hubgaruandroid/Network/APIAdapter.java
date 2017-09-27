@@ -21,7 +21,7 @@ public class APIAdapter {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl("52.15.75.60:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

@@ -2,7 +2,14 @@ package teampj.java.dsm.hubgaruandroid.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,11 +30,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.app.Dialog;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
@@ -48,6 +58,9 @@ public class MyPageFragment extends Fragment{
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private TextView[] tInfos;
+    Uri uri;
+
+    final int REQ_CODE = 100;
 
     @Nullable
     @Override
@@ -76,10 +89,9 @@ public class MyPageFragment extends Fragment{
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectPic();
+                doTakeAlbumAction();
             }
         });
-
 
         final String name, position, email;
 
@@ -98,17 +110,83 @@ public class MyPageFragment extends Fragment{
         return view;
     }
 
-    private void SelectPic() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivity(intent);
+    private void doTakePhotoAction() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //임시로 사용할 파일의 경로 생성
+        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, REQ_CODE);
+    }
+
+    private void doTakeAlbumAction() {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivity(intent);
+        startActivityForResult(intent, REQ_CODE);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        uri  = data.getData();
+
+    }
+
+    /*public int exifOrientationToDegrees(int exifOrientation) {
+            if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                return 90;
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                return 180;
+            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                return 270;
+            }
+            return 0;
+        }
+
+
+        private void SelectPic() {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            startActivityForResult(intent, REQ_CODE);
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            Uri uri  = data.getData();
+            String imagePath = getRealPathFromURI(uri);
+            ExifInterface exif = null;
+            try {
+                exif = new ExifInterface(imagePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            int exifDegree = exifOrientationToDegrees(exifOrientation);
+
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);//경로를 통해 비트맵으로 전환
+            profilePic.setImageBitmap(rotate(bitmap, exifDegree));//이미
+        }
+
+        public String getRealPathFromURI(Uri contentUri) {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContext().getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+
+        }
+
+        public Bitmap rotate(Bitmap src, float degree) {
+
+            // Matrix 객체 생성
+            Matrix matrix = new Matrix();
+            // 회전 각도 셋팅
+            matrix.postRotate(degree);
+            // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
+            return Bitmap.createBitmap(src, 0, 0, src.getWidth(),
+                    src.getHeight(), matrix, true);
+        }*/
     public UserInfoItem getInfo() {
 
         //TODO: Retrofit으로 userInfo 가져오기
