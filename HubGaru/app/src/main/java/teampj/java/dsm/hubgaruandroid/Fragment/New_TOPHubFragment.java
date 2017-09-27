@@ -31,7 +31,7 @@ import teampj.java.dsm.hubgaruandroid.R;
  */
 
 public class New_TOPHubFragment extends Fragment {
-Context context;
+    Context context;
 
     private MultiSnapRecyclerView topRecyclerView;
     private MultiSnapRecyclerView newRecyclerView;

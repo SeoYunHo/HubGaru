@@ -1,168 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="490dp"
+        android:elevation="20dp">
 
-        <RelativeLayout
-            android:layout_weight="3"
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:elevation="20dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:layout_marginTop="15dp"
-                android:src="@drawable/splash_icon"
-                android:id="@+id/coverPic"
-                android:layout_centerInParent="true"
-                android:layout_width="200dp"
-                android:layout_height="200dp" />
+            <!--보여지는 툴바-->
+            <android.support.v7.widget.Toolbar
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
-
-            <RelativeLayout
-                android:layout_margin="15dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin">
+                <TextView
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:text="Comments"/>
+            </android.support.v7.widget.Toolbar>
 
-                    <TextView
-                        android:id="@+id/tmp1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HUB"
-                        android:textSize="25dp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INFO"
-                        android:textSize="25dp"
-                        android:textStyle="bold"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            //hub info
+            <!--다른 컨텐츠들-->
             <LinearLayout
-                android:layout_margin="15dp"
+                android:elevation="30dp"
+                android:background="@color/background"
                 android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    style="@style/LinearViewStyle">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Song title : "/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="song title"
-                        android:id="@+id/songTitle"/>
-                </LinearLayout>
+                <RelativeLayout
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:layout_margin="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/splash_icon"
+                        android:id="@+id/coverPic"
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_margin="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/colorPrimary"/>
 
                 <LinearLayout
-                    style="@style/LinearViewStyle">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Team name : "/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="team name"
-                        android:id="@+id/teamName"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/LinearViewStyle">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Edit date : "/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="edit date"
-                        android:id="@+id/editDate"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-            //buttons
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <Button
-                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="To Hub"
-                    android:id="@+id/toMainBtn"/>
+                    android:layout_weight="2">
+
+                    <RelativeLayout
+                        android:layout_margin="15dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:id="@+id/tmp1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="HUB"
+                                android:textSize="25dp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="INFO"
+                                android:textSize="25dp"
+                                android:textStyle="bold"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    //hub info
+                    <LinearLayout
+                        android:layout_margin="15dp"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            style="@style/LinearViewStyle">
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Song title : "/>
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="song title"
+                                android:id="@+id/songTitle"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/LinearViewStyle">
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Team name : "/>
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="team name"
+                                android:id="@+id/teamName"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/LinearViewStyle">
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Edit date : "/>
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="edit date"
+                                android:id="@+id/editDate"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    //buttons
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="To Hub"
+                            android:id="@+id/toMainBtn"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageButton
+                                android:background="@null"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/thumb3"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/likeBtn"
+                                android:layout_weight="1"
+                                android:text="like"/>
+
+                            <TextView
+                                android:textColor="@color/fontColor"
+                                android:paddingTop="8dp"
+                                android:layout_margin="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1500"
+                                android:id="@+id/thumbsNum"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_margin="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/colorPrimary"/>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageButton
+                        android:layout_margin="8dp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/play"
                         android:background="@null"
                         android:scaleType="fitXY"
-                        android:src="@drawable/thumb3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/likeBtn"
-                        android:layout_weight="1"
-                        android:text="like"/>
-
-                    <TextView
-                        android:paddingTop="8dp"
-                        android:layout_margin="10dp"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/play_pauseBtn"/>
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1500"
-                        android:id="@+id/thumbsNum"/>
+                        android:layout_marginTop="35dp"/>
                 </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comments"/>
 
-    </LinearLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
+    </android.support.design.widget.AppBarLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/colorPrimary"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chat"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="15dp"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="bottom|right|end" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comment"/>
+    <include layout="@layout/comment"/>
 
-    </LinearLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

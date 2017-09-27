@@ -3,6 +3,7 @@ package teampj.java.dsm.hubgaruandroid.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
+import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -74,10 +76,7 @@ public class MyPageFragment extends Fragment{
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivity(intent);
+                SelectPic();
             }
         });
 
@@ -91,17 +90,42 @@ public class MyPageFragment extends Fragment{
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog infoEditDialog = new InfoEditDialog(getContext(), name, position, email);
+                Dialog infoEditDialog = new InfoEditDialog(getContext(), getInfo());
                 infoEditDialog.show();
             }
         });
 
-
-
         return view;
     }
 
+    private void SelectPic() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivity(intent);
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivity(intent);
+    }
+
+    public UserInfoItem getInfo() {
+
+        //TODO: Retrofit으로 userInfo 가져오기
+
+        UserInfoItem info = new UserInfoItem();
+
+        info.setEmail("***@***.***");
+        info.setName("DongHee");
+        info.setPosition("director");
+
+        return info;
+    }
+
     public ArrayList<HubItem> getList() {
+
+        //TODO: Retrofit으로 hubItems 가져오기
+
         ArrayList<HubItem> list = new ArrayList();
 
         list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLFIXdoiuMqHW2Firazadnushw_TzEccmtnUjGEsBVxPWI76gWlA", "yy-mm-dd", "title1"));
@@ -115,7 +139,8 @@ public class MyPageFragment extends Fragment{
         private Context context;
         private TextInputEditText[] editTexts;
         private Button yesBtn, noBtn;
-        String[] sInfos;
+        private UserInfoItem item;
+        String name, position, email;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +154,6 @@ public class MyPageFragment extends Fragment{
 
             setContentView(R.layout.edit_my_info);
 
-//            editTexts = new TextInputEditText[]{(TextInputEditText) findViewById(R.id.nameEditText),
-//                    (TextInputEditText) findViewById(R.id.positionEditText),
-//                    (TextInputEditText) findViewById(R.id.emailEditText)};
-
             editTexts = new TextInputEditText[3];
             editTexts[0] = (TextInputEditText) findViewById(R.id.nameEditText);
             editTexts[1] = (TextInputEditText) findViewById(R.id.positionEditText);
@@ -141,20 +162,20 @@ public class MyPageFragment extends Fragment{
             yesBtn = (Button) findViewById(R.id.yesBtn);
             noBtn = (Button) findViewById(R.id.noBtn);
 
-            editTexts[0].setHint(sInfos[0]);
-            editTexts[1].setHint(sInfos[1]);
-            editTexts[2].setHint(sInfos[2]);
+            getInfo();
+
+            editTexts[0].setHint(item.getName());
+            editTexts[1].setHint(item.getEmail());
+            editTexts[2].setHint(item.getPosition());
 
             yesBtn.setOnClickListener(new View.OnClickListener() {
+
+                //TODO: yesBtn에서는 서버로 POST
+
                 @Override
                 public void onClick(View v) {
-
-                    sInfos[0] = editTexts[0].getText().toString();
-                    sInfos[1] = editTexts[1].getText().toString();
-                    sInfos[2] = editTexts[2].getText().toString();
-
-                    for(int i = 0; i < sInfos.length; i++) {
-                        tInfos[i].setText(sInfos[i]);
+                    for(int i = 0; i < editTexts.length; i++) {
+                        tInfos[i].setText(editTexts[i].getText().toString());
                     }
 
                     dismiss();
@@ -169,13 +190,11 @@ public class MyPageFragment extends Fragment{
             });
         }
 
-        public InfoEditDialog(@NonNull Context context, String position, String email, String name) {
+        public InfoEditDialog (Context context, UserInfoItem item) {
             super(context);
+
             this.context = context;
-            sInfos = new String[3];
-            sInfos[0] = name;
-            sInfos[1] = position;
-            sInfos[2] = email;
+            this.item = item;
         }
     }
 }
