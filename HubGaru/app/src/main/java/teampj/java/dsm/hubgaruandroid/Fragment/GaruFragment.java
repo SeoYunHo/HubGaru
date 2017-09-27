@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teampj.java.dsm.hubgaruandroid.Activity.TeamCreateActivity;
+import teampj.java.dsm.hubgaruandroid.Adapter.GaruAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
+import teampj.java.dsm.hubgaruandroid.Model.GaruItem;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.R;
 
@@ -44,7 +46,7 @@ public class GaruFragment extends Fragment {
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new HubListVerticalAdapter(getContext(), getList()));
+        recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
 
 
         createTeamBtn = (FloatingActionButton) view.findViewById(R.id.team_create_button);
@@ -59,28 +61,33 @@ public class GaruFragment extends Fragment {
         return view;
     }
 
-    public List<HubItem> getList() {
-        List<HubItem> hubItems = new ArrayList<>();
-        HubItem hubItem1 = new HubItem();
-        HubItem hubItem2 = new HubItem();
-        HubItem hubItem3 = new HubItem();
+    public List<GaruItem> getList() {
 
-        hubItem1.setDate("yy-mm-dd");
-        hubItem1.setSongTitle("title");
-        hubItem1.setPicUri("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
-        hubItems.add(hubItem1);
+        List<GaruItem> items = new ArrayList<>();
 
-        hubItem2.setDate("yy-mm-dd");
-        hubItem2.setSongTitle("2nd");
-        hubItem2.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
-        hubItems.add(hubItem2);
+        GaruItem garuItem1 = new GaruItem();
+        GaruItem garuItem2 = new GaruItem();
+        GaruItem garuItem3 = new GaruItem();
 
-        hubItem3.setDate("yy-mm-dd");
-        hubItem3.setSongTitle("3rd");
-        hubItem3.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        hubItems.add(hubItem3);
+        garuItem1.setLeader("DONGHEE");
+        garuItem1.setTeamIntro("I love java");
+        garuItem1.setTeamName("SUPER");
+        garuItem1.setTeamPic("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
+        items.add(garuItem1);
 
-        return hubItems;
+        garuItem2.setLeader("DONGHEE");
+        garuItem2.setTeamIntro("I love java");
+        garuItem2.setTeamName("SUPER");
+        garuItem2.setTeamPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
+        items.add(garuItem2);
+
+        garuItem3.setLeader("DONGHEE");
+        garuItem3.setTeamIntro("I love java");
+        garuItem3.setTeamName("SUPER");
+        garuItem3.setTeamPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
+        items.add(garuItem3);
+
+        return items;
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import teampj.java.dsm.hubgaruandroid.Activity.HubOnViewActivity;
+import teampj.java.dsm.hubgaruandroid.Model.GaruItem;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.R;
 
@@ -22,34 +23,34 @@ import teampj.java.dsm.hubgaruandroid.R;
  * Created by user on 2017-08-22.
  */
 
-public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVerticalAdapter.ViewHolder> {
+public class GaruAdapter extends RecyclerView.Adapter<GaruAdapter.ViewHolder> {
 
-    List<HubItem> items;
+    List<GaruItem> items;
     Context context;
 
-    public HubListVerticalAdapter(Context context, List<HubItem> items) {
+    public GaruAdapter(Context context, List<GaruItem> items) {
         this.items = items;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_hub_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.garu_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        String url = items.get(position).getPicUri();
-        Glide.with(context).load(url).into(holder.profilePic);
-        holder.dateText.setText(items.get(position).getDate());
-        holder.titleText.setText(items.get(position).getSongTitle());
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        String url = items.get(position).getTeamPic();
+        Glide.with(context).load(url).into(holder.teamPic);
+        holder.teamName.setText(items.get(position).getTeamName());
+        holder.teamInfo.setText(items.get(position).getTeamIntro());
+        holder.teamMem.setText(items.get(position).getLeader());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, HubOnViewActivity.class);
-                intent.putExtra("TEAMCODE",position);
                 context.startActivity(intent);
             }
         });
@@ -61,17 +62,20 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleText;
-        TextView dateText;
-        ImageView profilePic;
+        TextView teamName;
+        TextView teamInfo;
+        TextView teamMem;
+        ImageView teamPic;
+
         View view;
         public ViewHolder(View itemView) {
             super(itemView);
 
-            titleText = (TextView) itemView.findViewById(R.id.songTitle);
-            dateText = (TextView) itemView.findViewById(R.id.date);
-            profilePic = (ImageView) itemView.findViewById(R.id.profilePic);
-            view = (CardView) itemView.findViewById(R.id.verticalCarView);
+            teamName = (TextView) itemView.findViewById(R.id.teamName);
+            teamMem = (TextView) itemView.findViewById(R.id.teamMem);
+            teamPic = (ImageView) itemView.findViewById(R.id.teamPic);
+            teamInfo = (TextView) itemView.findViewById(R.id.garuInfo);
+            view = (CardView) itemView.findViewById(R.id.garuView);
         }
     }
 }
