@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,14 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import teampj.java.dsm.hubgaruandroid.Activity.MainActivity;
 import teampj.java.dsm.hubgaruandroid.Activity.TeamCreateActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
@@ -32,7 +28,7 @@ import teampj.java.dsm.hubgaruandroid.R;
  * Created by user on 2017-08-22.
  */
 
-public class SproutHubFragment extends Fragment {
+public class GaruFragment extends Fragment {
 
     private FloatingActionButton createTeamBtn;
     private RecyclerView recyclerView;
@@ -42,7 +38,7 @@ public class SproutHubFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sprout_hub, container, false);
+        View view = inflater.inflate(R.layout.garu_hub, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);

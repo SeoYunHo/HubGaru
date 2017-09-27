@@ -30,7 +30,7 @@ public class TabLayoutActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText("Hub"));
         tabLayout.addTab(tabLayout.newTab().setText("My Hub"));;
-        tabLayout.addTab(tabLayout.newTab().setText("Sprout Hub"));
+        tabLayout.addTab(tabLayout.newTab().setText("Garu"));
         tabLayout.addTab(tabLayout.newTab().setText("My Page"));
 
         viewPager.setAdapter(adapter);

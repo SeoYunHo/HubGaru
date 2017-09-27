@@ -81,6 +81,16 @@ public class MyHubFragment extends Fragment{
         return hubItems;
     }
 
+    public List<HubItem> getTopHub() {
+        List<HubItem> hubItems = new ArrayList<>();
+        return hubItems;
+    }
+
+    public List<HubItem> getNewHub() {
+        List<HubItem> hubItems = new ArrayList<>();
+        return hubItems;
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);

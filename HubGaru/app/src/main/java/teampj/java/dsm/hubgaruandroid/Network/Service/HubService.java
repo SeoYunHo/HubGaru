@@ -2,6 +2,11 @@ package teampj.java.dsm.hubgaruandroid.Network.Service;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
 
 /**
@@ -20,5 +25,16 @@ public class HubService extends APIAdapter {
 //        좋아요 -1
 //        허브 만들고 올리기
 //        허브 삭제하기
+/*
+        @GET("/hub")
+        Call<JSONArray>
+
+        @GET("/user/garu")
+        Call<JSONArray>
+
+        @GET("/user/info")
+        Call<JSONObject>*/
+
+
     }
 }
