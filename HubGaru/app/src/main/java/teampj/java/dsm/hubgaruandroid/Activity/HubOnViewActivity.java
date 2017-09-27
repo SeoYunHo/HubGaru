@@ -48,10 +48,15 @@ public class HubOnViewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
 
+    private int TEAMCODE;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hub_on_view);
+
+        Intent intent = getIntent();
+        TEAMCODE = intent.getIntExtra("TEAMCODE",0);
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
@@ -72,6 +77,7 @@ public class HubOnViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
+                main_to_team.putExtra("TEAMCODE",TEAMCODE);
                 startActivity(main_to_team);
             }
         });

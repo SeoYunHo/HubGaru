@@ -47,10 +47,15 @@ public class TeamRequestActivity extends AppCompatActivity {
 
     private File newFile = null;
 
+    private int TEAMCODE;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_new_request);
+
+        Intent intent = getIntent();
+        TEAMCODE = intent.getIntExtra("TEAMCODE",0);
 
         requestName = (EditText)findViewById(R.id.new_request_name);
         requestKind = (Spinner)findViewById(R.id.new_reaquest_kind);
@@ -83,8 +88,8 @@ public class TeamRequestActivity extends AppCompatActivity {
                 Uri file = Uri.fromFile(newFile);
                 //TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), file);
                 String filename = new File(file.getPath()).getName();
-                TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), filename);
-                databaseReference.child("Request_s").push().setValue(teamRequestItem);
+                TeamRequestItem teamRequestItem = new TeamRequestItem("서윤호",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), filename);
+                databaseReference.child(String.valueOf(TEAMCODE)).child("Request_s").push().setValue(teamRequestItem);
                 TeamRequestActivity.this.finish();
             }
         });

@@ -57,11 +57,15 @@ public class TeamMainActivity extends AppCompatActivity
     private TeamRequestAdapter R_adapter = new TeamRequestAdapter();
     private TeamChatAdapter C_adapter = new TeamChatAdapter();
 
+    private int TEAMCODE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_main);
+
+        Intent intent = getIntent();
+        TEAMCODE = intent.getIntExtra("TEAMCODE",0);
 
         teamMainDrawer = (DrawerLayout) findViewById(R.id.team_main_drawer_layout);
         teamMainContainer = (FrameLayout)findViewById(R.id.team_content_layout);
@@ -75,8 +79,8 @@ public class TeamMainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                TeamChatItem chatItem = new TeamChatItem("김지수",chatEditText.getText().toString(), calendar.getTime().toString().substring(0,24));
-                databaseReference.child("Chat").push().setValue(chatItem);
+                TeamChatItem chatItem = new TeamChatItem("조치원",chatEditText.getText().toString(), calendar.getTime().toString().substring(0,24));
+                databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").push().setValue(chatItem);
             }
         });
 
@@ -84,7 +88,9 @@ public class TeamMainActivity extends AppCompatActivity
         drawerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TeamMainActivity.this, TeamSettingActivity.class));
+                Intent main_to_setting = new Intent(TeamMainActivity.this, TeamSettingActivity.class);
+                main_to_setting.putExtra("TEAMCODE",TEAMCODE);
+                startActivity(main_to_setting);
             }
         });
         setttingBtn = (Button)findViewById(R.id.setting_btn);
@@ -100,7 +106,9 @@ public class TeamMainActivity extends AppCompatActivity
         newRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TeamMainActivity.this, TeamRequestActivity.class));
+                Intent main_to_request = new Intent(TeamMainActivity.this, TeamRequestActivity.class);
+                main_to_request.putExtra("TEAMCODE",TEAMCODE);
+                startActivity(main_to_request);
             }
         });
 
@@ -155,7 +163,7 @@ public class TeamMainActivity extends AppCompatActivity
     }
 
     public void SetRealTimeDataBase(){
-        databaseReference.child("Request_s").addChildEventListener(new ChildEventListener() {
+        databaseReference.child(String.valueOf(TEAMCODE)).child("Request_s").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TeamRequestItem requestItem = dataSnapshot.getValue(TeamRequestItem.class);
@@ -170,7 +178,7 @@ public class TeamMainActivity extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
-        databaseReference.child("Chat").addChildEventListener(new ChildEventListener() {
+        databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);

@@ -46,11 +46,9 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(recPlaying){
-
                     Toast.makeText(getApplicationContext(),"잠깐만",Toast.LENGTH_SHORT).show();
                 }
                 else {
-
                     Toast.makeText(getApplicationContext(),"어어계속",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -60,7 +58,6 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Toast.makeText(getApplicationContext(),"그마안!",Toast.LENGTH_LONG).show();
             }
         });

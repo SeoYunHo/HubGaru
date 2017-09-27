@@ -33,10 +33,15 @@ public class TeamSettingActivity extends AppCompatActivity {
     private TextView alamset;
     private TextView setset;
 
+    private int TEAMCODE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_settings);
+
+        Intent intent = getIntent();
+        TEAMCODE = intent.getIntExtra("TEAMCODE",0);
 
         cancleBtn = (Button) findViewById(R.id.drawer_btn);
         cancleBtn.setText("취소");
@@ -52,7 +57,7 @@ public class TeamSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TeamSettingActivity.this.finish();
-                databaseReference.child("Settings").setValue(teamSet);
+                databaseReference.child(String.valueOf(TEAMCODE)).child("Settings").setValue(teamSet);
             }
         });
 
@@ -88,7 +93,7 @@ public class TeamSettingActivity extends AppCompatActivity {
     }
 
     public void SetRealTimeDataBase(){
-        databaseReference.child("Settings").addChildEventListener(new ChildEventListener() {
+        databaseReference.child(String.valueOf(TEAMCODE)).child("Settings").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 //teamSet = dataSnapshot.getValue(TeamSettings.class);
