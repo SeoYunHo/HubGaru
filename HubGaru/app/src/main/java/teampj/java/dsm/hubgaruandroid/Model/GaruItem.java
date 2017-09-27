@@ -10,9 +10,26 @@ public class GaruItem {
     String teamName;
     String teamCode;
     String teamPic;
-    String[] teamMember;
+    String teamIntro;
+    String leader;
 
     public GaruItem() {
+    }
+
+    public String getLeader() {
+        return leader;
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+
+    public String getTeamIntro() {
+        return teamIntro;
+    }
+
+    public void setTeamIntro(String teamIntro) {
+        this.teamIntro = teamIntro;
     }
 
     public String getTeamName() {
@@ -39,11 +56,4 @@ public class GaruItem {
         this.teamPic = teamPic;
     }
 
-    public String[] getTeamMember() {
-        return teamMember;
-    }
-
-    public void setTeamMember(String[] teamMember) {
-        this.teamMember = teamMember;
-    }
 }
