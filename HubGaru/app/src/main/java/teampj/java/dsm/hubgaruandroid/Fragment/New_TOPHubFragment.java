@@ -67,19 +67,19 @@ public class New_TOPHubFragment extends Fragment {
         * 허브 JSONArray로 받아오기
         * Set 데이터
         */
-        HubService.getRetrofit(view.getContext()).getHub().enqueue(new Callback<JSONArray>() {
-            @Override
-            public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
-                String tmp = response.toString();
-                Toast.makeText(getContext(), tmp, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<JSONArray> call, Throwable t) {
-                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
-                Log.d(t.toString(), "errorThrown");
-            }
-        });
+//        HubService.getRetrofit(view.getContext()).getHub().enqueue(new Callback<JSONArray>() {
+//            @Override
+//            public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+//                String tmp = response.toString();
+//                Toast.makeText(getContext(), tmp, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JSONArray> call, Throwable t) {
+//                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+//                Log.d(t.toString(), "errorThrown");
+//            }
+//        });
 
         return view;
     }

@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/background2"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="120dp">
 
     <android.support.v7.widget.CardView
-        android:background="@color/background"
+        android:background="@color/background2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="20dp"
+        android:elevation="30dp"
         app:cardCornerRadius="10dp"
-        android:layout_margin="10dp">
+        android:layout_margin="8dp">
 
         <LinearLayout
-            android:background="@color/background"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,8 +22,8 @@
             <ImageView
                 android:layout_margin="10dp"
                 android:src="@drawable/image_view"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/commentProfile"/>
 
             <RelativeLayout
@@ -42,7 +41,7 @@
 
                 <TextView
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_below="@+id/commentNameText"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/commentText"
@@ -52,7 +51,7 @@
                     android:text="comments"/>
 
                 <TextView
-                    android:layout_margin="15dp"
+                    android:layout_margin="5dp"
                     android:id="@+id/dateText"
                     android:textSize="15dp"
                     android:layout_width="wrap_content"

@@ -10,9 +10,6 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button team_main_button;
-    private Button team_create_button;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
