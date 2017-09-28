@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,14 +17,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -55,6 +63,23 @@ public class New_TOPHubFragment extends Fragment {
         newRecyclerView.hasFixedSize();
         newRecyclerView.setLayoutManager(topLayoutManager);
         newRecyclerView.setAdapter(new HubListAdapter(getContext(), getList()));
+        /*
+        * 허브 JSONArray로 받아오기
+        * Set 데이터
+        */
+        HubService.getRetrofit(view.getContext()).getHub().enqueue(new Callback<JSONArray>() {
+            @Override
+            public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+                String tmp = response.toString();
+                Toast.makeText(getContext(), tmp, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<JSONArray> call, Throwable t) {
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_LONG).show();
+                Log.d(t.toString(), "errorThrown");
+            }
+        });
 
         return view;
     }
