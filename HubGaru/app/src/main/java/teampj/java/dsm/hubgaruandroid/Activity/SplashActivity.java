@@ -12,21 +12,20 @@ import teampj.java.dsm.hubgaruandroid.R;
  * Created by user on 2017-09-21.
  */
 
-public class SplasActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
+                Intent mainIntent = new Intent(SplashActivity.this, TabLayoutActivity.class);
+                SplashActivity.this.startActivity(mainIntent);
+                SplashActivity.this.finish();
             }
         }, 3000);
-
-        startActivity(new Intent(this, TabLayoutActivity.class));
     }
 }
