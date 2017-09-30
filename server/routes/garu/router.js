@@ -8,23 +8,14 @@ let random = require('../../support/random');
 
 //가루 생성
 router.route('/garu').post(function (req, res) {
-    if (!req.session.user) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.write(JSON.stringify({
-            session: false
-        }));
-        res.end();
-        return;
-    }
-
     let garuId;
-    let leaderId=req.session.user.user_Id; 
+    let leaderId = req.session.user.user_Id;
     let name = req.body.name;
     let intro = req.body.intro;
     let bool = true;
 
     while (bool) {
-        garuId = random.randomString(10);
+        garuId = random.randomInt(11);
         bool = manager.checkId(garuId);
     }
 
@@ -44,17 +35,12 @@ router.route('/garu').post(function (req, res) {
 
 //가루 받아오기
 router.route('/garu').get(function (req, res) {
-    manager.getGaru(function (response) {
-        if (!!response.garu) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
-        }
-        res.write(JSON.stringify(response));
+    manager.getGarues(function (stateCode, response) {
+
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.garu) res.write(JSON.stringify(response));
         res.end();
     });
 });

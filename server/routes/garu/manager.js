@@ -4,14 +4,11 @@ let conn = require('../../DBConnection');
 let manager = {}
 
 manager.addGaru = (garuId, leaderId, intro, name) => {
-    let response = {
-        success: false
-    };
-
+    let stateCode;
     conn.query('insert into garu value(?,?,?,?);', [garuId, leaderId, intro, name], function (err, result) {
-        if (err) response.error = true;
-        else if (result.affectedRows) response.success = true;
-        callback(response);
+        if (err) stateCode=500;
+        else if (result.affectedRows) stateCode=200;
+        callback(stateCode);
     });
 }
 
@@ -19,19 +16,24 @@ manager.getGaru = (garuId) => {
     let response = {
         garu: []
     };
+    let stateCode;
 
-    conn.query('select * from garu where garuid = ?', garuId, function (err, rows) {
-        if (err) response.error = true;
+    conn.query('select * from garu', null, function (err, rows) {
+        if (err) stateCode = 500;
         else if (rows.length == 0) {
-            let garu = {
-                garuId: rows[i].garuid,
-                leaderId: rows[i].leaderid,
-                name: rows[i].name,
-                intro: rows[i].intro
+            stateCode = 200;
+            for (var i = 0; i < rows.length; i++) {
+                let garu = {
+                    garuId: rows[i].garuid,
+                    leaderId: rows[i].leaderid,
+                    name: rows[i].name,
+                    intro: rows[i].intro,
+                    img: rows[i].img
+                }
+                response.garu.push(garu);
             }
-            response.garu.push(garu);
         }
-        callback(response);
+        callback(stateCode, response);
     });
 
 }
