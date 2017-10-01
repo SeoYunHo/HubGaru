@@ -7,8 +7,9 @@ let cookieParser = require('cookie-parser');
 let errorHandler = require('errorhandler');
 let expressSession = require('express-session');
 let app = express();
-var garu =require('./routes/garu/router');
-var user=require('./routes/user/router');
+var garu = require('./routes/garu/router');
+var user = require('./routes/user/router');
+var hub = require('./routes/hub/router');
 var port = '5429';
 
 app.set('port', port);
@@ -31,7 +32,8 @@ app.use(expressSession({
 
 app.use('/', user);
 app.use('/', garu);
+app.use('/', hub);
 
 app.listen(app.get('port'), function () {
-  console.log('Example app listening on'+ app.get('port') + 'port');
+    console.log('Example app listening on' + app.get('port') + 'port');
 });
