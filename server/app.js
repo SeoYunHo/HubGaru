@@ -10,7 +10,7 @@ let app = express();
 var garu = require('./routes/garu/router');
 var user = require('./routes/user/router');
 var hub = require('./routes/hub/router');
-var port = '5429';
+var port = '8080';
 
 app.set('port', port);
 
