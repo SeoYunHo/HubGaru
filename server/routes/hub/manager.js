@@ -1,9 +1,27 @@
 "use strict";
 let conn = require('../../DBConnection');
 
-let manager = {}
+let manager = {};
 
-manager.getHubDetail = () => {
+manager.checkId= (hubId) => {
+    conn.query('select * from hub where hub_id',hubId, function(err, rows){
+        if(err) return true;
+        else if(rows.length==0) return false;
+        else return true;
+    });
+}
+
+manager.addHub = (hubId, garuId, file, name, img, callback) => {
+    let stateCode;
+
+    conn.query('insert into hub values (?,?,?,?,?);', [hubId, garuId, file, name, img], function(err, result){
+        if(err) stateCode=500;
+        else if(result.affectedRows) stateCode=204;
+        callback(stateCode);
+    });
+}
+
+manager.getHub = (callback) => {
     let response={
         hub:[]
     }
@@ -11,14 +29,15 @@ manager.getHubDetail = () => {
 
     conn.query('select * from hub;', null, function (err, rows) {
         if (err) stateCode=500;
-        else if (result.rows >= 0) {
+        else if (rows.length >= 0) {
             stateCode=200;
             for (let i = 0; i < rows.length; i++) {
                 let hub = {
-                    file_url: rows[i].file_url,
+                    file: rows[i].file_url,
                     img: rows[i].img,
                     name: rows[i].name,
-                    garuId: rows[i].garu_id
+                    garuId: rows[i].garu_id,
+                    hubId: rows[i].hub_id
                 }
                 response.hub.push(hub);
             }
@@ -27,7 +46,7 @@ manager.getHubDetail = () => {
     });
 }
 
-manager.getHub = () => {
+manager.getDetailHub = (callback) => {
     let response = {
         hub: null
     };
@@ -41,7 +60,7 @@ manager.getHub = () => {
             stateCode=200;
             for (let i = 0; i < rows.length; i++) {
                 let hub = {
-                    file_url: rows[i].file_url,
+                    file: rows[i].file_url,
                     img: rows[i].img,
                     name: rows[i].name,
                     garuId: rows[i].garu_id

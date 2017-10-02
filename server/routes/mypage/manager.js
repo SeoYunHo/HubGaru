@@ -23,7 +23,7 @@ manager.getUserInfo = (id) => {
 
 manager.getUserHub = (id) => {
     let response = {
-        hub: []
+        hub: null
     };
 
     let stateCode;
@@ -32,11 +32,11 @@ manager.getUserHub = (id) => {
         else if (rows.length == 0) {
             stateCode=200;
             let hub = {
-                garuId: rows[i].garuid,
-                leaderId: rows[i].leaderid,
-                name: rows[i].name,
-                intro: rows[i].intro,
-                img: rows[i].img
+                hubId: rows[0].hub_id,
+                garuId: rows[0],garu_id,
+                name: rows[0].name,
+                img: rows[0].img,
+                file: rows[0].file_url
             }
             response.hub.push(hub);
         }
@@ -46,7 +46,7 @@ manager.getUserHub = (id) => {
 
 manager.getUserGaru = (id) => {
     let response = {
-        garu: []
+        garu: null
     };
     let stateCode;
 
@@ -55,11 +55,11 @@ manager.getUserGaru = (id) => {
         else if (rows.length == 0) {
             stateCode=200;
             let garu = {
-                garuId: rows[i].garuid,
-                leaderId: rows[i].leaderid,
-                name: rows[i].name,
-                intro: rows[i].intro,
-                img: rows[i].img
+                garuId: rows[0].garu_id,
+                leaderId: rows[0].leader_id,
+                name: rows[0].name,
+                intro: rows[0].intro,
+                img: rows[0].img
             }
             response.garu.push(garu);
         }

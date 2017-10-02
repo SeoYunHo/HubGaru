@@ -13,25 +13,16 @@ let certifyString;
 router.route('/account/signup').post(function (req, res) {
     let id = req.body.id;
     let name = req.body.name;
-    let nick_name = req.body.nickname;
     let part = req.body.part;
-    let email = req.body.email;
     let password = SHA256(req.body.password);
-    let picture_uri=req.body.picture_uri;
-    let user_intro=req.body.user_intro;
+    let user_intro = req.body.userIntro;
+    let phone=req.body.phone;
+    console.log(id, name, part, password, user_intro, phone);
 
-    console.log(id, password, email, part, user_intro, picture_uri, nick_name, name);
-
-    manager.signup(id, password, email, part, user_intro, picture_uri, nick_name, name, function (response) {
-        if (response.success) {
-            res.writeHead(201, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(400, {
-                'Content-Type': 'application/json'
-            });
-        }
+    manager.signup(id, name, part, password, user_intro, phone,  function (stateCode) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
         res.end();
     });
 });
@@ -50,8 +41,8 @@ router.route('/account/certify/demand/:phone').post(function (req, res) {
             'Content-Type': 'application/json'
         });
         res.write(JSON.stringify(response));
-    }else{
-         res.writeHead(204, {
+    } else {
+        res.writeHead(204, {
             'Content-Type': 'application/json'
         });
         res.write(JSON.stringify(response));
@@ -80,24 +71,11 @@ router.route('/account/signin').post(function (req, res) {
     let id = req.body.id;
     let password = SHA256(req.body.password);
 
-    manager.signin(id, password, function (response, message) {
-        if (response.success) {
-            req.session.user = {
-                user_id: id,
-                authorized: true
-            };
-            res.writeHead(201, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(400, {
-                'Content-Type': 'application/json'
-            });
-        }
-        if (!!message.message) {
-            res.write(JSON.stringify(message));
-            res.end();
-        }
+    manager.signin(id, password, function (stateCode, message) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!message.message) res.write(JSON.stringify(message));
         res.end();
 
     });

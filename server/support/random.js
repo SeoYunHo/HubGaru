@@ -8,12 +8,12 @@ random.randomString = function (length) {
         var rnum = Math.floor(Math.random() * chars.length);
         randomstring += chars.substring(rnum, rnum + 1);
     }
-    //document.randform.randomfield.value = randomstring;
+    //document.randform.randomfield.value = randomstring;let 
     return randomstring;
 }
 
 random.randomInt = function () {
-    return Math.random()*10000;
+    return parseInt(Math.random()*100000000);
 }
 
 module.exports = random;
