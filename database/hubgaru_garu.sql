@@ -23,10 +23,14 @@ DROP TABLE IF EXISTS `garu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `garu` (
-  `garu_id` int(11) DEFAULT NULL,
-  `leader_id` int(11) DEFAULT NULL,
+  `garu_id` int(11) NOT NULL,
+  `leader_id` varchar(45) DEFAULT NULL,
   `intro` text,
-  `tema_name` varchar(45) DEFAULT NULL
+  `name` varchar(45) DEFAULT NULL,
+  `file` varchar(45) DEFAULT NULL,
+  `img` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`garu_id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,6 +40,7 @@ CREATE TABLE `garu` (
 
 LOCK TABLES `garu` WRITE;
 /*!40000 ALTER TABLE `garu` DISABLE KEYS */;
+INSERT INTO `garu` VALUES (73012193,'nn','첫번째 팀','첫 번째 팀 입니다','파일.mp3','팀이미지.jpg');
 /*!40000 ALTER TABLE `garu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-30 21:57:43
+-- Dump completed on 2017-10-02 18:36:33

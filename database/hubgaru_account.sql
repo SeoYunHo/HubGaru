@@ -23,14 +23,14 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `account` (
-  `id` int(11) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+  `id` varchar(45) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `part` varchar(45) DEFAULT NULL,
   `user_intro` text,
   `picture_uri` varchar(255) DEFAULT NULL,
-  `nickname` varchar(45) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL
+  `name` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,6 +40,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES ('nn','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','편집자','서윤호입니다',NULL,'서윤호','010-1234-1234');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-30 21:57:43
+-- Dump completed on 2017-10-02 18:36:33
