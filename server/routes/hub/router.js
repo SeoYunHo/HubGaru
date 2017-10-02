@@ -15,13 +15,14 @@ router.route('/hub/:garuId').post(function(req, res){
     let bool=true;
     if(!!req.body.img) img=req.body.img;
     else img=null;
+    let date=req.body.date;
 
     while (bool) {
         hubId = random.randomInt();
         bool = manager.checkId(hubId);
     }
 
-    manager.addHub(hubId, garuId, file, name, img, function(stateCode){
+    manager.addHub(hubId, garuId, file, name, img, date, function(stateCode){
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });

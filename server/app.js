@@ -10,6 +10,7 @@ let app = express();
 var garu = require('./routes/garu/router');
 var user = require('./routes/user/router');
 var hub = require('./routes/hub/router');
+var mypage = require('./routes/mypage/router');
 var port = '8080';
 
 app.set('port', port);
@@ -30,6 +31,7 @@ app.use(expressSession({
     saveUninitialized: true
 }));
 
+app.use('/', mypage);
 app.use('/', user);
 app.use('/', garu);
 app.use('/', hub);

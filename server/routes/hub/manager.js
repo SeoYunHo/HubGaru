@@ -11,10 +11,10 @@ manager.checkId= (hubId) => {
     });
 }
 
-manager.addHub = (hubId, garuId, file, name, img, callback) => {
+manager.addHub = (hubId, garuId, file, name, img, date, callback) => {
     let stateCode;
 
-    conn.query('insert into hub values (?,?,?,?,?);', [hubId, garuId, file, name, img], function(err, result){
+    conn.query('insert into hub values (?,?,?,?,?,?,0);', [hubId, garuId, file, name, img, date], function(err, result){
         if(err) stateCode=500;
         else if(result.affectedRows) stateCode=204;
         callback(stateCode);
@@ -25,7 +25,7 @@ manager.getHub = (callback) => {
     let response={
         hub:[]
     }
-    let stateCode
+    let stateCode;
 
     conn.query('select * from hub;', null, function (err, rows) {
         if (err) stateCode=500;
@@ -37,7 +37,9 @@ manager.getHub = (callback) => {
                     img: rows[i].img,
                     name: rows[i].name,
                     garuId: rows[i].garu_id,
-                    hubId: rows[i].hub_id
+                    hubId: rows[i].hub_id,
+                    date: rows[i].date,
+                    good: rows[i].good
                 }
                 response.hub.push(hub);
             }

@@ -41,4 +41,5 @@ router.route('/user/garu/:id').get(function(req,res){
         res.end();
     });
 });
+
 module.exports = router;
