@@ -15,7 +15,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="220dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -50,5 +50,36 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/comment"/>
+
+    <!--입력창-->
+    <RelativeLayout
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="@color/background2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/image_view"/>
+            <EditText
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="@drawable/border"
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:id="@+id/commentText"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Button"
+                android:id="@+id/okayBtn"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

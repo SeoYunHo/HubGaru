@@ -6,7 +6,7 @@ package teampj.java.dsm.hubgaruandroid.Model;
 
 public class HubItem {
 
-    private int TEAMCODE;
+    private String TEAMCODE;
     private String picUri;
     private String date;
     private String songTitle;
@@ -23,11 +23,28 @@ public class HubItem {
         this.songTitle = songTitle;
     }
 
-    public int getTEAMCODE() {
+    public HubItem(String TEAMCODE, String picUri, String date, String songTitle, String musicUri) {
+        this.TEAMCODE = TEAMCODE;
+        this.picUri = picUri;
+        this.date = date;
+        this.songTitle = songTitle;
+        this.musicUri = musicUri;
+    }
+
+    public HubItem(String TEAMCODE, String picUri, String date, String songTitle, String musicUri, int like) {
+        this.TEAMCODE = TEAMCODE;
+        this.picUri = picUri;
+        this.date = date;
+        this.songTitle = songTitle;
+        this.musicUri = musicUri;
+        this.like = like;
+    }
+
+    public String getTEAMCODE() {
         return TEAMCODE;
     }
 
-    public void setTEAMCODE(int TEAMCODE) {
+    public void setTEAMCODE(String TEAMCODE) {
         this.TEAMCODE = TEAMCODE;
     }
 

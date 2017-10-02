@@ -15,15 +15,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Activity.TeamCreateActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.GaruAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.GaruItem;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -48,6 +56,18 @@ public class GaruFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
 
+        HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                JsonArray array = response.body().getAsJsonArray("garu");
+                Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
 
         createTeamBtn = (FloatingActionButton) view.findViewById(R.id.team_create_button);
         createTeamBtn.setOnClickListener(new View.OnClickListener() {

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null">
+    android:background="@android:color/white">
 
     <TextView
         android:layout_marginLeft="25dp"
@@ -17,7 +17,7 @@
         android:text="TOP HUB" />
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-        android:background="@color/background"
+        android:background="@null"
         android:id="@+id/topHub_Recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:text="NEW HUB"/>
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-        android:background="@color/background"
+        android:background="@null"
         android:id="@+id/newHub_Recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

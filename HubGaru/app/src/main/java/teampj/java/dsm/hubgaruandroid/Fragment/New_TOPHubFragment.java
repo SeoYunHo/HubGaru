@@ -20,15 +20,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
@@ -41,10 +44,10 @@ import teampj.java.dsm.hubgaruandroid.R;
 public class New_TOPHubFragment extends Fragment {
     Context context;
 
-    private MultiSnapRecyclerView topRecyclerView;
-    private MultiSnapRecyclerView newRecyclerView;
-    private RecyclerView.LayoutManager newLayoutManager;
-    private RecyclerView.LayoutManager topLayoutManager;
+    private MultiSnapRecyclerView newRecyclerView, topRecyclerView;
+    private RecyclerView.LayoutManager topLayoutManager,newLayoutManager;
+    private  ArrayList<HubItem> arrayList;
+    private HubListAdapter adapter;
 
     @Nullable
     @Override
@@ -57,12 +60,12 @@ public class New_TOPHubFragment extends Fragment {
         topRecyclerView = (MultiSnapRecyclerView) view.findViewById(R.id.topHub_Recycler);
         topRecyclerView.hasFixedSize();
         topRecyclerView.setLayoutManager(newLayoutManager);
-        topRecyclerView.setAdapter(new HubListAdapter(getContext(), getList()));
+        getTopHubs();
 
         newRecyclerView = (MultiSnapRecyclerView) view.findViewById(R.id.newHub_Recycler);
         newRecyclerView.hasFixedSize();
         newRecyclerView.setLayoutManager(topLayoutManager);
-        newRecyclerView.setAdapter(new HubListAdapter(getContext(), getList()));
+        getNewHubs();
         /*
         * 허브 JSONArray로 받아오기
         * Set 데이터
@@ -84,7 +87,59 @@ public class New_TOPHubFragment extends Fragment {
         return view;
     }
 
-    public List<HubItem> getList() {
+    public void getNewHubs() {
+        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("hub");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new HubListAdapter(getContext(), arrayList);
+                newRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getTopHubs() {
+        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("hub");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new HubListAdapter(getContext(), arrayList);
+                topRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public ArrayList<HubItem> getArrayList(JsonArray jsonElements) {
+        ArrayList<HubItem> arrayList = new ArrayList<>();
+
+        for(int i = 0; i < jsonElements.size(); i++) {
+            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+            String hubId = jsonObject.getAsJsonPrimitive("hubId").getAsString();
+            String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
+            String name = jsonObject.getAsJsonPrimitive("name").getAsString();
+            String img = jsonObject.getAsJsonPrimitive("img").getAsString();
+            String song = jsonObject.getAsJsonPrimitive("file").getAsString();
+
+            arrayList.add(new HubItem(hubId, img, "date", name, song));
+        }
+        return arrayList;
+    }
+
+    /*public List<HubItem> getList() {
         List<HubItem> hubItems = new ArrayList<>();
         HubItem hubItem1 = new HubItem();
         HubItem hubItem2 = new HubItem();
@@ -106,5 +161,5 @@ public class New_TOPHubFragment extends Fragment {
         hubItems.add(hubItem3);
 
         return hubItems;
-    }
+    }*/
 }

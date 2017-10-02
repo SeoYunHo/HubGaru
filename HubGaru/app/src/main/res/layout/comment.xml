@@ -70,6 +70,7 @@
 
             //hub info
             <LinearLayout
+                android:elevation="20dp"
                 android:layout_margin="15dp"
                 android:orientation="vertical"
                 android:layout_weight="1"
@@ -132,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="To Hub"
+                    android:text="To Garu"
                     android:id="@+id/toMainBtn"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -193,6 +194,9 @@
         android:background="@android:color/white"
         android:id="@+id/commentRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"/>
+
+
 
 </RelativeLayout>

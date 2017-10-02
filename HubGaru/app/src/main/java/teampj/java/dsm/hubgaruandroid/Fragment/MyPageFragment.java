@@ -121,11 +121,6 @@ public class MyPageFragment extends Fragment{
 //        super.onActivityResult(requestCode, resultCode, data);
         uri  = data.getData();
         String realPath = getRealPath(getContext(), uri);
-//        Toast.makeText(getContext(), realPath, Toast.LENGTH_SHORT).show();
-
-//        File imgFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), realPath);
-//        Glide.with(getContext()).load(imgFile).apply(RequestOptions.bitmapTransform(new CircleCrop(getActivity()))).into(profilePic);
-
         try {
             Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
             profilePic.setImageBitmap(image_bitmap);

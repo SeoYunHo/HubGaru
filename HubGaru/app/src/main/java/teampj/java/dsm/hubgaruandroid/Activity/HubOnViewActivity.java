@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -40,7 +41,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     static boolean likeBtnStatus = false;
     static boolean musicStatus = false;
-    private Button teamMainBtn;
+    private Button teamMainBtn, enterBtn;
+    private EditText commentText;
     private ImageButton likeBtn, statusBtn;
     private TextView likeNum;
     private SeekBar seekBar;
@@ -163,6 +165,15 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         });
+
+//        enterBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String tmp = commentText.getText().toString();
+//
+//            }
+//        });
+
     }
 
     public void Thread() {
@@ -187,6 +198,7 @@ public class HubOnViewActivity extends AppCompatActivity {
         CommentItem item1 = new CommentItem();
         CommentItem item2 = new CommentItem();
         CommentItem item3 = new CommentItem();
+        CommentItem item4 = new CommentItem();
 
         item1.setName("DONG HEE");
         item1.setComment("Good enough");
@@ -205,6 +217,12 @@ public class HubOnViewActivity extends AppCompatActivity {
         item3.setEditDate("tomorrow");
         item3.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
         commentItems.add(item3);
+
+        item4.setName("SOMEONE2");
+        item4.setComment("Lovely");
+        item4.setEditDate("tomorrow");
+        item4.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
+        commentItems.add(item4);
 
         return commentItems;
     }
