@@ -18,14 +18,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Activity.MainActivity;
 import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -36,6 +43,8 @@ public class MyHubFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
+    private HubListVerticalAdapter adapter;
+    private  ArrayList<HubItem> arrayList;
 
     @Nullable
     @Override
@@ -50,8 +59,7 @@ public class MyHubFragment extends Fragment{
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new HubListVerticalAdapter(getContext(), getList()));
-
+        getHubs();
 
 
         return view;
@@ -81,14 +89,37 @@ public class MyHubFragment extends Fragment{
         return hubItems;
     }
 
-    public List<HubItem> getTopHub() {
-        List<HubItem> hubItems = new ArrayList<>();
-        return hubItems;
+    public void getHubs() {
+        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("hub");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new HubListVerticalAdapter(getContext(), arrayList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 
-    public List<HubItem> getNewHub() {
-        List<HubItem> hubItems = new ArrayList<>();
-        return hubItems;
+    public ArrayList<HubItem> getArrayList(JsonArray jsonElements) {
+        ArrayList<HubItem> arrayList = new ArrayList<>();
+
+        for(int i = 0; i < jsonElements.size(); i++) {
+            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+            String hubId = jsonObject.getAsJsonPrimitive("hubId").getAsString();
+            String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
+            String name = jsonObject.getAsJsonPrimitive("name").getAsString();
+            String img = jsonObject.getAsJsonPrimitive("img").getAsString();
+            String song = jsonObject.getAsJsonPrimitive("file").getAsString();
+            arrayList.add(new HubItem(hubId, img, "date", name, song));
+        }
+        return arrayList;
     }
 
     @Override

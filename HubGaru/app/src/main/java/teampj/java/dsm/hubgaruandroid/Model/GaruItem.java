@@ -13,6 +13,14 @@ public class GaruItem {
     String teamIntro;
     String leader;
 
+    public GaruItem(String teamName, String teamCode, String teamPic, String teamIntro, String leader) {
+        this.teamName = teamName;
+        this.teamCode = teamCode;
+        this.teamPic = teamPic;
+        this.teamIntro = teamIntro;
+        this.leader = leader;
+    }
+
     public GaruItem() {
     }
 

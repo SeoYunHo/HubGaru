@@ -44,6 +44,8 @@ public class GaruFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private SearchView searchView;
+    private GaruAdapter adapter;
+    private  ArrayList<GaruItem> arrayList;
 
     @Nullable
     @Override
@@ -54,7 +56,8 @@ public class GaruFragment extends Fragment {
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
+//        recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
+        getGaru();
 
         HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
             @Override
@@ -81,7 +84,42 @@ public class GaruFragment extends Fragment {
         return view;
     }
 
-    public List<GaruItem> getList() {
+    public void getGaru() {
+        HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("garu");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new GaruAdapter(getContext(), arrayList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public ArrayList<GaruItem> getArrayList(JsonArray jsonElements) {
+        ArrayList<GaruItem> arrayList = new ArrayList<>();
+
+        for(int i = 0; i < jsonElements.size(); i++) {
+            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+
+            String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
+            String leaderId = jsonObject.getAsJsonPrimitive("leaderId").getAsString();
+            String name = jsonObject.getAsJsonPrimitive("name").getAsString();
+            String intro = jsonObject.getAsJsonPrimitive("intro").getAsString();
+            String img = jsonObject.getAsJsonPrimitive("img").getAsString();
+
+            arrayList.add(new GaruItem(name, garuId, img, intro, leaderId));
+        }
+        return arrayList;
+    }
+
+  /*  public List<GaruItem> getList() {
 
         List<GaruItem> items = new ArrayList<>();
 
@@ -108,7 +146,7 @@ public class GaruFragment extends Fragment {
         items.add(garuItem3);
 
         return items;
-    }
+    }*/
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
