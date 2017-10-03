@@ -3,20 +3,26 @@ let conn = require('../../DBConnection');
 
 let manager = {}
 
-manager.getUserInfo = (id) => {
+manager.getUserInfo = (id,callback) => {
     let response = {
         user: null
     };
     let stateCode
 
-    conn.query('select * from garu', garuId, function (err, rows) {
+    conn.query('select * from account where id =? ', id, function (err, rows) {
+        console.log(rows);
         if (err) stateCode=500;
-        else if (rows.length == 0) {
+        else if (rows.length == 1) {
             stateCode=200;
             response.user={
-
+                part: rows[0].part,
+                intro: rows[0].user_intro,
+                picture: rows[0].picture_uri,
+                name: rows[0].name,
+                phone: rows[0].phone
             }
         }
+        else stateCode=400;
         callback(stateCode,response);
     });
 }

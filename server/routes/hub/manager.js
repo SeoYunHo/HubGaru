@@ -75,4 +75,27 @@ manager.getDetailHub = (callback) => {
 
 }
 
+manager.addGood=(hubId, callback)=>{
+    let stateCode;
+
+    conn.query('update hub set good=good+1 where hub_id=?',hubId,function(err, result){
+        if(err) stateCode=500;
+        else if(result.affectedRows) stateCode=201;
+        else stateCode=400;
+
+        callback(stateCode);
+    });
+}
+
+manager.deleteGood=(hubId, callback)=>{
+    let stateCode;
+    conn.query('update hub set good=good-1 where hub_id=?',hubId,function(err, result){
+        if(err) stateCode=500;
+        else if(result.affectedRows) stateCode=201;
+        else stateCode=400;
+
+        callback(stateCode);
+    });
+}
+
 module.exports = manager;
