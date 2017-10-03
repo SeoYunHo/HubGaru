@@ -29,7 +29,7 @@ CREATE TABLE `hub` (
   `name` varchar(20) NOT NULL,
   `img` varchar(20) NOT NULL,
   `date` date DEFAULT NULL,
-  `good` int(11) DEFAULT NULL,
+  `good` int(11) DEFAULT '0',
   PRIMARY KEY (`hub_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +40,7 @@ CREATE TABLE `hub` (
 
 LOCK TABLES `hub` WRITE;
 /*!40000 ALTER TABLE `hub` DISABLE KEYS */;
-INSERT INTO `hub` VALUES (151080,73012193,'파일.mp3','첫번째 노래','앨범.jpg',NULL,NULL);
+INSERT INTO `hub` VALUES (5025539,73012193,'파일.mp3','첫번째 노래','앨범.jpg',NULL,-3);
 /*!40000 ALTER TABLE `hub` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-02 23:23:28
+-- Dump completed on 2017-10-03 23:36:23
