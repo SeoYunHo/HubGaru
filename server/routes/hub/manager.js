@@ -80,7 +80,7 @@ manager.addGood=(hubId, callback)=>{
 
     conn.query('update hub set good=good+1 where hub_id=?',hubId,function(err, result){
         if(err) stateCode=500;
-        else if(result.affectedRows) stateCode=201;
+        else if(result.affectedRows) stateCode=204;
         else stateCode=400;
 
         callback(stateCode);
@@ -91,7 +91,7 @@ manager.deleteGood=(hubId, callback)=>{
     let stateCode;
     conn.query('update hub set good=good-1 where hub_id=?',hubId,function(err, result){
         if(err) stateCode=500;
-        else if(result.affectedRows) stateCode=201;
+        else if(result.affectedRows) stateCode=204;
         else stateCode=400;
 
         callback(stateCode);
