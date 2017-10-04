@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
@@ -42,13 +45,15 @@ public class HubService extends APIAdapter {
 //        개인정보 가져오는 메소드
 //        편짐
 
-        @POST("account/signup")
-        Call<Void> singIn(String id, String PW);
-
+        @FormUrlEncoded
         @POST("account/signin")
+        Call<Void> singIn(@Field("id") String id , @Field("password") String password);
+
+        @POST("account/signup")
         Call<Void> singUp(String id, String PW, String name, String position);
 
         @GET("/user/info")
         Call<JSONObject> getInfo();
+
     }
 }

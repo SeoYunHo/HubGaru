@@ -12,10 +12,7 @@
         <activity android:name=".Activity.MainActivity"/>
         <activity android:name=".Activity.TabLayoutActivity"/>
         <activity android:name=".Activity.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".Activity.TeamMainActivity"></activity>
         <activity android:name=".Activity.TeamCreateActivity"></activity>
@@ -24,6 +21,13 @@
         <activity android:name=".Activity.TeamRequestActivity"></activity>
         <activity android:name=".Activity.HubOnViewActivity"></activity>
         <activity android:name=".Activity.TeamSettingActivity"></activity>
+        <activity android:name=".Activity.LogInActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".Activity.SignUpActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
