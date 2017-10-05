@@ -68,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
                     }
 
                     @Override

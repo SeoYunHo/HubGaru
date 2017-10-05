@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -71,6 +72,17 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void LogIn(String id, String pw) {
+        HubService.getRetrofit(getApplicationContext()).singIn(id, pw).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+                Log.d(t.toString(), "errorMsg");
+            }
+        });
     }
 }
