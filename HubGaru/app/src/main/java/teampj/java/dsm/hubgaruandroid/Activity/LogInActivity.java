@@ -72,14 +72,19 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void LogIn(String id, String pw) {
-        HubService.getRetrofit(getApplicationContext()).singIn(id, pw).enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getApplicationContext()).singIn(id, pw).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    startActivity(new Intent(LogInActivity.this, TabLayoutActivity.class));
+                }
+                else if(response.code() == 204) {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
                 Log.d(t.toString(), "errorMsg");
             }

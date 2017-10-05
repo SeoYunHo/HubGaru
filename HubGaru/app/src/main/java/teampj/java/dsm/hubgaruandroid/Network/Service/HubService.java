@@ -48,7 +48,7 @@ public class HubService extends APIAdapter {
 
         @FormUrlEncoded
         @POST("/account/signin")
-        Call<JsonObject> singIn(
+        Call<Void> singIn(
                 @Field("id") String id ,
                 @Field("password") String password
         );
