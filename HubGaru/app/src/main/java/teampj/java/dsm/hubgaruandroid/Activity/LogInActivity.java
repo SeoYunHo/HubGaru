@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,7 @@ public class LogInActivity extends AppCompatActivity {
     ImageView backgrountImg, loginIcon;
     Button loginBtn;
     TextInputEditText idText, pwText;
+    View createBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class LogInActivity extends AppCompatActivity {
         loginIcon = (ImageView) findViewById(R.id.loginIcon);
         backgrountImg = (ImageView) findViewById(R.id.backgroundImage);
         loginBtn = (Button) findViewById(R.id.loginBtn);
+        createBtn = (LinearLayout) findViewById(R.id.createBtn);
 
         backgrountImg.setAlpha(127);
 
@@ -48,34 +51,26 @@ public class LogInActivity extends AppCompatActivity {
                 .apply(RequestOptions.bitmapTransform(new CircleCrop(this)))
                 .into(loginIcon);
 
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String sId = idText.getText().toString();
                 String sPw = pwText.getText().toString();
 
-                HubService.getRetrofit(getApplicationContext()).singIn(sId, sPw).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if(response.code() == 201) {
-                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LogInActivity.this, TabLayoutActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else if(response.code() == 204) {
-                            Toast.makeText(getApplicationContext(), "Fail" + response.code(), Toast.LENGTH_SHORT).show();
-                        } else  {
-                            Toast.makeText(getApplicationContext(), "Fail" + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-
-                    }
-                });
+                LogIn(sId, sPw);
             }
         });
+    }
+
+    public void LogIn(String id, String pw) {
 
     }
 }

@@ -13,6 +13,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
 
 /**
@@ -46,14 +47,25 @@ public class HubService extends APIAdapter {
 //        편짐
 
         @FormUrlEncoded
-        @POST("account/signin")
-        Call<Void> singIn(@Field("id") String id , @Field("password") String password);
+        @POST("/account/signin")
+        Call<JsonObject> singIn(
+                @Field("id") String id ,
+                @Field("password") String password
+        );
 
-        @POST("account/signup")
-        Call<Void> singUp(String id, String PW, String name, String position);
+        @FormUrlEncoded
+        @POST("/account/signup")
+        Call<Void> singUp(
+                @Field("id") String id,
+                @Field("password")String password,
+                @Field("name")String name,
+                @Field("userIntro") String userIntro,
+                @Field("part")String part,
+                @Field("phone") String phone
+        );
 
-        @GET("/user/info")
-        Call<JSONObject> getInfo();
+        @GET("/user/info/{id}")
+        Call<JsonObject> getInfo(@Path("id") String id);
 
     }
 }
