@@ -22,7 +22,7 @@ public class TabLayoutActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    private ArrayList<String> infoArray;
+    private static String part, intro, picture, name, phone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +37,11 @@ public class TabLayoutActivity extends AppCompatActivity {
         */
 
         Intent intent = getIntent();
-        String part = intent.getStringExtra("part");
-        String intro = intent.getStringExtra("intro");
-        String picture = intent.getStringExtra("picture");
-        String name = intent.getStringExtra("name");
-        String phone = intent.getStringExtra("phone");
+        part = intent.getStringExtra("part");
+        intro = intent.getStringExtra("intro");
+        picture = intent.getStringExtra("picture");
+        name = intent.getStringExtra("name");
+        phone = intent.getStringExtra("phone");
 
         Log.d(part + ", " + intro + ", " + picture + ", " + name + ", " + phone, "intentCheck");
 
@@ -72,6 +72,25 @@ public class TabLayoutActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public static String getPart() {
+        return part;
+    }
+
+    public static String getIntro() {
+        return intro;
+    }
+
+    public static String getPicture() {
+        return picture;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static String getPhone() {
+        return phone;
     }
 }

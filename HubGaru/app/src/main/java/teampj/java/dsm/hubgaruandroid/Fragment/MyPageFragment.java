@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import teampj.java.dsm.hubgaruandroid.Activity.TabLayoutActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
@@ -76,7 +77,7 @@ public class MyPageFragment extends Fragment{
         tInfos = new TextView[3];
         tInfos[0] = (TextView) view.findViewById(R.id.nameText);
         tInfos[1] = (TextView) view.findViewById(R.id.positionText);
-        tInfos[2] = (TextView) view.findViewById(R.id.emailText);
+        tInfos[2] = (TextView) view.findViewById(R.id.phoneText);
 
         Glide.with(getActivity())
                 .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
@@ -147,14 +148,11 @@ public class MyPageFragment extends Fragment{
     }
 
     public UserInfoItem getInfo() {
-
-        //TODO: Retrofit으로 userInfo 가져오기
-
         UserInfoItem info = new UserInfoItem();
 
-        info.setEmail("***@***.***");
-        info.setName("DongHee");
-        info.setPosition("director");
+        info.setPhone(TabLayoutActivity.getPhone());
+        info.setName(TabLayoutActivity.getName());
+        info.setPosition(TabLayoutActivity.getPart());
 
         return info;
     }
@@ -202,7 +200,7 @@ public class MyPageFragment extends Fragment{
             getInfo();
 
             editTexts[0].setHint(item.getName());
-            editTexts[1].setHint(item.getEmail());
+            editTexts[1].setHint(item.getPhone());
             editTexts[2].setHint(item.getPosition());
 
             yesBtn.setOnClickListener(new View.OnClickListener() {
@@ -211,11 +209,10 @@ public class MyPageFragment extends Fragment{
 
                 @Override
                 public void onClick(View v) {
-                    for(int i = 0; i < editTexts.length; i++) {
-                        tInfos[i].setText(editTexts[i].getText().toString());
-                    }
-
-                    dismiss();
+                for(int i = 0; i < editTexts.length; i++) {
+                    tInfos[i].setText(editTexts[i].getText().toString());
+                }
+                dismiss();
                 }
             });
 

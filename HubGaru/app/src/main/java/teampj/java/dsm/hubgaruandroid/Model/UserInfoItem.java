@@ -7,12 +7,14 @@ package teampj.java.dsm.hubgaruandroid.Model;
 public class UserInfoItem {
     private String name;
     private String position;
-    private String email;
+    private String phone;
+    private String picture;
+    private String intro;
 
-    public UserInfoItem(String name, String position, String email) {
+    public UserInfoItem(String name, String position, String phone) {
         this.name = name;
         this.position = position;
-        this.email = email;
+        this.phone = phone;
     }
 
     public UserInfoItem() {
@@ -34,11 +36,27 @@ public class UserInfoItem {
         this.position = position;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

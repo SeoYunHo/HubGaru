@@ -67,8 +67,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+                        if(response.code() == 201) {
+                            startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+                        } else if (response.code() == 500) {
+                        }
                     }
 
                     @Override
