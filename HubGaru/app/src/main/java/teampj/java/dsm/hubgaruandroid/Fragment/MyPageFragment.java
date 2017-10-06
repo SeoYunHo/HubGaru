@@ -55,10 +55,10 @@ public class MyPageFragment extends Fragment{
     // name, position, email
 
     private ImageView profilePic;
-    private ImageButton editBtn;
+//    private ImageButton editBtn;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
-    private TextView[] tInfos;
+    private TextView nameText, positionText, phoneNumText;
     Uri uri;
 
     final int REQ_CODE = 100;
@@ -68,21 +68,23 @@ public class MyPageFragment extends Fragment{
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_page, container, false);
 
-        editBtn = (ImageButton) view.findViewById(R.id.infoEditBtn);
+//        editBtn = (ImageButton) view.findViewById(R.id.infoEditBtn);
+        nameText = (TextView) view.findViewById(R.id.nameText);
+        positionText = (TextView) view.findViewById(R.id.positionText);
+        phoneNumText = (TextView) view.findViewById(R.id.phoneText);
         profilePic = (ImageView) view.findViewById(R.id.profilePic);
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.myPageRecyclerView);
         recyclerView.hasFixedSize();
 
-        tInfos = new TextView[3];
-        tInfos[0] = (TextView) view.findViewById(R.id.nameText);
-        tInfos[1] = (TextView) view.findViewById(R.id.positionText);
-        tInfos[2] = (TextView) view.findViewById(R.id.phoneText);
-
         Glide.with(getActivity())
                 .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
                 .apply(RequestOptions.bitmapTransform(new CircleCrop(getActivity())))
                 .into(profilePic);
+
+        nameText.setText(TabLayoutActivity.getName());
+        positionText.setText(TabLayoutActivity.getPart());
+        phoneNumText.setText(TabLayoutActivity.getPhone());
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new HubListAdapter(getActivity(), getList()));
@@ -94,27 +96,15 @@ public class MyPageFragment extends Fragment{
             }
         });
 
-        final String name, position, email;
-
-        name = tInfos[0].getText().toString();
-        position = tInfos[1].getText().toString();
-        email = tInfos[2].getText().toString();
-
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog infoEditDialog = new InfoEditDialog(getContext(), getInfo());
-                infoEditDialog.show();
-            }
-        });
+//        editBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Dialog infoEditDialog = new InfoEditDialog(getContext());
+//                infoEditDialog.show();
+//            }
+//        });
 
         return view;
-    }
-
-    private void doTakeAlbumAction() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, REQ_CODE);
     }
 
     @Override
@@ -132,44 +122,7 @@ public class MyPageFragment extends Fragment{
 //        post해서 리스폰스로 사진을 받는다 그리고 글라이드에 추가해서 동그라미 모양으로!
     }
 
-    public String getRealPath(Context context, Uri uri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(uri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if(cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    public UserInfoItem getInfo() {
-        UserInfoItem info = new UserInfoItem();
-
-        info.setPhone(TabLayoutActivity.getPhone());
-        info.setName(TabLayoutActivity.getName());
-        info.setPosition(TabLayoutActivity.getPart());
-
-        return info;
-    }
-
-    public ArrayList<HubItem> getList() {
-
-        //TODO: Retrofit으로 hubItems 가져오기
-
-        ArrayList<HubItem> list = new ArrayList();
-
-        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLFIXdoiuMqHW2Firazadnushw_TzEccmtnUjGEsBVxPWI76gWlA", "yy-mm-dd", "title1"));
-        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsdzJWVjLxYgo-oZWbT08C3vJEPtM1pRRSGkyvYzNMHiQGxANQ", "yy-mm-dd", "title2"));
-
-        return list;
-    }
-
-    class InfoEditDialog extends Dialog {
+    /*class InfoEditDialog extends Dialog {
 
         private Context context;
         private TextInputEditText[] editTexts;
@@ -189,19 +142,8 @@ public class MyPageFragment extends Fragment{
 
             setContentView(R.layout.edit_my_info);
 
-            editTexts = new TextInputEditText[3];
-            editTexts[0] = (TextInputEditText) findViewById(R.id.nameEditText);
-            editTexts[1] = (TextInputEditText) findViewById(R.id.positionEditText);
-            editTexts[2] = (TextInputEditText) findViewById(R.id.emailEditText);
-
             yesBtn = (Button) findViewById(R.id.yesBtn);
             noBtn = (Button) findViewById(R.id.noBtn);
-
-            getInfo();
-
-            editTexts[0].setHint(item.getName());
-            editTexts[1].setHint(item.getPhone());
-            editTexts[2].setHint(item.getPosition());
 
             yesBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -209,9 +151,7 @@ public class MyPageFragment extends Fragment{
 
                 @Override
                 public void onClick(View v) {
-                for(int i = 0; i < editTexts.length; i++) {
-                    tInfos[i].setText(editTexts[i].getText().toString());
-                }
+
                 dismiss();
                 }
             });
@@ -230,5 +170,44 @@ public class MyPageFragment extends Fragment{
             this.context = context;
             this.item = item;
         }
+
+        public InfoEditDialog (Context context) {
+            super(context);
+
+            this.context = context;
+        }
+    }*/
+
+    public ArrayList<HubItem> getList() {
+
+        //TODO: Retrofit으로 hubItems 가져오기
+
+        ArrayList<HubItem> list = new ArrayList();
+
+        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLFIXdoiuMqHW2Firazadnushw_TzEccmtnUjGEsBVxPWI76gWlA", "yy-mm-dd", "title1"));
+        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsdzJWVjLxYgo-oZWbT08C3vJEPtM1pRRSGkyvYzNMHiQGxANQ", "yy-mm-dd", "title2"));
+
+        return list;
+    }
+
+    public String getRealPath(Context context, Uri uri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(uri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    private void doTakeAlbumAction() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, REQ_CODE);
     }
 }

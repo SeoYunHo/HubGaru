@@ -29,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Activity.MainActivity;
+import teampj.java.dsm.hubgaruandroid.Activity.TabLayoutActivity;
 import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListVerticalAdapter;
@@ -62,43 +63,16 @@ public class MyHubFragment extends Fragment{
         recyclerView.setLayoutManager(manager);
         getHubs();
 
-
         return view;
     }
-
-    public List<HubItem> getList() {
-        List<HubItem> hubItems = new ArrayList<>();
-        HubItem hubItem1 = new HubItem();
-        HubItem hubItem2 = new HubItem();
-        HubItem hubItem3 = new HubItem();
-
-        hubItem1.setDate("yy-mm-dd");
-        hubItem1.setSongTitle("title");
-        hubItem1.setPicUri("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
-        hubItems.add(hubItem1);
-
-        hubItem2.setDate("yy-mm-dd");
-        hubItem2.setSongTitle("2nd");
-        hubItem2.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
-        hubItems.add(hubItem2);
-
-        hubItem3.setDate("yy-mm-dd");
-        hubItem3.setSongTitle("3rd");
-        hubItem3.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        hubItems.add(hubItem3);
-
-        return hubItems;
-    }
-
+//TODO : make sure that by tomorrow I'm done dealing with every requests.
     public void getHubs() {
-        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getContext())
+                .getMyHub(TabLayoutActivity.getId())
+                .enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                JsonArray jsonObject = response.body().getAsJsonArray("hub");
-                JsonArray jsonElements = jsonObject.getAsJsonArray();
-                arrayList = getArrayList(jsonElements);
-                adapter = new HubListVerticalAdapter(getContext(), arrayList);
-                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -134,4 +108,29 @@ public class MyHubFragment extends Fragment{
         super.onPrepareOptionsMenu(menu);
     }
 
+    /*
+    public List<HubItem> getList() {
+        List<HubItem> hubItems = new ArrayList<>();
+        HubItem hubItem1 = new HubItem();
+        HubItem hubItem2 = new HubItem();
+        HubItem hubItem3 = new HubItem();
+
+        hubItem1.setDate("yy-mm-dd");
+        hubItem1.setSongTitle("title");
+        hubItem1.setPicUri("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
+        hubItems.add(hubItem1);
+
+        hubItem2.setDate("yy-mm-dd");
+        hubItem2.setSongTitle("2nd");
+        hubItem2.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
+        hubItems.add(hubItem2);
+
+        hubItem3.setDate("yy-mm-dd");
+        hubItem3.setSongTitle("3rd");
+        hubItem3.setPicUri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
+        hubItems.add(hubItem3);
+
+        return hubItems;
+    }
+*/
 }

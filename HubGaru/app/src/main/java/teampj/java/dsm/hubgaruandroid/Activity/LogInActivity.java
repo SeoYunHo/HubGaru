@@ -38,6 +38,7 @@ public class LogInActivity extends AppCompatActivity {
     Button loginBtn;
     TextInputEditText idText, pwText;
     View createBtn;
+    String sId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
+                    sId = id;
                     getInfo(id);
                 }
                 else if(response.code() == 204) {
@@ -118,6 +120,7 @@ public class LogInActivity extends AppCompatActivity {
                     intent.putExtra("picture", picture);
                     intent.putExtra("name", name);
                     intent.putExtra("phone", phone);
+                    intent.putExtra("id", sId);
 
                     startActivity(intent);
                     finish();

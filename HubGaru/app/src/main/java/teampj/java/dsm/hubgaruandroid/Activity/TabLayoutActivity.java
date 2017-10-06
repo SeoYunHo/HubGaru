@@ -22,7 +22,7 @@ public class TabLayoutActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    private static String part, intro, picture, name, phone;
+    private static String part, intro, picture, name, phone, id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class TabLayoutActivity extends AppCompatActivity {
         picture = intent.getStringExtra("picture");
         name = intent.getStringExtra("name");
         phone = intent.getStringExtra("phone");
+        id = intent.getStringExtra("id");
+
 
         Log.d(part + ", " + intro + ", " + picture + ", " + name + ", " + phone, "intentCheck");
 
@@ -92,5 +94,9 @@ public class TabLayoutActivity extends AppCompatActivity {
 
     public static String getPhone() {
         return phone;
+    }
+
+    public static String getId() {
+        return id;
     }
 }
