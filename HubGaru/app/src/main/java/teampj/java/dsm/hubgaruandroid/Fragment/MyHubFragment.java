@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -112,6 +113,7 @@ public class MyHubFragment extends Fragment{
 
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+            Log.d(jsonObject.toString(), "logCheck");
             String hubId = jsonObject.getAsJsonPrimitive("hubId").getAsString();
             String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
             String name = jsonObject.getAsJsonPrimitive("name").getAsString();

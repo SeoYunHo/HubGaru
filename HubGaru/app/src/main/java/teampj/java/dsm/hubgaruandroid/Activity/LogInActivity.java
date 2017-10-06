@@ -16,7 +16,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,12 +76,12 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
-    public void LogIn(String id, String pw) {
+    public void LogIn(final String id, String pw) {
         HubService.getRetrofit(getApplicationContext()).singIn(id, pw).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
-                    startActivity(new Intent(LogInActivity.this, TabLayoutActivity.class));
+                    getInfo(id);
                 }
                 else if(response.code() == 204) {
                     Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
@@ -87,6 +92,48 @@ public class LogInActivity extends AppCompatActivity {
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
                 Log.d(t.toString(), "errorMsg");
+            }
+        });
+    }
+
+    public void getInfo(String id) {
+
+        HubService.getRetrofit(getApplicationContext()).getInfo(id).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    JsonObject element = response.body().getAsJsonObject("user");
+
+                    String part = element.getAsJsonPrimitive("part").getAsString();
+                    String intro = element.getAsJsonPrimitive("intro").getAsString();
+                    String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
+                    String name = element.getAsJsonPrimitive("name").getAsString();
+                    String phone = element.getAsJsonPrimitive("phone").getAsString();
+
+
+                    Intent intent = new Intent(LogInActivity.this, TabLayoutActivity.class);
+
+                    intent.putExtra("part", part);
+                    intent.putExtra("intro", intro);
+                    intent.putExtra("picture", picture);
+                    intent.putExtra("name", name);
+                    intent.putExtra("phone", phone);
+
+                    startActivity(intent);
+                    finish();
+                }
+                else if (response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "Fail!", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+
             }
         });
     }
