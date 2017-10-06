@@ -14,7 +14,7 @@ manager.addGaru = (garuId, leaderId, intro, name, file, img, callback) => {
     let stateCode;
     conn.query('insert into garu value(?,?,?,?,?,?);', [garuId, leaderId, intro, name, file, img], function (err, result) {
         if (err) stateCode=500;
-        else if (!!result.affectedRows) stateCode=204;
+        else if (!!result.affectedRows) stateCode=201;
         callback(stateCode);
     });
 }

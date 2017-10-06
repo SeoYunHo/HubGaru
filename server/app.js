@@ -11,7 +11,7 @@ var garu = require('./routes/garu/router');
 var user = require('./routes/user/router');
 var hub = require('./routes/hub/router');
 var mypage = require('./routes/mypage/router');
-var port = '8080';
+var port = '5429';
 
 app.set('port', port);
 

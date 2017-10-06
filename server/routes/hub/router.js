@@ -55,7 +55,7 @@ router.route('/hub/detail/:garuid').get(function (req, res) {
 });
 
 router.route('/hub/good/:hubId').post(function (req, res) {
-    let hubId=req.params.hubId;
+    let hubId = req.params.hubId;
     manager.addGood(hubId, function (stateCode) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
@@ -65,12 +65,37 @@ router.route('/hub/good/:hubId').post(function (req, res) {
 });
 
 router.route('/hub/good/:hubId').delete(function (req, res) {
-    let hubId=req.params.hubId;
+    let hubId = req.params.hubId;
     manager.deleteGood(hubId, function (stateCode) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
         res.end();
     })
+});
+
+router.route('/hub/comment/:hubId').post(function (req, res) {
+    let hubId = req.params.hubId;
+    let comment = req.body.comment;
+    let id = req.body.id;
+
+    manager.addComment(hubId, comment, id, function (stateCode) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        res.end();
+    });
+});
+
+router.route('/hub/comment/:hubId').get(function (req, res) {
+    let hubId = req.params.hubId;
+
+    manager.getComment(hubId, function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.comment) res.write(JSON.stringify(response));
+        res.end();
+    });
 });
 module.exports = router;
