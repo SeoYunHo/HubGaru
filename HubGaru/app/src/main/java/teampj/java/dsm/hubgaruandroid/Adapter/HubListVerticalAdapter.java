@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teampj.java.dsm.hubgaruandroid.Activity.HubOnViewActivity;
@@ -24,10 +25,10 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVerticalAdapter.ViewHolder> {
 
-    List<HubItem> items;
+    ArrayList<HubItem> items;
     Context context;
 
-    public HubListVerticalAdapter(Context context, List<HubItem> items) {
+    public HubListVerticalAdapter(Context context, ArrayList<HubItem> items) {
         this.items = items;
         this.context = context;
     }

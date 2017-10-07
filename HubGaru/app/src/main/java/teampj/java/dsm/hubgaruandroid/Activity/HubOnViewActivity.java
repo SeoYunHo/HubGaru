@@ -23,11 +23,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.CommentAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
@@ -150,13 +154,44 @@ public class HubOnViewActivity extends AppCompatActivity {
 
                 if(likeBtnStatus == false) {
                     likeBtnStatus = true;
+                    HubService.getRetrofit(getApplicationContext()).plus().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.code() == 204) {
+                                Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
+                            } else if(response.code() == 400) {
+                                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
                     likeBtn.setImageResource(R.drawable.thumb1);
                     tmpNum = Integer.parseInt(likeNum.getText().toString());
                     tmpNum++;
                     tmpSNum = String.valueOf(tmpNum);
                     likeNum.setText(tmpSNum);
-                } else {
+                }
+                else {
                     likeBtnStatus = false;
+                    HubService.getRetrofit(getApplicationContext()).minus().enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.code() == 204) {
+                                Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
+                            } else if(response.code() == 400) {
+                                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
                     likeBtn.setImageResource(R.drawable.thumb3);
                     tmpNum = Integer.parseInt(likeNum.getText().toString());
                     tmpNum--;

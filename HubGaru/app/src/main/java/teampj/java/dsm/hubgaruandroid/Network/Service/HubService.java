@@ -29,7 +29,7 @@ public class HubService extends APIAdapter {
     }
 
     public interface HubApi {
-//                편집 info
+
         @GET("/garu")
         Call<JsonObject> getGaru();
 
@@ -75,5 +75,11 @@ public class HubService extends APIAdapter {
 
         @GET("/hub/comment/{hubId}")
         Call<JsonArray> getComments(String hubId);
+
+        @GET("/upload/{filename}")
+        Call<JsonObject> getPic(@Path("filename") String filename);
+
+         @GET("/upload/{filename}")
+         Call<JsonObject> getSong(@Path("fielname") String filename);
     }
 }

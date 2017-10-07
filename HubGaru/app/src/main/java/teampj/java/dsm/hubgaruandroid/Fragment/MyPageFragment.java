@@ -35,15 +35,24 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Activity.TabLayoutActivity;
+import teampj.java.dsm.hubgaruandroid.Adapter.GaruAdapter;
+import teampj.java.dsm.hubgaruandroid.Adapter.GaruHorizontalAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.HubListAdapter;
+import teampj.java.dsm.hubgaruandroid.Model.GaruItem;
 import teampj.java.dsm.hubgaruandroid.Model.HubItem;
 import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -57,7 +66,9 @@ public class MyPageFragment extends Fragment{
     private ImageView profilePic;
 //    private ImageButton editBtn;
     private RecyclerView recyclerView;
+    private GaruHorizontalAdapter adapter;
     private RecyclerView.LayoutManager manager;
+    private  ArrayList<GaruItem> arrayList;
     private TextView nameText, positionText, phoneNumText;
     Uri uri;
 
@@ -73,9 +84,13 @@ public class MyPageFragment extends Fragment{
         positionText = (TextView) view.findViewById(R.id.positionText);
         phoneNumText = (TextView) view.findViewById(R.id.phoneText);
         profilePic = (ImageView) view.findViewById(R.id.profilePic);
+
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.myPageRecyclerView);
         recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(manager);
+
+        getGaru();
 
         Glide.with(getActivity())
                 .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
@@ -85,9 +100,6 @@ public class MyPageFragment extends Fragment{
         nameText.setText(TabLayoutActivity.getName());
         positionText.setText(TabLayoutActivity.getPart());
         phoneNumText.setText(TabLayoutActivity.getPhone());
-
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new HubListAdapter(getActivity(), getList()));
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +117,59 @@ public class MyPageFragment extends Fragment{
 //        });
 
         return view;
+    }
+
+    public void getGaru() {
+        HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("garu");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new GaruHorizontalAdapter(getContext(), arrayList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+//    public void getGaru() {
+//        HubService.getRetrofit(getContext()).getMyGaru(TabLayoutActivity.getId()).enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                JsonArray jsonObject = response.body().getAsJsonArray("garu");
+//                JsonArray jsonElements = jsonObject.getAsJsonArray();
+//                arrayList = getArrayList(jsonElements);
+//                adapter = new GaruHorizontalAdapter(getContext(), arrayList);
+//                recyclerView.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//
+//            }
+//        });
+//    }
+
+    public ArrayList<GaruItem> getArrayList(JsonArray jsonElements) {
+        ArrayList<GaruItem> arrayList = new ArrayList<>();
+
+        for(int i = 0; i < jsonElements.size(); i++) {
+            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+
+            String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
+            String leaderId = jsonObject.getAsJsonPrimitive("leaderId").getAsString();
+            String name = jsonObject.getAsJsonPrimitive("name").getAsString();
+            String intro = jsonObject.getAsJsonPrimitive("intro").getAsString();
+            String img = jsonObject.getAsJsonPrimitive("img").getAsString();
+
+            arrayList.add(new GaruItem(name, garuId, img, intro, leaderId));
+        }
+        return arrayList;
     }
 
     @Override
@@ -177,18 +242,6 @@ public class MyPageFragment extends Fragment{
             this.context = context;
         }
     }*/
-
-    public ArrayList<HubItem> getList() {
-
-        //TODO: Retrofit으로 hubItems 가져오기
-
-        ArrayList<HubItem> list = new ArrayList();
-
-        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLFIXdoiuMqHW2Firazadnushw_TzEccmtnUjGEsBVxPWI76gWlA", "yy-mm-dd", "title1"));
-        list.add(new HubItem("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsdzJWVjLxYgo-oZWbT08C3vJEPtM1pRRSGkyvYzNMHiQGxANQ", "yy-mm-dd", "title2"));
-
-        return list;
-    }
 
     public String getRealPath(Context context, Uri uri) {
         Cursor cursor = null;

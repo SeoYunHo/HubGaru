@@ -61,18 +61,41 @@ public class MyHubFragment extends Fragment{
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
-        getHubs();
+//        getHubs();
+        getNewHubs();
 
         return view;
     }
-//TODO : make sure that by tomorrow I'm done dealing with every requests.
+
+    public void getNewHubs() {
+        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonObject = response.body().getAsJsonArray("hub");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new HubListVerticalAdapter(getContext(), arrayList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void getHubs() {
         HubService.getRetrofit(getContext())
                 .getMyHub(TabLayoutActivity.getId())
                 .enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+                JsonArray jsonObject = response.body().getAsJsonArray("hub");
+                JsonArray jsonElements = jsonObject.getAsJsonArray();
+                arrayList = getArrayList(jsonElements);
+                adapter = new HubListVerticalAdapter(getContext(), arrayList);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -87,12 +110,12 @@ public class MyHubFragment extends Fragment{
 
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
-            Log.d(jsonObject.toString(), "logCheck");
             String hubId = jsonObject.getAsJsonPrimitive("hubId").getAsString();
             String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
             String name = jsonObject.getAsJsonPrimitive("name").getAsString();
             String img = jsonObject.getAsJsonPrimitive("img").getAsString();
             String song = jsonObject.getAsJsonPrimitive("file").getAsString();
+
             arrayList.add(new HubItem(hubId, img, "date", name, song));
         }
         return arrayList;
