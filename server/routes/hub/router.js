@@ -89,8 +89,9 @@ router.route('/hub/comment/:hubId').post(function (req, res) {
     let hubId = req.params.hubId;
     let comment = req.body.comment;
     let id = req.body.id;
+    let date = req.body.date
 
-    manager.addComment(hubId, comment, id, function (stateCode) {
+    manager.addComment(hubId, comment, id, date, function (stateCode) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });

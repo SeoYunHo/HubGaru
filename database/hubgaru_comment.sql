@@ -25,7 +25,8 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `hub_id` int(11) NOT NULL,
   `comment` text NOT NULL,
-  `id` varchar(20) NOT NULL
+  `id` varchar(20) NOT NULL,
+  `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -35,7 +36,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (5025539,'정말 좋아요','nn');
+INSERT INTO `comment` VALUES (5025539,'정말 좋아요','nn',NULL);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-07 14:23:03
+-- Dump completed on 2017-10-07 20:03:23

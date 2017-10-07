@@ -98,9 +98,9 @@ manager.deleteGood = (hubId, callback) => {
     });
 }
 
-manager.addComment = (hubId, comment, id, callback) => {
+manager.addComment = (hubId, comment, id, date, callback) => {
     let stateCode;
-    conn.query('insert into comment values(?,?,?)', [hubId, comment, id], function (err, result) {
+    conn.query('insert into comment values(?,?,?,?)', [hubId, comment, id, date], function (err, result) {
         if (err) stateCode = 500;
         else if (result.affectedRows) stateCode = 201;
         else stateCode = 400;
@@ -121,7 +121,8 @@ manager.getComment = (hubId, callback) => {
             for (var i = 0; i < rows.length; i++) {
                 let comment = {
                     comment: rows[i].comment,
-                    id: rows[i].id
+                    id: rows[i].id,
+                    date: rows[i].date
                 }
                 response.comment.push(comment);
             }
