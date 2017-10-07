@@ -84,5 +84,11 @@ public class HubService extends APIAdapter {
 
          @GET("/upload/{filename}")
          Call<JsonObject> getSong(@Path("fielname") String filename);
+
+        @POST("/garu/{id}")
+        Call<JsonObject> makeGaru(@Path("id") String id, String name, String intro, String file, String img);
+
+        @POST("/hub/id/{garuId}")
+        Call<Void> makeHub(@Path("garuId") String garuId, String name, String file, String img);
     }
 }

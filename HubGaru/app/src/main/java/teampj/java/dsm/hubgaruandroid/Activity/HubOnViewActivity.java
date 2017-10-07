@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -25,7 +26,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,12 +48,13 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class HubOnViewActivity extends AppCompatActivity {
 
+    static int hubLike;
     static boolean likeBtnStatus = false;
     static boolean musicStatus = false;
     private Button teamMainBtn, enterBtn;
     private EditText commentText;
     private ImageButton likeBtn, statusBtn;
-    private TextView likeNum;
+    private TextView likeNum, teamNameInfo, editDatInfo, songNameInfo;
     private SeekBar seekBar;
     private MediaPlayer mediaPlayer;
     private RecyclerView recyclerView;
@@ -67,23 +71,28 @@ public class HubOnViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         TEAMCODE = intent.getIntExtra("TEAMCODE",0);
         teamId = intent.getStringExtra("id");
-        Toast.makeText(getApplicationContext(), teamId.toString(), Toast.LENGTH_LONG).show();
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         likeBtn = (ImageButton) findViewById(R.id.likeBtn);
+        recyclerView = (RecyclerView) findViewById(R.id.commentRecycler);
+        teamMainBtn = (Button) findViewById(R.id.toMainBtn);
+        teamNameInfo = (TextView) findViewById(R.id.teamName);
+        editDatInfo = (TextView) findViewById(R.id.editDate);
+        songNameInfo = (TextView) findViewById(R.id.songTitle);
+
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         mediaPlayer.setLooping(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.commentRecycler);
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new CommentAdapter(setCommentItem(), getApplicationContext()));
 
-        teamMainBtn = (Button) findViewById(R.id.toMainBtn);
+        getLike();
+        likeNum.setText(String.valueOf(hubLike));
+
         teamMainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,15 +102,25 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         });
 
-        class MyThread extends Thread {
+        seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void run() {
-                while (musicStatus) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                }
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser)
+                    mediaPlayer.seekTo(progress);
             }
-        }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+//        playBtn onClick
         statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,24 +149,7 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         });
 
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser)
-                    mediaPlayer.seekTo(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
+//        likeBtn onClick
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,16 +188,52 @@ public class HubOnViewActivity extends AppCompatActivity {
 //            }
 //        });
 
+        class MyThread extends Thread {
+            @Override
+            public void run() {
+                while (musicStatus) {
+                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                }
+            }
+        }
+
+
     }
 
-    public int getLike() {
+    public void getComments() {
+        HubService.getRetrofit(getApplicationContext())
+                .getComments(TabLayoutActivity.getId())
+                .enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                
+            }
 
-        int likeNum = 0;
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public ArrayList<CommentItem> getArrayList(JsonArray jsonElements) {
+        ArrayList<CommentItem> arrayList = new ArrayList<>();
+
+        for(int i = 0; i < jsonElements.size(); i++) {
+            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+
+        }
+        return arrayList;
+    }
+
+    public void getLike() {
 
         HubService.getRetrofit(getApplicationContext()).getLike(teamId).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+                JsonPrimitive object = response.body().getAsJsonPrimitive("good");
+                Log.d("key", object.toString());
+                hubLike = object.getAsInt();
             }
 
             @Override
@@ -203,8 +241,6 @@ public class HubOnViewActivity extends AppCompatActivity {
 
             }
         });
-
-        return likeNum;
     }
 
     public void plusLike() {
