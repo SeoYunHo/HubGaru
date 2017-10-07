@@ -48,7 +48,10 @@
                     android:textSize="12sp"
                     android:text="00:00pm" />
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/chatImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/descView"
                 android:layout_height="wrap_content"
@@ -58,8 +61,6 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimaryDark"
                 android:padding="10dp"
-                android:text="채팅 내부 내용 이것은 내용이고 내용이니\n좀 길게 써놔야 어떤지 좀 잘 보지
-                \n적는 김에 좀 길게 좀 적어보자 그러고보니까 개행도 안하고 겁나게 길게 쓰면 어떻게 되려나"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>

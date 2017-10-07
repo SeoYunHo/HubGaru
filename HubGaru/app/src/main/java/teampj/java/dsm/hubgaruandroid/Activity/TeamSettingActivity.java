@@ -79,7 +79,13 @@ public class TeamSettingActivity extends AppCompatActivity {
         setset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setset.setText("");
+                if (setset.getText().equals("     설정 뭐넣지 off")) {
+                    setset.setText("     설정 뭐넣지 on");
+                    teamSet.setAlam(true);
+                } else {
+                    setset.setText("     설정 뭐넣지 off");
+                    teamSet.setAlam(false);
+                }
             }
         });
 

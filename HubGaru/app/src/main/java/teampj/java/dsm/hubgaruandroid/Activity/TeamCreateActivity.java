@@ -43,7 +43,7 @@ public class TeamCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent ct_to_rt = new Intent(TeamCreateActivity.this, TeamRecordThemeActivity.class);
-                startActivity(ct_to_rt);
+                startActivityForResult(ct_to_rt,0);
             }
         });
 
@@ -61,13 +61,19 @@ public class TeamCreateActivity extends AppCompatActivity {
         nononobtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent team_to_main = new Intent(TeamCreateActivity.this, TabLayoutActivity.class);
-                startActivity(team_to_main);
+                Intent ct_to_main = new Intent(TeamCreateActivity.this, TabLayoutActivity.class);
+                startActivity(ct_to_main);
                 TeamCreateActivity.this.finish();
             }
         });
-
-
     }
     public void onBackPressed() {TeamCreateActivity.this.finish();}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 2 && resultCode == RESULT_OK){
+            //받아온 음악파일 저장
+        }
+    }
 }

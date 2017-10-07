@@ -16,12 +16,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import teampj.java.dsm.hubgaruandroid.Model.TeamRequestItem;
 import teampj.java.dsm.hubgaruandroid.R;
@@ -34,6 +39,7 @@ public class TeamRequestActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     private EditText requestName;
     private Spinner requestKind;
@@ -107,9 +113,20 @@ public class TeamRequestActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedFile = data.getData();
-        newFile = new File(selectedFile.getPath());
-        fileName.setText(newFile.getName());
+
+        if(requestCode == 0 && resultCode == RESULT_OK){
+            Uri selectedFile = data.getData();
+            newFile = new File(selectedFile.getPath());
+            fileName.setText(newFile.getName());
+
+            StorageReference filepath = storageReference.child("Requests").child(selectedFile.getLastPathSegment());
+            filepath.putFile(selectedFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(TeamRequestActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void onBackPressed() {TeamRequestActivity.this.finish();}

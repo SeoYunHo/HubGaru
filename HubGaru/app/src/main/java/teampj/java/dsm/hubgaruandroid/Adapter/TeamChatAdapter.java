@@ -1,9 +1,19 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
+import android.app.Fragment;
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -16,10 +26,18 @@ import teampj.java.dsm.hubgaruandroid.Holder.TeamChatViewHolder;
  */
 
 public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     ArrayList<TeamChatItem> items = new ArrayList<TeamChatItem>();
+    ArrayList<Bitmap> images = new ArrayList<Bitmap>();
 
     public void add(TeamChatItem newItem) {
         items.add(newItem);
+        images.add(null);
+        notifyDataSetChanged();
+    }
+    public void add(TeamChatItem newItem, Bitmap bitmap){
+        items.add(newItem);
+        images.add(bitmap);
         notifyDataSetChanged();
     }
 
@@ -31,11 +49,20 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(TeamChatViewHolder holder, int position) {
+    public void onBindViewHolder(final TeamChatViewHolder holder, int position) {
         TeamChatItem item = items.get(position);
-        holder.nameView.setText(item.getNameStr());
-        holder.descView.setText(item.getDescStr());
-        holder.timeView.setText(item.getDateTime());
+        if(item.getIsPhoto()){
+            holder.nameView.setText(item.getNameStr());
+            holder.imageView.setMaxWidth(100);
+            holder.imageView.setMaxHeight(100);
+            holder.imageView.setImageBitmap(images.get(position));
+            holder.timeView.setText(item.getDateTime());
+        }
+        else{
+            holder.nameView.setText(item.getNameStr());
+            holder.descView.setText(item.getDescStr());
+            holder.timeView.setText(item.getDateTime());
+        }
     }
 
     @Override

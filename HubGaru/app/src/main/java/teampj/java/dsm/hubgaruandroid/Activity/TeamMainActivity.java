@@ -1,6 +1,9 @@
 package teampj.java.dsm.hubgaruandroid.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,12 +20,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Calendar;
 
@@ -37,6 +45,7 @@ public class TeamMainActivity extends AppCompatActivity
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     private DrawerLayout teamMainDrawer;
     private FrameLayout teamMainContainer;
@@ -46,6 +55,7 @@ public class TeamMainActivity extends AppCompatActivity
 
     private LinearLayout chattingBar;
     private EditText chatEditText;
+    private Button imageSendBtn;
     private Button chatSendBtn;
 
     private Button drawerBtn;
@@ -74,6 +84,15 @@ public class TeamMainActivity extends AppCompatActivity
 
         chattingBar = (LinearLayout) findViewById(R.id.team_chat_bar);
         chatEditText = (EditText) findViewById(R.id.chatText);
+        imageSendBtn = (Button) findViewById(R.id.sendImageBtn);
+        imageSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK);
+                i.setType("image/*");
+                startActivityForResult(i, 2);
+            }
+        });
         chatSendBtn = (Button) findViewById(R.id.sendChatBtn);
         chatSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +181,24 @@ public class TeamMainActivity extends AppCompatActivity
         TeamMainActivity.this.finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 2 && resultCode == RESULT_OK){
+            final Uri uri = data.getData();
+            final StorageReference filepath = storageReference.child("Photos").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(TeamMainActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
+                    Calendar calendar = Calendar.getInstance();
+                    TeamChatItem chatItem = new TeamChatItem("조치원",filepath.getName(), calendar.getTime().toString().substring(0,24),true);
+                    databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").push().setValue(chatItem);
+                }
+            });
+        }
+    }
+
     public void SetRealTimeDataBase(){
         databaseReference.child(String.valueOf(TEAMCODE)).child("Request_s").addChildEventListener(new ChildEventListener() {
             @Override
@@ -181,8 +218,20 @@ public class TeamMainActivity extends AppCompatActivity
         databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);
-                C_adapter.add(chatItem);
+                final TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);
+                if(chatItem.getIsPhoto()){
+                    storageReference.child("Photos/"+chatItem.getDescStr()+".jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Bitmap bitmap;
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            C_adapter.add(chatItem, bitmap);
+                        }
+                    });
+                }
+                else{
+                    C_adapter.add(chatItem);
+                }
             }
 
             @Override
