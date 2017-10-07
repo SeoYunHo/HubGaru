@@ -62,7 +62,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
-    private String teamId, songTitle, teamName, editDate;
+    private String teamId, songTitle, teamName, editDate, sCommentText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +82,8 @@ public class HubOnViewActivity extends AppCompatActivity {
         editDatInfo = (TextView) findViewById(R.id.editDate);
         songNameInfo = (TextView) findViewById(R.id.songTitle);
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
+        enterBtn = (Button) findViewById(R.id.enterBtn);
+        commentText = (EditText) findViewById(R.id.commentEditText);
 
 //        infoSet
         teamId = intent.getStringExtra("id");
@@ -111,6 +113,15 @@ public class HubOnViewActivity extends AppCompatActivity {
 //                startActivity(main_to_team);
 //            }
 //        });
+
+        enterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sCommentText = commentText.getText().toString();
+
+                postComment(sCommentText);
+            }
+        });
 
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -206,6 +217,10 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void postComment(String comment) {
+        
     }
 
     public void getComments() {
