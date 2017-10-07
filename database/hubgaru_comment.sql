@@ -16,26 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `coment`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `coment`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `coment` (
+CREATE TABLE `comment` (
   `hub_id` int(11) NOT NULL,
-  `coment` text NOT NULL,
+  `comment` text NOT NULL,
   `id` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `coment`
+-- Dumping data for table `comment`
 --
 
-LOCK TABLES `coment` WRITE;
-/*!40000 ALTER TABLE `coment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `coment` ENABLE KEYS */;
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (5025539,'정말 좋아요','nn');
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-02 18:36:33
+-- Dump completed on 2017-10-07 14:23:03
