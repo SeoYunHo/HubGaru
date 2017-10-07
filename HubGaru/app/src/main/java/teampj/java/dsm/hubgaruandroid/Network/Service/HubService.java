@@ -71,13 +71,13 @@ public class HubService extends APIAdapter {
 
         @DELETE("/hub/good/{hubId}")
         Call<Void> minus(@Path("hubId") String hubId);
-
+//==================================================================complete========================================================================
         @FormUrlEncoded
         @POST("/hub/comment/{hubId}")
-        Call<Void> addComment(String hubId, String comment, String id);
+        Call<Void> addComment(@Path("hubId") String hubId, String comment, String id);
 
         @GET("/hub/comment/{hubId}")
-        Call<JsonArray> getComments(String hubId);
+        Call<JsonObject> getComments(@Path("hubId") String hubId);
 
         @GET("/upload/{filename}")
         Call<JsonObject> getPic(@Path("filename") String filename);

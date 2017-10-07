@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.icu.text.LocaleDisplayNames;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,12 +40,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.CommentAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
+import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
-
-/**
- * Created by user on 2017-09-20.
- */
 
 public class HubOnViewActivity extends AppCompatActivity {
 
@@ -59,6 +57,9 @@ public class HubOnViewActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
+    private RecyclerView.Adapter adapter;
+    private ArrayList<UserInfoItem> userInfos;
+    private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
     private String teamId, songTitle, teamName, editDate;
@@ -97,7 +98,7 @@ public class HubOnViewActivity extends AppCompatActivity {
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new CommentAdapter(setCommentItem(), getApplicationContext()));
+        getComments();
 
         getLike();
         likeNum.setText(String.valueOf(hubLike));
@@ -210,21 +211,27 @@ public class HubOnViewActivity extends AppCompatActivity {
     public void getComments() {
         HubService.getRetrofit(getApplicationContext())
                 .getComments(TabLayoutActivity.getId())
-                .enqueue(new Callback<JsonArray>() {
+                .enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 201) {
+                    JsonArray jsonObject = response.body().getAsJsonArray("comment");
+                    JsonArray jsonElements = jsonObject.getAsJsonArray();
+                    commentItems = getArrayList(jsonElements);
+                    adapter = new CommentAdapter(commentItems, getApplicationContext());
+                    recyclerView.setAdapter(adapter);
 
                 } else if(response.code() == 400) {
-
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+                Log.d(t.toString(), "commentErrKey");
             }
         });
     }
@@ -235,8 +242,51 @@ public class HubOnViewActivity extends AppCompatActivity {
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
+            String userId = jsonObject.getAsJsonPrimitive("id").getAsString();
+            String date = jsonObject.getAsJsonPrimitive("date").getAsString();
+            String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
+            getUserInfo(userId);
+            String name = userInfos.get((userInfos.size()) - 1).getName();
+            String pic = userInfos.get((userInfos.size()) - 1).getPicture();
+
+            arrayList.add(new CommentItem(pic, name, comment, date));
         }
         return arrayList;
+    }
+
+    public void getUserInfo(String id) {
+
+        HubService.getRetrofit(getApplicationContext())
+                .getInfo(id)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                        Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+
+                        if (response.code() == 200) {
+                            Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
+                            JsonObject element = response.body().getAsJsonObject("user");
+
+                            String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
+                            String name = element.getAsJsonPrimitive("name").getAsString();
+
+                            UserInfoItem item = new UserInfoItem(name, picture);
+                            userInfos.add(item);
+                        }
+                        else if (response.code() == 400) {
+                            Toast.makeText(getApplicationContext(), "Fail!", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void getLike() {
