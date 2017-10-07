@@ -25,6 +25,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager manager;
 
     private int TEAMCODE;
+    private String teamId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         TEAMCODE = intent.getIntExtra("TEAMCODE",0);
+        teamId = intent.getStringExtra("id");
+        Toast.makeText(getApplicationContext(), teamId.toString(), Toast.LENGTH_LONG).show();
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
@@ -154,47 +159,19 @@ public class HubOnViewActivity extends AppCompatActivity {
 
                 if(likeBtnStatus == false) {
                     likeBtnStatus = true;
-                    HubService.getRetrofit(getApplicationContext()).plus().enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if(response.code() == 204) {
-                                Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
-                            } else if(response.code() == 400) {
-                                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-
-                        }
-                    });
                     likeBtn.setImageResource(R.drawable.thumb1);
                     tmpNum = Integer.parseInt(likeNum.getText().toString());
                     tmpNum++;
+                    plusLike();
                     tmpSNum = String.valueOf(tmpNum);
                     likeNum.setText(tmpSNum);
                 }
                 else {
                     likeBtnStatus = false;
-                    HubService.getRetrofit(getApplicationContext()).minus().enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if(response.code() == 204) {
-                                Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
-                            } else if(response.code() == 400) {
-                                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-
-                        }
-                    });
                     likeBtn.setImageResource(R.drawable.thumb3);
                     tmpNum = Integer.parseInt(likeNum.getText().toString());
                     tmpNum--;
+                    minusLike();
                     tmpSNum = String.valueOf(tmpNum);
                     likeNum.setText(tmpSNum);
                 }
@@ -209,6 +186,61 @@ public class HubOnViewActivity extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    public int getLike() {
+
+        int likeNum = 0;
+
+        HubService.getRetrofit(getApplicationContext()).getLike(teamId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
+        return likeNum;
+    }
+
+    public void plusLike() {
+        HubService.getRetrofit(getApplicationContext()).plus(teamId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
+                } else if(response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void minusLike() {
+        HubService.getRetrofit(getApplicationContext()).minus(teamId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_LONG).show();
+                } else if(response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void Thread() {

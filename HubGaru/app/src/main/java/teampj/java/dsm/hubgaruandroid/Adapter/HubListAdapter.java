@@ -45,7 +45,7 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         String url = items.get(position).getPicUri();
         Glide.with(context).load(url).into(holder.profilePic);
         holder.dateText.setText(items.get(position).getDate());
@@ -54,6 +54,7 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, HubOnViewActivity.class);
+                intent.putExtra("id",items.get(position).getTEAMCODE());
                 context.startActivity(intent);
             }
         });

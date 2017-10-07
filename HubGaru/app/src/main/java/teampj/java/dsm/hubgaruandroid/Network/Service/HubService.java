@@ -63,11 +63,14 @@ public class HubService extends APIAdapter {
         @GET("/user/garu/{id}")
         Call<JsonObject> getMyGaru(@Path("id") String id);
 
+        @GET("/hub/good/{hubId}")
+        Call<JsonObject> getLike(@Path("hubId") String hubId);
+
         @POST("/hub/good/{hubId}")
-        Call<Void> plus();
+        Call<Void> plus(@Path("hubId") String hubId);
 
         @DELETE("/hub/good/{hubId}")
-        Call<Void> minus();
+        Call<Void> minus(@Path("hubId") String hubId);
 
         @FormUrlEncoded
         @POST("/hub/comment/{hubId}")
