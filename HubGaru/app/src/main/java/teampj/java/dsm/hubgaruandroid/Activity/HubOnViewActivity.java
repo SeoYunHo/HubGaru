@@ -61,7 +61,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager manager;
 
     private int TEAMCODE;
-    private String teamId;
+    private String teamId, songTitle, teamName, editDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +70,6 @@ public class HubOnViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         TEAMCODE = intent.getIntExtra("TEAMCODE",0);
-        teamId = intent.getStringExtra("id");
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
@@ -81,8 +80,18 @@ public class HubOnViewActivity extends AppCompatActivity {
         teamNameInfo = (TextView) findViewById(R.id.teamName);
         editDatInfo = (TextView) findViewById(R.id.editDate);
         songNameInfo = (TextView) findViewById(R.id.songTitle);
-
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
+
+//        infoSet
+        teamId = intent.getStringExtra("id");
+        songTitle = intent.getStringExtra("songTItle");
+        teamName = intent.getStringExtra("teamName");
+        editDate = intent.getStringExtra("date");
+
+        teamNameInfo.setText(teamName);
+        editDatInfo.setText(editDate);
+        songNameInfo.setText(songTitle);
+
         mediaPlayer.setLooping(true);
 
         recyclerView.hasFixedSize();
@@ -93,14 +102,14 @@ public class HubOnViewActivity extends AppCompatActivity {
         getLike();
         likeNum.setText(String.valueOf(hubLike));
 
-        teamMainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
-                main_to_team.putExtra("TEAMCODE",TEAMCODE);
-                startActivity(main_to_team);
-            }
-        });
+//        teamMainBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
+//                main_to_team.putExtra("TEAMCODE",TEAMCODE);
+//                startActivity(main_to_team);
+//            }
+//        });
 
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -139,12 +148,12 @@ public class HubOnViewActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    new MyThread().start();
+//                    new MyThread().start();
                     mediaPlayer.seekTo(0);
                 } else {
                     mediaPlayer.start();
                     statusBtn.setImageResource(R.drawable.pause);
-                    Thread();
+//                    Thread();
                 }
             }
         });
@@ -196,8 +205,6 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         }
-
-
     }
 
     public void getComments() {
@@ -206,7 +213,13 @@ public class HubOnViewActivity extends AppCompatActivity {
                 .enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                
+                if(response.code() == 201) {
+
+                } else if(response.code() == 400) {
+
+                } else {
+
+                }
             }
 
             @Override
@@ -279,21 +292,21 @@ public class HubOnViewActivity extends AppCompatActivity {
         });
     }
 
-    public void Thread() {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                while (mediaPlayer.isPlaying()) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-//                    seekBar.setPressed(mediaPlayer.getCurrentPosition());
-                }
-            }
-        };
-    }
+//    public void Thread() {
+//        Runnable task = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (mediaPlayer.isPlaying()) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+////                    seekBar.setPressed(mediaPlayer.getCurrentPosition());
+//                }
+//            }
+//        };
+//    }
 
     public List<CommentItem> setCommentItem() {
         List<CommentItem> commentItems = new ArrayList<>();

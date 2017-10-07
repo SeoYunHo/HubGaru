@@ -52,6 +52,9 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
                 Intent intent = new Intent(context, HubOnViewActivity.class);
                 intent.putExtra("TEAMCODE",position);
                 intent.putExtra("id",items.get(position).getTEAMCODE());
+                intent.putExtra("songTitle", items.get(position).getSongTitle());
+                intent.putExtra("teamName", items.get(position).getGaruName());
+                intent.putExtra("date", items.get(position).getDate());
                 context.startActivity(intent);
             }
         });

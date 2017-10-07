@@ -116,7 +116,7 @@ public class MyHubFragment extends Fragment{
             String img = jsonObject.getAsJsonPrimitive("img").getAsString();
             String song = jsonObject.getAsJsonPrimitive("file").getAsString();
 
-            arrayList.add(new HubItem(hubId, img, "date", name, song));
+            arrayList.add(new HubItem(garuId, hubId, img, "date", name, song));
         }
         return arrayList;
     }

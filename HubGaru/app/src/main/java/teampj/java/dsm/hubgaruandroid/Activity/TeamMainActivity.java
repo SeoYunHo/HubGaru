@@ -224,8 +224,8 @@ public class TeamMainActivity extends AppCompatActivity
                         @Override
                         public void onSuccess(Uri uri) {
                             Bitmap bitmap;
-                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            C_adapter.add(chatItem, bitmap);
+//                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+//                            C_adapter.add(chatItem, bitmap);
                         }
                     });
                 }
