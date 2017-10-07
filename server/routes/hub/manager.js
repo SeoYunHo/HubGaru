@@ -4,7 +4,7 @@ let conn = require('../../DBConnection');
 let manager = {};
 
 manager.checkId = (hubId) => {
-    conn.query('select * from hub where hub_id', hubId, function (err, rows) {
+    conn.query('select * from hub where hub_id=?', hubId, function (err, rows) {
         if (err) return true;
         else if (rows.length == 0) return false;
         else return true;
@@ -56,7 +56,7 @@ manager.getDetailHub = (callback) => {
     let stateCode
 
 
-    conn.query('select * from hub where garuid=?', garuId, function (err, rows) {
+    conn.query('select * from hub where garu_id=?', garuId, function (err, rows) {
         if (err) stateCode = 500;
         else if (rows.length >= 0) {
             stateCode = 200;
@@ -129,6 +129,25 @@ manager.getComment = (hubId, callback) => {
 
         callback(stateCode, response);
     });
+}
+
+manager.getGood = (hubId, callback) => {
+    let response = {
+        good: null
+    };
+    let stateCode
+
+
+    conn.query('select * from hub where hub_id=?', hubId, function (err, rows) {
+        if (err) stateCode = 500;
+        else if (rows.length == 1) {
+            stateCode = 200;
+            response.good=rows[0].good;
+        }else stateCode=400;
+
+        callback(stateCode, response);
+    });
+
 }
 
 module.exports = manager;

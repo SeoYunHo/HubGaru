@@ -64,6 +64,17 @@ router.route('/hub/good/:hubId').post(function (req, res) {
     })
 });
 
+router.route('/hub/good/:hubId').get(function (req, res) {
+    let hubId = req.params.hubId;
+    manager.getGood(hubId, function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.good) res.write(JSON.stringify(response));
+        res.end();
+    })
+});
+
 router.route('/hub/good/:hubId').delete(function (req, res) {
     let hubId = req.params.hubId;
     manager.deleteGood(hubId, function (stateCode) {
