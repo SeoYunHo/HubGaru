@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <!--<LinearLayout
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_margin="8dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentEdit"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter"/>
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/tmp2"
+        android:background="@color/background2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <RelativeLayout
+                android:layout_margin="15dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:id="@+id/tmp1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HUB"
+                        android:textSize="25dp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INFO"
+                        android:textSize="25dp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            //hub info
+            <LinearLayout
+                android:elevation="20dp"
+                android:layout_margin="15dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    style="@style/LinearViewStyle">
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Song title : "/>
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="song title"
+                        android:id="@+id/songTitle"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearViewStyle">
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Team name : "/>
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="team name"
+                        android:id="@+id/teamName"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearViewStyle">
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit date : "/>
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="edit date"
+                        android:id="@+id/editDate"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            //buttons
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="To Garu"
+                    android:id="@+id/toMainBtn"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/thumb3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/likeBtn"
+                        android:layout_weight="1"
+                        android:text="like"/>
+
+                    <TextView
+                        android:textColor="@color/fontColor"
+                        android:paddingTop="8dp"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1500"
+                        android:id="@+id/thumbsNum"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:layout_margin="8dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/play"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:id="@+id/play_pauseBtn"/>
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/tmp2"
+        android:background="@android:color/white"
+        android:id="@+id/commentRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"/>
+
+
+
+</RelativeLayout>

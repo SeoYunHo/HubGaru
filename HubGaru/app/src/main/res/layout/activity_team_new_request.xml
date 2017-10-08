@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:text="새로운 요청 작성" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:background="@drawable/linebox"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <EditText
+                android:id="@+id/new_request_name"
+                android:layout_height="30dp"
+                android:layout_width="160dp"
+                android:background="@drawable/linebox"
+                android:hint="  요청명"/>
+            <Spinner
+                android:id="@+id/new_reaquest_kind"
+                android:layout_marginLeft="20dp"
+                android:layout_height="30dp"
+                android:layout_width="160dp"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/new_request_info"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:gravity="top"
+            android:background="@drawable/linebox"
+            android:hint="\n  설명"/>
+
+        <LinearLayout
+            android:id="@+id/filegogo"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linebox">
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/linebox">
+                <ImageView
+                    android:id="@+id/new_file_icon"
+                    android:layout_margin="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/DrawerItem"/>
+                <TextView
+                    android:id="@+id/new_file_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="파일을 선택하세요." />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right">
+        <Button
+            android:id="@+id/request_gogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="전송"/>
+        <Button
+            android:id="@+id/request_goaway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:text="취소"/>
+    </LinearLayout>
+
+</LinearLayout>

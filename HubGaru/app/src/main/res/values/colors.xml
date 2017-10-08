@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#69A82A</color>
+    <color name="colorPrimaryDark">#49751D</color>
+    <color name="colorAccent">#E356F5</color>
+    <color name="background">#DEFFBF</color>
+    <color name="middle">#99F43D</color>
+    <color name="fontColor">#19280A</color>
+    <color name="veryDark">#19280A</color>
+    <color name="background2">#F0FFEE</color>
+
+    <color name="DrawerItem">#555555</color>>
+    <color name="SelectedDrawerItem">#FFFFFF</color>>
+</resources>

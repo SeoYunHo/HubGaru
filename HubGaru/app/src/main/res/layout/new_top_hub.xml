@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/fontColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TOP HUB" />
+
+    <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
+        android:background="@null"
+        android:id="@+id/topHub_Recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/fontColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NEW HUB"/>
+
+    <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
+        android:background="@null"
+        android:id="@+id/newHub_Recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>
