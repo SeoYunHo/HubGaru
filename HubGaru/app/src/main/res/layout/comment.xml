@@ -22,6 +22,7 @@
     </LinearLayout>-->
 
     <LinearLayout
+        android:elevation="20dp"
         android:id="@+id/tmp2"
         android:background="@color/background2"
         android:orientation="vertical"

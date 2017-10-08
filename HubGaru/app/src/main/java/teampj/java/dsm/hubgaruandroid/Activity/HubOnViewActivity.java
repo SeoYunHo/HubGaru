@@ -87,6 +87,8 @@ public class HubOnViewActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
+        commentItems = new ArrayList<>();
+        userInfos = new ArrayList<>();
 
 //        infoSet
         hubId = intent.getStringExtra("id");
@@ -222,10 +224,10 @@ public class HubOnViewActivity extends AppCompatActivity {
         }
     }
 
-    public void postComment(String comment) {
+    public void postComment(final String comment) {
         Date todayDate = Calendar.getInstance().getTime();
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
-        String todayString = formatter.format(todayDate);
+        final String todayString = formatter.format(todayDate);
         Log.d(hubId + ", " + comment + ", " + TabLayoutActivity.getId() + ", " + todayString, "parameterCheck");
         HubService.getRetrofit(getApplicationContext())
                 .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
@@ -233,7 +235,9 @@ public class HubOnViewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
-                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+                    commentText.setText(null);
+                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
+                    adapter.notifyDataSetChanged();
                 }
                 else if(response.code() == 400) {
                     Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
@@ -252,7 +256,7 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public void getComments() {
         HubService.getRetrofit(getApplicationContext())
-                .getComments(TabLayoutActivity.getId())
+                .getComments(hubId)
                 .enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -284,12 +288,15 @@ public class HubOnViewActivity extends AppCompatActivity {
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
+            int position;
             String userId = jsonObject.getAsJsonPrimitive("id").getAsString();
             String date = jsonObject.getAsJsonPrimitive("date").getAsString();
             String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
             getUserInfo(userId);
-            String name = userInfos.get((userInfos.size()) - 1).getName();
-            String pic = userInfos.get((userInfos.size()) - 1).getPicture();
+
+            position = (userInfos.size() - 1);
+            String name = userInfos.get(position).getName();
+            String pic = userInfos.get(position).getPicture();
 
             arrayList.add(new CommentItem(pic, name, comment, date));
         }
@@ -313,8 +320,7 @@ public class HubOnViewActivity extends AppCompatActivity {
                             String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
                             String name = element.getAsJsonPrimitive("name").getAsString();
 
-                            UserInfoItem item = new UserInfoItem(name, picture);
-                            userInfos.add(item);
+                            userInfos.add(new UserInfoItem(name, picture));
                         }
                         else if (response.code() == 400) {
                             Toast.makeText(getApplicationContext(), "Fail!", Toast.LENGTH_LONG).show();
