@@ -87,8 +87,6 @@ public class HubOnViewActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
-        commentItems = new ArrayList<>();
-        userInfos = new ArrayList<>();
 
 //        infoSet
         hubId = intent.getStringExtra("id");
@@ -293,8 +291,8 @@ public class HubOnViewActivity extends AppCompatActivity {
             userIds.add(userId);
         }
 
-        Log.d(userIds.toString(), "userIdCheck");
         getUserInfos(userIds);
+        Log.d(userInfos.toString(), "userInfoCheck");
 
 //        for(int i = 0; i < jsonElements.size(); i++) {
 //            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
@@ -321,7 +319,9 @@ public class HubOnViewActivity extends AppCompatActivity {
                     String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
                     String name = element.getAsJsonPrimitive("name").getAsString();
 
-                    userInfos.add(new UserInfoItem(name, picture));                }
+//                    Log.d(picture + ", " + name, "detailinfoCheck");
+                    userInfos.add(new UserInfoItem(name, picture));
+                }
 
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
