@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.icu.text.LocaleDisplayNames;
+import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +34,8 @@ import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -62,7 +65,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
-    private String teamId, songTitle, teamName, editDate, sCommentText;
+    private String hubId, songTitle, teamName, editDate, sCommentText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class HubOnViewActivity extends AppCompatActivity {
         commentText = (EditText) findViewById(R.id.commentEditText);
 
 //        infoSet
-        teamId = intent.getStringExtra("id");
+        hubId = intent.getStringExtra("id");
         songTitle = intent.getStringExtra("songTItle");
         teamName = intent.getStringExtra("teamName");
         editDate = intent.getStringExtra("date");
@@ -220,7 +223,30 @@ public class HubOnViewActivity extends AppCompatActivity {
     }
 
     public void postComment(String comment) {
-        
+        Date todayDate = Calendar.getInstance().getTime();
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+        String todayString = formatter.format(todayDate);
+        HubService.getRetrofit(getApplicationContext())
+                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
+                .enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void getComments() {
@@ -306,7 +332,7 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public void getLike() {
 
-        HubService.getRetrofit(getApplicationContext()).getLike(teamId).enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getApplicationContext()).getLike(hubId).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonPrimitive object = response.body().getAsJsonPrimitive("good");
@@ -322,7 +348,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     }
 
     public void plusLike() {
-        HubService.getRetrofit(getApplicationContext()).plus(teamId).enqueue(new Callback<Void>() {
+        HubService.getRetrofit(getApplicationContext()).plus(hubId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
@@ -340,7 +366,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     }
 
     public void minusLike() {
-        HubService.getRetrofit(getApplicationContext()).minus(teamId).enqueue(new Callback<Void>() {
+        HubService.getRetrofit(getApplicationContext()).minus(hubId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
@@ -372,39 +398,4 @@ public class HubOnViewActivity extends AppCompatActivity {
 //            }
 //        };
 //    }
-
-    public List<CommentItem> setCommentItem() {
-        List<CommentItem> commentItems = new ArrayList<>();
-
-        CommentItem item1 = new CommentItem();
-        CommentItem item2 = new CommentItem();
-        CommentItem item3 = new CommentItem();
-        CommentItem item4 = new CommentItem();
-
-        item1.setName("DONG HEE");
-        item1.setComment("Good enough");
-        item1.setEditDate("today");
-        item1.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item1);
-
-        item2.setName("SU MIN");
-        item2.setComment("Worst");
-        item2.setEditDate("yesterday");
-        item2.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item2);
-
-        item3.setName("SOMEONE");
-        item3.setComment("Lovely");
-        item3.setEditDate("tomorrow");
-        item3.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item3);
-
-        item4.setName("SOMEONE2");
-        item4.setComment("Lovely");
-        item4.setEditDate("tomorrow");
-        item4.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item4);
-
-        return commentItems;
-    }
 }

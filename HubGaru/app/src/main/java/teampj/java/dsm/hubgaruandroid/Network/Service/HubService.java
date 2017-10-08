@@ -14,6 +14,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
@@ -73,8 +74,12 @@ public class HubService extends APIAdapter {
         Call<Void> minus(@Path("hubId") String hubId);
 //==================================================================complete========================================================================
         @FormUrlEncoded
+        @Multipart
         @POST("/hub/comment/{hubId}")
-        Call<Void> addComment(@Path("hubId") String hubId, String comment, String id);
+        Call<Void> addComment(@Path("hubId") String hubId,
+                              @Field("comment") String comment,
+                              @Field("id") String id,
+                              @Field("date") String date);
 
         @GET("/hub/comment/{hubId}")
         Call<JsonObject> getComments(@Path("hubId") String hubId);
