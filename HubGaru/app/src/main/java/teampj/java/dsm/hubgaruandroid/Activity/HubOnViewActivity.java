@@ -284,57 +284,51 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public ArrayList<CommentItem> getArrayList(JsonArray jsonElements) {
         ArrayList<CommentItem> arrayList = new ArrayList<>();
+        ArrayList<String> userIds = new ArrayList<>();
 
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
-            int position;
             String userId = jsonObject.getAsJsonPrimitive("id").getAsString();
-            String date = jsonObject.getAsJsonPrimitive("date").getAsString();
-            String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
-            getUserInfo(userId);
-
-            position = (userInfos.size() - 1);
-            String name = userInfos.get(position).getName();
-            String pic = userInfos.get(position).getPicture();
-
-            arrayList.add(new CommentItem(pic, name, comment, date));
+            userIds.add(userId);
         }
+
+        Log.d(userIds.toString(), "userIdCheck");
+        getUserInfos(userIds);
+
+//        for(int i = 0; i < jsonElements.size(); i++) {
+//            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+//
+//            String date = jsonObject.getAsJsonPrimitive("date").getAsString();
+//            String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
+//
+//            String name = userInfos.get(i).getName();
+//            String pic = userInfos.get(i).getPicture();
+//
+//            arrayList.add(new CommentItem(pic, name, comment, date));
+//        }
         return arrayList;
     }
 
-    public void getUserInfo(String id) {
+    public void getUserInfos(ArrayList<String> ids) {
+        for(int i = 0; i < ids.size(); i++) {
+            HubService.getRetrofit(getApplicationContext()).getInfo(ids.get(i)).enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
+                    JsonObject element = response.body().getAsJsonObject("user");
 
-        HubService.getRetrofit(getApplicationContext())
-                .getInfo(id)
-                .enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
+                    String name = element.getAsJsonPrimitive("name").getAsString();
 
-                        Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                    userInfos.add(new UserInfoItem(name, picture));                }
 
-                        if (response.code() == 200) {
-                            Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
-                            JsonObject element = response.body().getAsJsonObject("user");
-
-                            String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
-                            String name = element.getAsJsonPrimitive("name").getAsString();
-
-                            userInfos.add(new UserInfoItem(name, picture));
-                        }
-                        else if (response.code() == 400) {
-                            Toast.makeText(getApplicationContext(), "Fail!", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT);
+                }
+            });
+        }
     }
 
     public void getLike() {
