@@ -53,15 +53,9 @@ public class MyHubFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_hub, container, false);
 
-<<<<<<< HEAD
 //        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
 //        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
 //        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-=======
-        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
@@ -127,7 +121,6 @@ public class MyHubFragment extends Fragment{
         return arrayList;
     }
 
-<<<<<<< HEAD
 //    @Override
 //    public void onPrepareOptionsMenu(Menu menu) {
 //        MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);
@@ -137,7 +130,6 @@ public class MyHubFragment extends Fragment{
 //        v.setImageResource(R.drawable.search);
 //        super.onPrepareOptionsMenu(menu);
 //    }
-=======
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);
@@ -147,6 +139,5 @@ public class MyHubFragment extends Fragment{
         v.setImageResource(R.drawable.search);
         super.onPrepareOptionsMenu(menu);
     }
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
 
 }

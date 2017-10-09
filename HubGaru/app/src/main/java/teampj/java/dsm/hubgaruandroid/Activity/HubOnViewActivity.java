@@ -5,8 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.icu.text.LocaleDisplayNames;
-import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -87,6 +85,8 @@ public class HubOnViewActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
+        userInfos = new ArrayList<>();
+
 
 //        infoSet
         hubId = intent.getStringExtra("id");
@@ -221,32 +221,21 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         }
     }
-
-<<<<<<< HEAD
     public void postComment(final String comment) {
         Date todayDate = Calendar.getInstance().getTime();
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
         final String todayString = formatter.format(todayDate);
-        Log.d(hubId + ", " + comment + ", " + TabLayoutActivity.getId() + ", " + todayString, "parameterCheck");
-=======
-    public void postComment(String comment) {
-        Date todayDate = Calendar.getInstance().getTime();
-        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
-        String todayString = formatter.format(todayDate);
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
+
         HubService.getRetrofit(getApplicationContext())
                 .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
                 .enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
-<<<<<<< HEAD
                     commentText.setText(null);
                     commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
                     adapter.notifyDataSetChanged();
-=======
                     Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
                 }
                 else if(response.code() == 400) {
                     Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
@@ -265,11 +254,7 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public void getComments() {
         HubService.getRetrofit(getApplicationContext())
-<<<<<<< HEAD
                 .getComments(hubId)
-=======
-                .getComments(TabLayoutActivity.getId())
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
                 .enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -297,21 +282,16 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public ArrayList<CommentItem> getArrayList(JsonArray jsonElements) {
         ArrayList<CommentItem> arrayList = new ArrayList<>();
-<<<<<<< HEAD
         ArrayList<String> userIds = new ArrayList<>();
-=======
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
 
         for(int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
             String userId = jsonObject.getAsJsonPrimitive("id").getAsString();
-<<<<<<< HEAD
             userIds.add(userId);
         }
 
         getUserInfos(userIds);
-        Log.d(userInfos.toString(), "userInfoCheck");
 
 //        for(int i = 0; i < jsonElements.size(); i++) {
 //            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
@@ -348,52 +328,6 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             });
         }
-=======
-            String date = jsonObject.getAsJsonPrimitive("date").getAsString();
-            String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
-            getUserInfo(userId);
-            String name = userInfos.get((userInfos.size()) - 1).getName();
-            String pic = userInfos.get((userInfos.size()) - 1).getPicture();
-
-            arrayList.add(new CommentItem(pic, name, comment, date));
-        }
-        return arrayList;
-    }
-
-    public void getUserInfo(String id) {
-
-        HubService.getRetrofit(getApplicationContext())
-                .getInfo(id)
-                .enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                        Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
-
-                        if (response.code() == 200) {
-                            Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
-                            JsonObject element = response.body().getAsJsonObject("user");
-
-                            String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
-                            String name = element.getAsJsonPrimitive("name").getAsString();
-
-                            UserInfoItem item = new UserInfoItem(name, picture);
-                            userInfos.add(item);
-                        }
-                        else if (response.code() == 400) {
-                            Toast.makeText(getApplicationContext(), "Fail!", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
->>>>>>> d8f840061d34a7bde3e28fa14543551e03e606ce
     }
 
     public void getLike() {
@@ -448,20 +382,4 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public void Thread() {
-//        Runnable task = new Runnable() {
-//            @Override
-//            public void run() {
-//                while (mediaPlayer.isPlaying()) {
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-////                    seekBar.setPressed(mediaPlayer.getCurrentPosition());
-//                }
-//            }
-//        };
-//    }
 }
