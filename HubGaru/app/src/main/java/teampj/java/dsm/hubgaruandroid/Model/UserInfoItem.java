@@ -18,6 +18,8 @@ public class UserInfoItem {
     }
 
     public UserInfoItem(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
     }
 
     public UserInfoItem() {

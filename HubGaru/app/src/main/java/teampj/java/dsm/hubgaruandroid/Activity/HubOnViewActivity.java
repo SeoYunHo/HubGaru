@@ -59,14 +59,15 @@ public class HubOnViewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private RecyclerView.Adapter adapter;
-    private ArrayList<UserInfoItem> userInfos;
+    private ArrayList<UserInfoItem> userInfos ;
     private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
     private String hubId, songTitle, teamName, editDate, sCommentText;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hub_on_view);
 
@@ -85,8 +86,10 @@ public class HubOnViewActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
-        userInfos = new ArrayList<>();
+        userInfos = new ArrayList<UserInfoItem>();
 
+//        userInfos.add(new UserInfoItem("sdklj","dlkf"));
+        System.out.println("userinfos size >>  "+        userInfos.size());
 
 //        infoSet
         hubId = intent.getStringExtra("id");
@@ -103,9 +106,12 @@ public class HubOnViewActivity extends AppCompatActivity {
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        getComments();
+//        getComments();
+        test();
 
         getLike();
+
+
         likeNum.setText(String.valueOf(hubLike));
 
 //        teamMainBtn.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +128,7 @@ public class HubOnViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sCommentText = commentText.getText().toString();
 
-                postComment(sCommentText);
+//                postComment(sCommentText);
             }
         });
 
@@ -212,6 +218,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 //            }
 //        });
 
+        Log.d("b finish","finish");
+
         class MyThread extends Thread {
             @Override
             public void run() {
@@ -221,36 +229,36 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         }
     }
-    public void postComment(final String comment) {
-        Date todayDate = Calendar.getInstance().getTime();
-        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
-        final String todayString = formatter.format(todayDate);
-
-        HubService.getRetrofit(getApplicationContext())
-                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
-                .enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.code() == 201) {
-                    commentText.setText(null);
-                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.code() == 400) {
-                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    public void postComment(final String comment) {
+//        Date todayDate = Calendar.getInstance().getTime();
+//        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+//        final String todayString = formatter.format(todayDate);
+//
+//        HubService.getRetrofit(getApplicationContext())
+//                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
+//                .enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if(response.code() == 201) {
+//                    commentText.setText(null);
+//                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
+//                    adapter.notifyDataSetChanged();
+//                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(response.code() == 400) {
+//                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     public void getComments() {
         HubService.getRetrofit(getApplicationContext())
@@ -278,6 +286,8 @@ public class HubOnViewActivity extends AppCompatActivity {
                 Log.d(t.toString(), "commentErrKey");
             }
         });
+
+        Log.d("a finish","finish");
     }
 
     public ArrayList<CommentItem> getArrayList(JsonArray jsonElements) {
@@ -291,35 +301,72 @@ public class HubOnViewActivity extends AppCompatActivity {
             userIds.add(userId);
         }
 
-        getUserInfos(userIds);
+//        getUserInfos(userIds);
+        Log.d(userInfos.toString(), "-----------");
 
-//        for(int i = 0; i < jsonElements.size(); i++) {
-//            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
+//        if(userInfos != null) {
+//            for(int i = 0; i < jsonElements.size(); i++) {
+//                JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 //
-//            String date = jsonObject.getAsJsonPrimitive("date").getAsString();
-//            String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
+//                String date = jsonObject.getAsJsonPrimitive("date").getAsString();
+//                String comment = jsonObject.getAsJsonPrimitive("comment").getAsString();
 //
-//            String name = userInfos.get(i).getName();
-//            String pic = userInfos.get(i).getPicture();
+//                String name = userInfos.get(i).getName();
+//                String pic = userInfos.get(i).getPicture();
 //
-//            arrayList.add(new CommentItem(pic, name, comment, date));
+//                arrayList.add(new CommentItem(pic, name, comment, date));
+//            }
 //        }
         return arrayList;
     }
 
+    public void test(){
+        HubService.getRetrofit(getApplicationContext()).getComments(hubId).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonArray = response.body().get("comment").getAsJsonArray();
+                Log.d("response code", response.code()+"");
+                Log.d("response body", response.body()+"");
+                commentItems = new ArrayList<CommentItem>();
+                for(int i=0; i<jsonArray.size(); i++) {
+                    CommentItem commentItem = new CommentItem();
+                    JsonObject result = jsonArray.get(i).getAsJsonObject();
+                    commentItem.setId(result.get("id").getAsString());
+                    commentItem.setComment(result.get("comment").getAsString());
+                    commentItem.setDate(result.get("date").getAsString());
+
+                    commentItems.add(i, commentItem);
+                }
+                recyclerView.setAdapter(new CommentAdapter(commentItems, getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
     public void getUserInfos(ArrayList<String> ids) {
         for(int i = 0; i < ids.size(); i++) {
+            Log.d("fuck", "fucl-----");
             HubService.getRetrofit(getApplicationContext()).getInfo(ids.get(i)).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sucess!!", Toast.LENGTH_SHORT).show();
                     JsonObject element = response.body().getAsJsonObject("user");
 
                     String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
                     String name = element.getAsJsonPrimitive("name").getAsString();
 
-//                    Log.d(picture + ", " + name, "detailinfoCheck");
-                    userInfos.add(new UserInfoItem(name, picture));
+                    Log.d(name + ", " + picture, "datailInfoMsg");
+                    UserInfoItem item = new UserInfoItem(name, picture);
+                    userInfos.add(item);
+
+                    userInfos.add(new UserInfoItem(name,picture));
+
+                    System.out.println("userInfos size >>>>> "+userInfos.size());
+
                 }
 
                 @Override
@@ -328,6 +375,7 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             });
         }
+        Log.d("finish","finish123");
     }
 
     public void getLike() {
@@ -381,5 +429,11 @@ public class HubOnViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("destroy size>>>",String.valueOf(userInfos.size()));
     }
 }

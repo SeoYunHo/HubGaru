@@ -5,36 +5,9 @@ package teampj.java.dsm.hubgaruandroid.Model;
  */
 
 public class CommentItem {
-    private String profilePic;
-    private String name;
     private String comment;
-    private String editDate;
-
-    public CommentItem(String profilePic, String name, String comment, String editDate) {
-        this.profilePic = profilePic;
-        this.name = name;
-        this.comment = comment;
-        this.editDate = editDate;
-    }
-
-    public CommentItem() {
-    }
-
-    public String getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String id;
+    private String date;
 
     public String getComment() {
         return comment;
@@ -44,11 +17,19 @@ public class CommentItem {
         this.comment = comment;
     }
 
-    public String getEditDate() {
-        return editDate;
+    public String getId() {
+        return id;
     }
 
-    public void setEditDate(String editDate) {
-        this.editDate = editDate;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

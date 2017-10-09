@@ -11,10 +11,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
+import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
 /**
@@ -25,9 +31,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     List<CommentItem> items;
     Context context;
+    ArrayList<CommentItem> mDataSet;
 
-    public CommentAdapter(List<CommentItem> items, Context context) {
-        this.items = items;
+    public CommentAdapter(ArrayList<CommentItem> dataSet, Context context) {
+        this.mDataSet = dataSet;
         this.context = context;
     }
 
@@ -38,20 +45,27 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String url = items.get(position).getProfilePic();
-        Glide.with(context).load(url).
-                apply(RequestOptions.bitmapTransform(new CircleCrop(context))).into(holder.profilImage);
-        holder.nameText.setText(items.get(position).getName());
-        holder.commentText.setText(items.get(position).getComment());
-        holder.dateText.setText(items.get(position).getEditDate());
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        HubService.getRetrofit(context).getInfo(mDataSet.get(position).getId()).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonObject user = response.body().get("user").getAsJsonObject();
+                holder.nameText.setText(user.get("name").getAsString());
+                holder.commentText.setText(mDataSet.get(position).getComment());
+                holder.dateText.setText(mDataSet.get(position).getDate());
+                Glide.with(context).load("").into(holder.profilImage);
+            }
 
-
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mDataSet.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
