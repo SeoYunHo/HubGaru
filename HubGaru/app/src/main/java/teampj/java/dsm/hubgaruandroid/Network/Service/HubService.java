@@ -72,6 +72,7 @@ public class HubService extends APIAdapter {
 
         @DELETE("/hub/good/{hubId}")
         Call<Void> minus(@Path("hubId") String hubId);
+
         @FormUrlEncoded
         @Multipart
         @POST("/hub/comment/{hubId}")
@@ -89,10 +90,19 @@ public class HubService extends APIAdapter {
          @GET("/upload/{filename}")
          Call<JsonObject> getSong(@Path("fielname") String filename);
 
+        @FormUrlEncoded
         @POST("/garu/{id}")
-        Call<JsonObject> makeGaru(@Path("id") String id, String name, String intro, String file, String img);
+        Call<JsonObject> makeGaru(@Path("id") String id,
+                                  @Field("name") String name,
+                                  @Field("intro") String intro,
+                                  @Field("file") String file,
+                                  @Field("img") String img);
 
+        @FormUrlEncoded
         @POST("/hub/id/{garuId}")
-        Call<Void> makeHub(@Path("garuId") String garuId, String name, String file, String img);
+        Call<Void> makeHub(@Path("garuId") String garuId,
+                           @Field("name") String name,
+                           @Field("file") String file,
+                           @Field("img") String img);
     }
 }

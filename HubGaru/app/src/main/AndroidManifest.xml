@@ -13,6 +13,10 @@
 
         </activity>
         <activity android:name=".Activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name=".Activity.TeamMainActivity"></activity>
@@ -23,10 +27,6 @@
         <activity android:name=".Activity.HubOnViewActivity"></activity>
         <activity android:name=".Activity.TeamSettingActivity"></activity>
         <activity android:name=".Activity.LogInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Activity.SignUpActivity">
 
