@@ -104,8 +104,6 @@ router.route('/account/find/id').get(function (req, res) {
     let name = req.query.name;
     let phone = req.query.phone;
 
-    console.log(name, phone);
-
     manager.getId(name, phone, function (stateCode, response) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
@@ -116,7 +114,7 @@ router.route('/account/find/id').get(function (req, res) {
 });
 
 //비밀번호 변경
-router.route('/account/modify/password').put(function (req, res) {
+router.route('/account/modify/password/:id').put(function (req, res) {
     let id = req.params.id;
     let password = SHA256(req.body.password);
 
