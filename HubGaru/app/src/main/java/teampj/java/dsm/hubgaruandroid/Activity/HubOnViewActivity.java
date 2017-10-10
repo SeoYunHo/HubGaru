@@ -41,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.CommentAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
+import teampj.java.dsm.hubgaruandroid.Model.CommentItem2;
 import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
@@ -61,6 +62,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private ArrayList<UserInfoItem> userInfos ;
     private ArrayList<CommentItem> commentItems;
+    private ArrayList<CommentItem2> commentItems2;
 
     private int TEAMCODE;
     private String hubId, songTitle, teamName, editDate, sCommentText;
@@ -106,7 +108,6 @@ public class HubOnViewActivity extends AppCompatActivity {
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-//        getComments();
         test();
 
         getLike();
@@ -128,7 +129,7 @@ public class HubOnViewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sCommentText = commentText.getText().toString();
 
-//                postComment(sCommentText);
+                postComment(sCommentText);
             }
         });
 
@@ -210,55 +211,38 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         });
 
-//        enterBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String tmp = commentText.getText().toString();
-//
-//            }
-//        });
-
         Log.d("b finish","finish");
+    }
 
-        class MyThread extends Thread {
+    public void postComment(final String comment) {
+        Date todayDate = Calendar.getInstance().getTime();
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+        final String todayString = formatter.format(todayDate);
+
+        HubService.getRetrofit(getApplicationContext())
+                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
+                .enqueue(new Callback<Void>() {
             @Override
-            public void run() {
-                while (musicStatus) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    commentText.setText(null);
+                    commentItems.add(new CommentItem(comment, TabLayoutActivity.getId(), todayString));
+                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
-//    public void postComment(final String comment) {
-//        Date todayDate = Calendar.getInstance().getTime();
-//        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
-//        final String todayString = formatter.format(todayDate);
-//
-//        HubService.getRetrofit(getApplicationContext())
-//                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
-//                .enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if(response.code() == 201) {
-//                    commentText.setText(null);
-//                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
-//                    adapter.notifyDataSetChanged();
-//                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
-//                }
-//                else if(response.code() == 400) {
-//                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
     public void test(){
         HubService.getRetrofit(getApplicationContext()).getComments(hubId).enqueue(new Callback<JsonObject>() {
@@ -277,7 +261,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 
                     commentItems.add(i, commentItem);
                 }
-                recyclerView.setAdapter(new CommentAdapter(commentItems, getApplicationContext()));
+                adapter = new CommentAdapter(commentItems, getApplicationContext());
+                recyclerView.setAdapter(adapter);
             }
 
             @Override

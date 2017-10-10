@@ -74,7 +74,6 @@ public class HubService extends APIAdapter {
         Call<Void> minus(@Path("hubId") String hubId);
 
         @FormUrlEncoded
-        @Multipart
         @POST("/hub/comment/{hubId}")
         Call<Void> addComment(@Path("hubId") String hubId,
                               @Field("comment") String comment,
