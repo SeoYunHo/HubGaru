@@ -100,41 +100,30 @@ router.route('/account/idcheck').get(function (req, res) {
 });
 
 //아이디 찾기
-router.route('/account/findid').get(function (req, res) {
+router.route('/account/find/id').get(function (req, res) {
     let name = req.query.name;
     let phone = req.query.phone;
 
-    manager.getId(name, phone, function (response) {
-        if (!!response.id) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
-        }
+    console.log(name, phone);
 
-        res.write(JSON.stringify(response));
+    manager.getId(name, phone, function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if(!!response.id)res.write(JSON.stringify(response));
         res.end();
     });
 });
 
 //비밀번호 변경
-router.route('/account/findpassword').put(function (req, res) {
+router.route('/account/modify/password').put(function (req, res) {
     let id = req.params.id;
     let password = SHA256(req.body.password);
 
-    manager.updatePassword(id, password, function (response) {
-        if (response.success) {
-            res.writeHead(201, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
-        }
+    manager.updatePassword(id, password, function (stateCode) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
         res.end();
     });
 });
