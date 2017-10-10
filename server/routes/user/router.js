@@ -82,7 +82,7 @@ router.route('/account/signin').post(function (req, res) {
 });
 
 //아이디 중복 체크
-router.route('/account/idcheck').post(function (req, res) {
+router.route('/account/idcheck').get(function (req, res) {
     let id = req.body.id;
     manager.idCheck(id, function (response) {
         console.log(response);
