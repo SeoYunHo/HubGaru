@@ -130,4 +130,18 @@ router.route('/hub/rank/date').get(function(req, res){
         res.end();
     });
 });
+
+router.route('/file/:file').get(function (req, res) {
+    let file = req.params.file;
+    
+    fs.readFile(__dirname+'/../../public/images/'+file, function (err, data) {
+	if (err) {
+		res.writeHead(500, {"Content-Type" : 'application/json'});
+		res.end();
+	}
+
+        // res.writeHead(200, {"Content-Type" : 'image/jpeg'});
+        res.end(data);       
+    });
+});
 module.exports = router;
