@@ -114,14 +114,14 @@ public class HubOnViewActivity extends AppCompatActivity {
 
         likeNum.setText(String.valueOf(hubLike));
 
-//        teamMainBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
-//                main_to_team.putExtra("TEAMCODE",TEAMCODE);
-//                startActivity(main_to_team);
-//            }
-//        });
+        teamMainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
+                main_to_team.putExtra("TEAMCODE",TEAMCODE);
+                startActivity(main_to_team);
+            }
+        });
 
         enterBtn.setOnClickListener(new View.OnClickListener() {
             @Override

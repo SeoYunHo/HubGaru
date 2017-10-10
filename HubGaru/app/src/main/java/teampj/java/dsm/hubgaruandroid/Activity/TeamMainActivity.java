@@ -33,11 +33,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.Calendar;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import teampj.java.dsm.hubgaruandroid.Adapter.TeamMemberAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.TeamChatItem;
@@ -247,18 +250,17 @@ public class TeamMainActivity extends AppCompatActivity
                         public void onSuccess(Uri uri) {
                             try{
                                 URL url = new URL(uri.toString());
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                                 connection.setRequestMethod("GET");
                                 connection.connect();
-                                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                                    InputStream input = connection.getInputStream();
-                                    Bitmap bitmap = BitmapFactory.decodeStream(input);
-                                    C_adapter.add(chatItem, bitmap);
-                                }
+                                InputStream input = connection.getInputStream();
+                                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                                C_adapter.add(chatItem, bitmap);
                                 //Bitmap bitmap;
                                 //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
                                 //C_adapter.add(chatItem, bitmap);
                             }catch (Exception e){
+                                e.printStackTrace();
                                 Toast.makeText(TeamMainActivity.this, "실패", Toast.LENGTH_SHORT).show();
                             }
                         }
