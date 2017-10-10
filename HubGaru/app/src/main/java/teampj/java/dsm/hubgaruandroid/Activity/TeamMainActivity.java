@@ -261,11 +261,6 @@ public class TeamMainActivity extends AppCompatActivity
                             }catch (Exception e){
                                 Toast.makeText(TeamMainActivity.this, "실패", Toast.LENGTH_SHORT).show();
                             }
-=======
-                            Bitmap bitmap;
-//                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//                            C_adapter.add(chatItem, bitmap);
->>>>>>> front
                         }
                     });
                 }
