@@ -2,12 +2,16 @@ package teampj.java.dsm.hubgaruandroid.Activity;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
 
 import teampj.java.dsm.hubgaruandroid.R;
 
@@ -17,12 +21,15 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class TeamRecordThemeCheckActivity extends AppCompatActivity {
 
+    static final String RECORDED_FILE = "/sdcard/recorded.mp4";
+
     MediaPlayer player;
     int playbackPosition;
 
     private ImageView play;
     private ImageView pause;
     private ImageView stop;
+    private SeekBar seekbar;
     private TextView zomanim;
     private TextView okay;
 
@@ -32,6 +39,12 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_theme_check);
+        try{
+            //이따가
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"음악파일 로딩실패..",Toast.LENGTH_SHORT).show();
+        }
 
         play = (ImageView)findViewById(R.id.trc_play_btn);
         play.setOnClickListener(new View.OnClickListener() {

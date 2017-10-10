@@ -2,6 +2,7 @@ package teampj.java.dsm.hubgaruandroid.Activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -32,9 +33,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.Calendar;
 
+import teampj.java.dsm.hubgaruandroid.Adapter.TeamMemberAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.TeamChatItem;
+import teampj.java.dsm.hubgaruandroid.Model.TeamMemberItem;
 import teampj.java.dsm.hubgaruandroid.Model.TeamRequestItem;
 import teampj.java.dsm.hubgaruandroid.R;
 import teampj.java.dsm.hubgaruandroid.Adapter.TeamChatAdapter;
@@ -53,6 +60,10 @@ public class TeamMainActivity extends AppCompatActivity
     private RecyclerView contentView;
     private RecyclerView.LayoutManager contentLayoutManager;
 
+    private LinearLayout teamPage;
+    private RecyclerView hubView;
+    private RecyclerView memberView;
+
     private LinearLayout chattingBar;
     private EditText chatEditText;
     private Button imageSendBtn;
@@ -66,6 +77,7 @@ public class TeamMainActivity extends AppCompatActivity
 
     private TeamRequestAdapter R_adapter = new TeamRequestAdapter();
     private TeamChatAdapter C_adapter = new TeamChatAdapter();
+    private TeamMemberAdapter M_adapter = new TeamMemberAdapter();
 
     private int TEAMCODE;
 
@@ -81,6 +93,17 @@ public class TeamMainActivity extends AppCompatActivity
         teamMainContainer = (FrameLayout)findViewById(R.id.team_content_layout);
         teamMainNavView = (NavigationView)findViewById(R.id.team_main_nav_view);
         contentView = (RecyclerView) findViewById(R.id.team_content_view);
+        contentLayoutManager = new LinearLayoutManager(this);
+        contentView.setLayoutManager(contentLayoutManager);
+
+        teamPage = (LinearLayout) findViewById(R.id.team_page);
+
+        hubView = (RecyclerView) findViewById(R.id.team_hub_view);
+        hubView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        memberView = (RecyclerView) findViewById(R.id.team_member_view);
+        memberView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false));
+        memberView.setAdapter(M_adapter);
 
         chattingBar = (LinearLayout) findViewById(R.id.team_chat_bar);
         chatEditText = (EditText) findViewById(R.id.chatText);
@@ -131,9 +154,6 @@ public class TeamMainActivity extends AppCompatActivity
             }
         });
 
-        contentLayoutManager = new LinearLayoutManager(this);
-        contentView.setLayoutManager(contentLayoutManager);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, teamMainDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -153,6 +173,7 @@ public class TeamMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here
         int id = item.getItemId();
 
+        teamPage.setVisibility(View.GONE);
         chattingBar.setVisibility(View.GONE);
         newRequestActionBar.setVisibility(View.GONE);
 
@@ -220,12 +241,25 @@ public class TeamMainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);
                 if(chatItem.getIsPhoto()){
-                    storageReference.child("Photos/"+chatItem.getDescStr()+".jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    String childName = "Photos/"+chatItem.getDescStr();
+                    storageReference.child(childName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Bitmap bitmap;
-                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            C_adapter.add(chatItem, bitmap);
+                            try{
+                                URL url = new URL(uri.toString());
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("GET");
+                                connection.connect();
+                                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                                    InputStream input = connection.getInputStream();
+                                    Bitmap bitmap = BitmapFactory.decodeStream(input);
+                                }
+                                //Bitmap bitmap;
+                                //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                                C_adapter.add(chatItem, bitmap);
+                            }catch (Exception e){
+                                Toast.makeText(TeamMainActivity.this, "실패", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
@@ -233,16 +267,27 @@ public class TeamMainActivity extends AppCompatActivity
                     C_adapter.add(chatItem);
                 }
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) { }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+        databaseReference.child(String.valueOf(TEAMCODE)).child("Member").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                TeamMemberItem memberItem = dataSnapshot.getValue(TeamMemberItem.class);
+                M_adapter.add(memberItem);
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });

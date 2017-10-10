@@ -1,25 +1,19 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
-import android.app.Fragment;
-import android.content.ContentResolver;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-import teampj.java.dsm.hubgaruandroid.R;
-import teampj.java.dsm.hubgaruandroid.Model.TeamChatItem;
 import teampj.java.dsm.hubgaruandroid.Holder.TeamChatViewHolder;
+import teampj.java.dsm.hubgaruandroid.Model.TeamChatItem;
+import teampj.java.dsm.hubgaruandroid.R;
 
 /**
  * Created by dsm2016 on 2017-09-02.
@@ -32,7 +26,6 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
 
     public void add(TeamChatItem newItem) {
         items.add(newItem);
-        images.add(null);
         notifyDataSetChanged();
     }
     public void add(TeamChatItem newItem, Bitmap bitmap){

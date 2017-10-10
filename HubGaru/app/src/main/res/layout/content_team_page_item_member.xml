@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@drawable/linebox"
+    android:backgroundTint="@color/colorPrimary"
+    android:padding="15dp"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/member_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:text="ㄷ"/>
+
+    <TextView
+        android:id="@+id/member_text"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="드러머"/>
+
+</LinearLayout>

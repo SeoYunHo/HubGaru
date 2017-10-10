@@ -25,10 +25,6 @@ public class TeamRequestItem {
         this.requestFile = rFile;
     }
 
-    public TeamRequestItem(String str){
-        //str 로 받았을 경우
-    }
-
     public String getNickName() {
         return nickName;
     }

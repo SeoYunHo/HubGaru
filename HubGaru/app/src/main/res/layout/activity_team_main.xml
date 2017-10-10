@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
+        <include layout="@layout/activity_team_main_page"/>
         <include layout="@layout/appbar_team" />
         <include layout="@layout/bar_team_content_action" />
         <include layout="@layout/bar_team_content_chat"/>
