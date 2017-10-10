@@ -101,8 +101,8 @@ router.route('/account/idcheck').get(function (req, res) {
 
 //아이디 찾기
 router.route('/account/findid').get(function (req, res) {
-    let name = req.body.name;
-    let phone = req.body.phone;
+    let name = req.query.name;
+    let phone = req.query.phone;
 
     manager.getId(name, phone, function (response) {
         if (!!response.id) {
