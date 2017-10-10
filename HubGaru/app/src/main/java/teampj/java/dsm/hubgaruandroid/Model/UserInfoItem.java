@@ -17,6 +17,11 @@ public class UserInfoItem {
         this.phone = phone;
     }
 
+    public UserInfoItem(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+    }
+
     public UserInfoItem() {
     }
 

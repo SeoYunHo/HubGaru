@@ -73,12 +73,12 @@
                 android:background="@drawable/border"
                 android:layout_width="250dp"
                 android:layout_height="35dp"
-                android:id="@+id/commentText"/>
+                android:id="@+id/commentEditText"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Button"
-                android:id="@+id/okayBtn"/>
+                android:id="@+id/enterBtn"/>
         </LinearLayout>
     </RelativeLayout>
 

@@ -53,9 +53,9 @@ public class MyHubFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_hub, container, false);
 
-        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
-        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
+//        EditText searchText = (EditText) view.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+//        searchText.setTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
+//        searchText.setHintTextColor(ContextCompat.getColor(getActivity(), R.color.fontColor));
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
         manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
@@ -116,11 +116,20 @@ public class MyHubFragment extends Fragment{
             String img = jsonObject.getAsJsonPrimitive("img").getAsString();
             String song = jsonObject.getAsJsonPrimitive("file").getAsString();
 
-            arrayList.add(new HubItem(hubId, img, "date", name, song));
+            arrayList.add(new HubItem(garuId, hubId, img, "date", name, song));
         }
         return arrayList;
     }
 
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);
+//        SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(searchViewMenuItem);
+//        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
+//        ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+//        v.setImageResource(R.drawable.search);
+//        super.onPrepareOptionsMenu(menu);
+//    }
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem searchViewMenuItem = menu.findItem(R.id.main_menu_action_search);

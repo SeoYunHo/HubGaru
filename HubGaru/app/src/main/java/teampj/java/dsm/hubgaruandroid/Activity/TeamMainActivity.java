@@ -245,6 +245,7 @@ public class TeamMainActivity extends AppCompatActivity
                     storageReference.child(childName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
+<<<<<<< HEAD
                             try{
                                 URL url = new URL(uri.toString());
                                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -260,6 +261,11 @@ public class TeamMainActivity extends AppCompatActivity
                             }catch (Exception e){
                                 Toast.makeText(TeamMainActivity.this, "실패", Toast.LENGTH_SHORT).show();
                             }
+=======
+                            Bitmap bitmap;
+//                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+//                            C_adapter.add(chatItem, bitmap);
+>>>>>>> front
                         }
                     });
                 }

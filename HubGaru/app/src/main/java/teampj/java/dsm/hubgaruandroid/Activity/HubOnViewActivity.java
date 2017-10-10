@@ -32,6 +32,8 @@ import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,12 +41,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.CommentAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
+import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
-
-/**
- * Created by user on 2017-09-20.
- */
 
 public class HubOnViewActivity extends AppCompatActivity {
 
@@ -59,18 +58,21 @@ public class HubOnViewActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
+    private RecyclerView.Adapter adapter;
+    private ArrayList<UserInfoItem> userInfos ;
+    private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
-    private String teamId;
+    private String hubId, songTitle, teamName, editDate, sCommentText;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hub_on_view);
 
         Intent intent = getIntent();
         TEAMCODE = intent.getIntExtra("TEAMCODE",0);
-        teamId = intent.getStringExtra("id");
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
@@ -81,24 +83,52 @@ public class HubOnViewActivity extends AppCompatActivity {
         teamNameInfo = (TextView) findViewById(R.id.teamName);
         editDatInfo = (TextView) findViewById(R.id.editDate);
         songNameInfo = (TextView) findViewById(R.id.songTitle);
-
         mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
+        enterBtn = (Button) findViewById(R.id.enterBtn);
+        commentText = (EditText) findViewById(R.id.commentEditText);
+        userInfos = new ArrayList<UserInfoItem>();
+
+//        userInfos.add(new UserInfoItem("sdklj","dlkf"));
+        System.out.println("userinfos size >>  "+        userInfos.size());
+
+//        infoSet
+        hubId = intent.getStringExtra("id");
+        songTitle = intent.getStringExtra("songTItle");
+        teamName = intent.getStringExtra("teamName");
+        editDate = intent.getStringExtra("date");
+
+        teamNameInfo.setText(teamName);
+        editDatInfo.setText(editDate);
+        songNameInfo.setText(songTitle);
+
         mediaPlayer.setLooping(true);
 
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new CommentAdapter(setCommentItem(), getApplicationContext()));
+//        getComments();
+        test();
 
         getLike();
+
+
         likeNum.setText(String.valueOf(hubLike));
 
-        teamMainBtn.setOnClickListener(new View.OnClickListener() {
+//        teamMainBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
+//                main_to_team.putExtra("TEAMCODE",TEAMCODE);
+//                startActivity(main_to_team);
+//            }
+//        });
+
+        enterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main_to_team = new Intent(getApplicationContext(), TeamMainActivity.class);
-                main_to_team.putExtra("TEAMCODE",TEAMCODE);
-                startActivity(main_to_team);
+                sCommentText = commentText.getText().toString();
+
+//                postComment(sCommentText);
             }
         });
 
@@ -139,12 +169,16 @@ public class HubOnViewActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+<<<<<<< HEAD
                     //new MyThread().start();
+=======
+//                    new MyThread().start();
+>>>>>>> front
                     mediaPlayer.seekTo(0);
                 } else {
                     mediaPlayer.start();
                     statusBtn.setImageResource(R.drawable.pause);
-                    Thread();
+//                    Thread();
                 }
             }
         });
@@ -188,6 +222,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 //            }
 //        });
 
+        Log.d("b finish","finish");
+
         class MyThread extends Thread {
             @Override
             public void run() {
@@ -196,39 +232,68 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         }
-
-
     }
+//    public void postComment(final String comment) {
+//        Date todayDate = Calendar.getInstance().getTime();
+//        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+//        final String todayString = formatter.format(todayDate);
+//
+//        HubService.getRetrofit(getApplicationContext())
+//                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
+//                .enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if(response.code() == 201) {
+//                    commentText.setText(null);
+//                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
+//                    adapter.notifyDataSetChanged();
+//                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(response.code() == 400) {
+//                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
-    public void getComments() {
-        HubService.getRetrofit(getApplicationContext())
-                .getComments(TabLayoutActivity.getId())
-                .enqueue(new Callback<JsonArray>() {
+    public void test(){
+        HubService.getRetrofit(getApplicationContext()).getComments(hubId).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JsonArray jsonArray = response.body().get("comment").getAsJsonArray();
+                Log.d("response code", response.code()+"");
+                Log.d("response body", response.body()+"");
+                commentItems = new ArrayList<CommentItem>();
+                for(int i=0; i<jsonArray.size(); i++) {
+                    CommentItem commentItem = new CommentItem();
+                    JsonObject result = jsonArray.get(i).getAsJsonObject();
+                    commentItem.setId(result.get("id").getAsString());
+                    commentItem.setComment(result.get("comment").getAsString());
+                    commentItem.setDate(result.get("date").getAsString());
+
+                    commentItems.add(i, commentItem);
+                }
+                recyclerView.setAdapter(new CommentAdapter(commentItems, getApplicationContext()));
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }
 
-    public ArrayList<CommentItem> getArrayList(JsonArray jsonElements) {
-        ArrayList<CommentItem> arrayList = new ArrayList<>();
-
-        for(int i = 0; i < jsonElements.size(); i++) {
-            JsonObject jsonObject = (JsonObject) jsonElements.get(i);
-
-        }
-        return arrayList;
-    }
-
     public void getLike() {
 
-        HubService.getRetrofit(getApplicationContext()).getLike(teamId).enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getApplicationContext()).getLike(hubId).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonPrimitive object = response.body().getAsJsonPrimitive("good");
@@ -244,7 +309,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     }
 
     public void plusLike() {
-        HubService.getRetrofit(getApplicationContext()).plus(teamId).enqueue(new Callback<Void>() {
+        HubService.getRetrofit(getApplicationContext()).plus(hubId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
@@ -262,7 +327,7 @@ public class HubOnViewActivity extends AppCompatActivity {
     }
 
     public void minusLike() {
-        HubService.getRetrofit(getApplicationContext()).minus(teamId).enqueue(new Callback<Void>() {
+        HubService.getRetrofit(getApplicationContext()).minus(hubId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 201) {
@@ -279,54 +344,9 @@ public class HubOnViewActivity extends AppCompatActivity {
         });
     }
 
-    public void Thread() {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                while (mediaPlayer.isPlaying()) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-//                    seekBar.setPressed(mediaPlayer.getCurrentPosition());
-                }
-            }
-        };
-    }
-
-    public List<CommentItem> setCommentItem() {
-        List<CommentItem> commentItems = new ArrayList<>();
-
-        CommentItem item1 = new CommentItem();
-        CommentItem item2 = new CommentItem();
-        CommentItem item3 = new CommentItem();
-        CommentItem item4 = new CommentItem();
-
-        item1.setName("DONG HEE");
-        item1.setComment("Good enough");
-        item1.setEditDate("today");
-        item1.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item1);
-
-        item2.setName("SU MIN");
-        item2.setComment("Worst");
-        item2.setEditDate("yesterday");
-        item2.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item2);
-
-        item3.setName("SOMEONE");
-        item3.setComment("Lovely");
-        item3.setEditDate("tomorrow");
-        item3.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item3);
-
-        item4.setName("SOMEONE2");
-        item4.setComment("Lovely");
-        item4.setEditDate("tomorrow");
-        item4.setProfilePic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        commentItems.add(item4);
-
-        return commentItems;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("destroy size>>>",String.valueOf(userInfos.size()));
     }
 }

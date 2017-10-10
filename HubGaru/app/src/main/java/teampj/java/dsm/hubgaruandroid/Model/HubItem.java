@@ -6,24 +6,15 @@ package teampj.java.dsm.hubgaruandroid.Model;
 
 public class HubItem {
 
+    private String garuName;
     private String TEAMCODE;
     private String picUri;
     private String date;
     private String songTitle;
     private String musicUri;
-    private int like;
-    private Object listView;
 
-    public HubItem() {
-    }
-
-    public HubItem(String picUri, String date, String songTitle) {
-        this.picUri = picUri;
-        this.date = date;
-        this.songTitle = songTitle;
-    }
-
-    public HubItem(String TEAMCODE, String picUri, String date, String songTitle, String musicUri) {
+    public HubItem(String garuName, String TEAMCODE, String picUri, String date, String songTitle, String musicUri) {
+        this.garuName = garuName;
         this.TEAMCODE = TEAMCODE;
         this.picUri = picUri;
         this.date = date;
@@ -31,13 +22,12 @@ public class HubItem {
         this.musicUri = musicUri;
     }
 
-    public HubItem(String TEAMCODE, String picUri, String date, String songTitle, String musicUri, int like) {
-        this.TEAMCODE = TEAMCODE;
-        this.picUri = picUri;
-        this.date = date;
-        this.songTitle = songTitle;
-        this.musicUri = musicUri;
-        this.like = like;
+    public String getGaruName() {
+        return garuName;
+    }
+
+    public void setGaruName(String garuName) {
+        this.garuName = garuName;
     }
 
     public String getTEAMCODE() {
@@ -78,21 +68,5 @@ public class HubItem {
 
     public void setMusicUri(String musicUri) {
         this.musicUri = musicUri;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
-    }
-
-    public Object getListView() {
-        return listView;
-    }
-
-    public void setListView(Object listView) {
-        this.listView = listView;
     }
 }

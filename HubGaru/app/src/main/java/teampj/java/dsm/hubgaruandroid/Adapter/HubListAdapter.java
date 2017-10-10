@@ -55,6 +55,9 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(context, HubOnViewActivity.class);
                 intent.putExtra("id",items.get(position).getTEAMCODE());
+                intent.putExtra("songTitle", items.get(position).getSongTitle());
+                intent.putExtra("teamName", items.get(position).getGaruName());
+                intent.putExtra("date", items.get(position).getDate());
                 context.startActivity(intent);
             }
         });

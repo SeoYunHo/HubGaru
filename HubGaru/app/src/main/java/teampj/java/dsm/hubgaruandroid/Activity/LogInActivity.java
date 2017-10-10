@@ -99,7 +99,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void getInfo(String id) {
-
         HubService.getRetrofit(getApplicationContext()).getInfo(id).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

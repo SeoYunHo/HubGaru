@@ -14,6 +14,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import teampj.java.dsm.hubgaruandroid.Network.APIAdapter;
@@ -73,11 +74,15 @@ public class HubService extends APIAdapter {
         Call<Void> minus(@Path("hubId") String hubId);
 
         @FormUrlEncoded
+        @Multipart
         @POST("/hub/comment/{hubId}")
-        Call<Void> addComment(String hubId, String comment, String id);
+        Call<Void> addComment(@Path("hubId") String hubId,
+                              @Field("comment") String comment,
+                              @Field("id") String id,
+                              @Field("date") String date);
 
         @GET("/hub/comment/{hubId}")
-        Call<JsonArray> getComments(String hubId);
+        Call<JsonObject> getComments(@Path("hubId") String hubId);
 
         @GET("/upload/{filename}")
         Call<JsonObject> getPic(@Path("filename") String filename);
@@ -85,10 +90,19 @@ public class HubService extends APIAdapter {
          @GET("/upload/{filename}")
          Call<JsonObject> getSong(@Path("fielname") String filename);
 
+        @FormUrlEncoded
         @POST("/garu/{id}")
-        Call<JsonObject> makeGaru(@Path("id") String id, String name, String intro, String file, String img);
+        Call<JsonObject> makeGaru(@Path("id") String id,
+                                  @Field("name") String name,
+                                  @Field("intro") String intro,
+                                  @Field("file") String file,
+                                  @Field("img") String img);
 
+        @FormUrlEncoded
         @POST("/hub/id/{garuId}")
-        Call<Void> makeHub(@Path("garuId") String garuId, String name, String file, String img);
+        Call<Void> makeHub(@Path("garuId") String garuId,
+                           @Field("name") String name,
+                           @Field("file") String file,
+                           @Field("img") String img);
     }
 }
