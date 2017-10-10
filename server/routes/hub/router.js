@@ -110,4 +110,38 @@ router.route('/hub/comment/:hubId').get(function (req, res) {
         res.end();
     });
 });
+
+router.route('/hub/rank/good').get(function(req, res){
+    manager.hubRankListGood(function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.hub) res.write(JSON.stringify(response));
+        res.end();
+    });
+});
+
+router.route('/hub/rank/date').get(function(req, res){
+    manager.hubRankListDate(function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.hub) res.write(JSON.stringify(response));
+        res.end();
+    });
+});
+
+router.route('/file/:file').get(function (req, res) {
+    let file = req.params.file;
+    
+    fs.readFile(__dirname+'/../../public/'+file, function (err, data) {
+	if (err) {
+		res.writeHead(500, {"Content-Type" : 'application/json'});
+		res.end();
+	}
+
+        // res.writeHead(200, {"Content-Type" : 'image/jpeg'});
+        res.end(data);       
+    });
+});
 module.exports = router;
