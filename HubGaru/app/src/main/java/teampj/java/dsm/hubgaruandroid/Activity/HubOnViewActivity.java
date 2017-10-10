@@ -169,11 +169,7 @@ public class HubOnViewActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-<<<<<<< HEAD
                     //new MyThread().start();
-=======
-//                    new MyThread().start();
->>>>>>> front
                     mediaPlayer.seekTo(0);
                 } else {
                     mediaPlayer.start();
