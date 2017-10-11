@@ -176,23 +176,23 @@ public class TeamMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here
         int id = item.getItemId();
 
-        teamPage.setVisibility(View.GONE);
-        chattingBar.setVisibility(View.GONE);
-        newRequestActionBar.setVisibility(View.GONE);
-
-        if (id == R.id.nav_alam) {
-
-        } else if (id == R.id.nav_request) {
-            newRequestActionBar.setVisibility(View.VISIBLE);
-            contentView.setAdapter(R_adapter);
-
-        } else if (id == R.id.nav_chat) {
-            chattingBar.setVisibility(View.VISIBLE);
-            contentView.setAdapter(C_adapter);
-
-        } else if (id == R.id.nav_invite) {
-
-        }
+//        teamPage.setVisibility(View.GONE);
+//        chattingBar.setVisibility(View.GONE);
+//        newRequestActionBar.setVisibility(View.GONE);
+//
+//        if (id == R.id.nav_alam) {
+//
+//        } else if (id == R.id.nav_request) {
+//            newRequestActionBar.setVisibility(View.VISIBLE);
+//            contentView.setAdapter(R_adapter);
+//
+//        } else if (id == R.id.nav_chat) {
+//            chattingBar.setVisibility(View.VISIBLE);
+//            contentView.setAdapter(C_adapter);
+//
+//        } else if (id == R.id.nav_invite) {
+//
+//        }
 
         teamMainDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -244,14 +244,17 @@ public class TeamMainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);
                 if(chatItem.getIsPhoto()){
-                    String childName = "Photos/"+chatItem.getDescStr();
-                    storageReference.child(childName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.child("Photos").child(chatItem.getDescStr()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             try{
                                 URL url = new URL(uri.toString());
                                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                                 connection.setRequestMethod("GET");
+                                connection.setDoInput(true);
+                                connection.setDoOutput(true);
+                                connection.setUseCaches(false);
+                                connection.setAllowUserInteraction(false);
                                 connection.connect();
                                 InputStream input = connection.getInputStream();
                                 Bitmap bitmap = BitmapFactory.decodeStream(input);

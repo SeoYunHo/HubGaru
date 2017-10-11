@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/background2"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_marginBottom="1dp"
+        android:background="@color/background2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/image_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/m_commentProfile"/>
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:id="@+id/m_commentNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="userName"/>
+
+                <TextView
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/commentNameText"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/m_commentText"
+                    android:textSize="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="comments"/>
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:id="@+id/dateText"
+                    android:textSize="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

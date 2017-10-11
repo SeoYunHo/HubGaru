@@ -6,34 +6,36 @@
         <item android:title="Team">
             <menu>
                 <item
-                    android:id="@+id/nav_alam"
-                    android:title="팀알림" />
-                <item
-                    android:id="@+id/nav_request"
-                    android:title="요청" />
+                    android:id="@+id/nav_main"
+                    android:title="메인페이지" />
                 <item
                     android:id="@+id/nav_verson"
                     android:title="버전" />
             </menu>
         </item>
 
-        <item android:title="ChatChannel">
+        <item android:title="Channel">
             <menu>
-                <item
-                    android:id="@+id/nav_chat"
-                    android:title="회의실" />
-                <item android:id="@+id/nav_personal"
-                    android:title="개인톡"/>
+                <item android:title="Hub1">
+                    <item
+                        android:id="@+id/nav_chat"
+                        android:title="회의실" />
+                    <item
+                        android:id="@+id/nav_chat"
+                        android:title="요청" />
+                </item>
 
+                <item android:title="Hub2">
+                    <item
+                        android:id="@+id/nav_chat"
+                        android:title="회의실" />
+                    <item
+                        android:id="@+id/nav_chat"
+                        android:title="요청" />
+                </item>
             </menu>
         </item>
 
-        <item android:title="Communicate">
-            <menu>
-                <item
-                    android:id="@+id/nav_invite"
-                    android:title="초대" />
-            </menu>
-        </item>
     </group>
+
 </menu>
