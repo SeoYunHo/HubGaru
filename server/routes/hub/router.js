@@ -4,6 +4,7 @@ let express = require('express');
 let router = express.Router();
 let manager = require('./manager');
 
+let fs= require('fs');
 let random = require('../../support/random');
 
 router.route('/hub/:garuId').post(function (req, res) {
@@ -140,8 +141,22 @@ router.route('/file/:file').get(function (req, res) {
 		res.end();
 	}
 
-        // res.writeHead(200, {"Content-Type" : 'image/jpeg'});
-        res.end(data);       
+    let fileKind;
+
+    if(file.split('.')[file.split('.').length-1]==='jpeg') fileKind='image';
+    else if(file.split('.')[file.split('.').length-1]==='mp3')  fileKind='audio';
+    res.writeHead(200, {"Content-Type" : fileKind+'/'+file.split('.')[file.split('.').length-1]});
+    res.end(data);       
     });
 });
+
+router.route('/file/:file').post(function (req, res) {
+    let file = req.params.file;
+
+    let stateCode;
+    fs.writeFile('logo.png', file, 'binary', function (err) {
+        if (err)
+            console.log('File saved.')
+    })
+})
 module.exports = router;
