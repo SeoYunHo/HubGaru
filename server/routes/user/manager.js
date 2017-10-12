@@ -68,7 +68,7 @@ manager.updatePassword = function (id, password, callback) {
 
     conn.query('update account set password=? where id=?;', [password, id], function (err, result) {
         if (err) stateCode=500;
-        else if (reslt.affectedRows) stateCode=201;
+        else if (result.affectedRows) stateCode=201;
 
         callback(stateCode);
     });
