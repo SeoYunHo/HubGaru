@@ -63,10 +63,10 @@ manager.idCheck = function (id, callback) {
 }
 
 //비밀번호 변경
-manager.updatePassword = function (id, callback) {
+manager.updatePassword = function (id, password, callback) {
     let stateCode
 
-    conn.query('update account set password=? where id=?;', [id, password], function (err, result) {
+    conn.query('update account set password=? where id=?;', [password, id], function (err, result) {
         if (err) stateCode=500;
         else if (reslt.affectedRows) stateCode=201;
 
