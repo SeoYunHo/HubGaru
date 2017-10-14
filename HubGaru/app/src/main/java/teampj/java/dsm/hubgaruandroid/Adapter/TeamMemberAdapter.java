@@ -43,6 +43,7 @@ public class TeamMemberAdapter extends RecyclerView.Adapter<TeamMemberViewHolder
         holder.iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
     }

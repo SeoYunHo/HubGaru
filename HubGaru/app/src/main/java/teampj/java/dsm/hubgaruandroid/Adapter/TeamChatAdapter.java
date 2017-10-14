@@ -1,6 +1,7 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
 
     public void add(TeamChatItem newItem) {
         items.add(newItem);
+        images.add(null);
         notifyDataSetChanged();
     }
     public void add(TeamChatItem newItem, Bitmap bitmap){
@@ -45,6 +47,7 @@ public class TeamChatAdapter extends RecyclerView.Adapter<TeamChatViewHolder>{
     public void onBindViewHolder(final TeamChatViewHolder holder, int position) {
         TeamChatItem item = items.get(position);
         if(item.getIsPhoto()){
+            holder.chatLayout.setBackgroundResource(0);
             holder.nameView.setText(item.getNameStr());
             holder.imageView.setMaxWidth(100);
             holder.imageView.setMaxHeight(100);

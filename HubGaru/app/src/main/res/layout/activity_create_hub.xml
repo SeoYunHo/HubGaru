@@ -41,7 +41,7 @@ android:layout_height="match_parent">
             android:textStyle="bold"
             android:text="허브 이름"/>
         <EditText
-            android:id="@+id/new_team_name"
+            android:id="@+id/new_hub_name"
             android:layout_marginTop="5dp"
             android:layout_height="30dp"
             android:layout_width="160dp"
@@ -102,6 +102,14 @@ android:layout_height="match_parent">
                     android:text="테마 멜로디 녹음" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/rec_file_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textColor="@color/com_facebook_button_background_color"
+            android:text="*여기를 눌러 파일을 불러올 수 있습니다."/>
 
         <LinearLayout
             android:layout_marginTop="15dp"

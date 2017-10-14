@@ -3,6 +3,7 @@ package teampj.java.dsm.hubgaruandroid.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -35,7 +37,6 @@ public class GaruCreateActivity extends AppCompatActivity {
     private EditText newGaruName;
     private EditText newGaruIntro;
     private ImageView newGaruImage;
-
     private Button cancleBtn;
     private Button createBtn;
 
@@ -49,7 +50,7 @@ public class GaruCreateActivity extends AppCompatActivity {
 
         newGaruName = (EditText)findViewById(R.id.new_garu_name);
         newGaruIntro = (EditText)findViewById(R.id.new_garu_intro);
-        final ImageView newGaruImage = (ImageView)findViewById(R.id.new_garu_image);
+        newGaruImage = (ImageView)findViewById(R.id.new_garu_iimage);
 
         Button cancleBtn = (Button) findViewById(R.id.cancle_garu_btn);
         Button createBtn = (Button) findViewById(R.id.create_garu_btn);
@@ -72,7 +73,7 @@ public class GaruCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String garuName = newGaruName.getText().toString();
-                String garuCode = "Test1";
+                String garuCode = "Testq";
                 String garuIntro = newGaruIntro.getText().toString();
                 String teamPic = imageFile.getName();
                 String leader = TabLayoutActivity.getId();
@@ -104,13 +105,16 @@ public class GaruCreateActivity extends AppCompatActivity {
         //super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 2 && resultCode == RESULT_OK){
             Uri uri = data.getData();
+
             try{
+                //Bitmap bm = BitmapFactory.decodeFile(path, bmOptions);
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 imageFile = saveBitmap(bm, uri.getPath());
                 newGaruImage.setImageBitmap(bm);
             }
             catch(Exception e){
                 e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"!",Toast.LENGTH_SHORT).show();
             }
         }
     }

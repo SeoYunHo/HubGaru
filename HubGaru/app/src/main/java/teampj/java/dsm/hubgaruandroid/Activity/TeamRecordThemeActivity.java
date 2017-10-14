@@ -16,7 +16,7 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class TeamRecordThemeActivity extends AppCompatActivity {
 
-    static final String RECORDED_FILE = "/sdcard/recorded.mp4";
+    static final String RECORDED_FILE = "/sdcard/GaruData/recorded.mp4";
 
     MediaRecorder recorder;
 

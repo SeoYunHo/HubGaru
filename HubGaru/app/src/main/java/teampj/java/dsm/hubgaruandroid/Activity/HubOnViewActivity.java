@@ -127,7 +127,6 @@ public class HubOnViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sCommentText = commentText.getText().toString();
-
 //                postComment(sCommentText);
             }
         });

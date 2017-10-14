@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -175,24 +177,19 @@ public class TeamMainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here
         int id = item.getItemId();
+        teamPage.setVisibility(View.GONE);
+        chattingBar.setVisibility(View.GONE);
+        newRequestActionBar.setVisibility(View.GONE);
 
-//        teamPage.setVisibility(View.GONE);
-//        chattingBar.setVisibility(View.GONE);
-//        newRequestActionBar.setVisibility(View.GONE);
-//
-//        if (id == R.id.nav_alam) {
-//
-//        } else if (id == R.id.nav_request) {
-//            newRequestActionBar.setVisibility(View.VISIBLE);
-//            contentView.setAdapter(R_adapter);
-//
-//        } else if (id == R.id.nav_chat) {
-//            chattingBar.setVisibility(View.VISIBLE);
-//            contentView.setAdapter(C_adapter);
-//
-//        } else if (id == R.id.nav_invite) {
-//
-//        }
+        if (id == R.id.nav_request) {
+            newRequestActionBar.setVisibility(View.VISIBLE);
+            contentView.setAdapter(R_adapter);
+            R_adapter.setContext(TeamMainActivity.this);
+
+        } else if (id == R.id.nav_chat) {
+            chattingBar.setVisibility(View.VISIBLE);
+            contentView.setAdapter(C_adapter);
+        }
 
         teamMainDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -214,9 +211,8 @@ public class TeamMainActivity extends AppCompatActivity
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(TeamMainActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
                     Calendar calendar = Calendar.getInstance();
-                    TeamChatItem chatItem = new TeamChatItem("조치원",filepath.getName(), calendar.getTime().toString().substring(0,24),true);
+                    TeamChatItem chatItem = new TeamChatItem(TabLayoutActivity.getName(),filepath.getName(), calendar.getTime().toString().substring(0,24),true);
                     databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").push().setValue(chatItem);
                 }
             });
@@ -244,27 +240,19 @@ public class TeamMainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final TeamChatItem chatItem = dataSnapshot.getValue(TeamChatItem.class);
                 if(chatItem.getIsPhoto()){
-                    storageReference.child("Photos").child(chatItem.getDescStr()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    storageReference.child("Photos").child(chatItem.getDescStr()).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>(){
                         @Override
-                        public void onSuccess(Uri uri) {
+                        public void onSuccess(byte[] bytes) {
+                            String path = Environment.getExternalStorageDirectory()+"/GaruData/Photos/"+chatItem.getDescStr().toString();
                             try{
-                                URL url = new URL(uri.toString());
-                                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                                connection.setRequestMethod("GET");
-                                connection.setDoInput(true);
-                                connection.setDoOutput(true);
-                                connection.setUseCaches(false);
-                                connection.setAllowUserInteraction(false);
-                                connection.connect();
-                                InputStream input = connection.getInputStream();
-                                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                                FileOutputStream fos = new FileOutputStream(path);
+                                fos.write(bytes);
+                                fos.close();
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
                                 C_adapter.add(chatItem, bitmap);
-                                //Bitmap bitmap;
-                                //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                                //C_adapter.add(chatItem, bitmap);
-                            }catch (Exception e){
+                            } catch (Exception e){
                                 e.printStackTrace();
-                                Toast.makeText(TeamMainActivity.this, "실패", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TeamMainActivity.this, "사진 불러오기 실패", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
