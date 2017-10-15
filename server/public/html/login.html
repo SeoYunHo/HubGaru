@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- 
+    로그인 페이지입니다
+ -->
+<html>
+
+<head>
+    <title>로그인</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="css/noscript.css" />
+    </noscript>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="main">
+            <section class="post">
+                <h2>로그인</h2>
+                <hr>
+
+                <!-- 아이디 -->
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="id" id="id" value="" placeholder="아이디" />
+                </div>
+                <br>
+                <!-- 비밀번호 -->
+                <div class="6u$ 12u$(xsmall)">
+                    <input type="password" name="pwd" id="pwd" value="" placeholder="비밀번호" />
+                </div>
+                <hr>
+                <!-- 버튼 -->
+                <div class="12u$">
+                    <ul class="actions">
+                        <li>
+                            <input type="submit" id="login" value="OK" class="special" />
+                        </li>
+                        <li>
+                            <a href="/registor" class="button">회원가입</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- 스크립트 포함 -->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/jquery.scrollex.min.js"></script>
+    <script src="javascripts/jquery.scrolly.min.js"></script>
+    <script src="javascripts/skel.min.js"></script>
+    <script src="javascripts/util.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script src="javascripts/login.js"></script>
+</body>
+
+</html>
