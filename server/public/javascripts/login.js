@@ -15,8 +15,10 @@ $(document).ready(function(){
             success: function(){
                 alert('야!! 성공했다!!')
             },
-            error: function(){
-                alert('Shibal')
+            error: function(xhr,status,error){
+                console.log(status);
+                console.log(error);
+                alert('ㅠㅠ')
             }
         })
     })
