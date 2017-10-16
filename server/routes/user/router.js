@@ -19,8 +19,8 @@ router.route('/account/signup').post(function (req, res) {
     let phone=req.body.phone;
     console.log(id, name, part, password, user_intro, phone);
 
-    manager.signup(id, name, part, password, user_intro, phone,  function (stateCode) {
-        res.writeHead(stateCode, {
+    manager.signup(id, name, part, password, user_intro, phone,  function (statusCode) {
+        res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
         res.end();
@@ -71,8 +71,8 @@ router.route('/account/signin').post(function (req, res) {
     let id = req.body.id;
     let password = SHA256(req.body.password);
 
-    manager.signin(id, password, function (stateCode, message) {
-        res.writeHead(stateCode, {
+    manager.signin(id, password, function (statusCode, message) {
+        res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
         if (!!message.message) res.write(JSON.stringify(message));
@@ -104,8 +104,8 @@ router.route('/account/find/id').get(function (req, res) {
     let name = req.query.name;
     let phone = req.query.phone;
 
-    manager.getId(name, phone, function (stateCode, response) {
-        res.writeHead(stateCode, {
+    manager.getId(name, phone, function (statusCode, response) {
+        res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
         if(!!response.id)res.write(JSON.stringify(response));
@@ -118,8 +118,8 @@ router.route('/account/modify/password/:id').put(function (req, res) {
     let id = req.params.id;
     let password = SHA256(req.body.password);
 
-    manager.updatePassword(id, password, function (stateCode) {
-        res.writeHead(stateCode, {
+    manager.updatePassword(id, password, function (statusCode) {
+        res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
         res.end();

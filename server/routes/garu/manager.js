@@ -11,11 +11,16 @@ manager.checkId= (garuId) => {
     });
 }
 manager.addGaru = (garuId, leaderId, intro, name, file, img, callback) => {
-    let stateCode;
+    let statusCode;
     conn.query('insert into garu value(?,?,?,?,?,?);', [garuId, leaderId, intro, name, file, img], function (err, result) {
-        if (err) stateCode=500;
-        else if (!!result.affectedRows) stateCode=201;
-        callback(stateCode);
+        if (err) statusCode=500;
+        else if (!!result.affectedRows){
+            conn.query('insert into member value(?,?)',[garuId, leaderId], function(err, result){
+                if(err) statusCode=500;
+                else if(!!result.affectedRows) statusCode=201;
+                callback(statusCode);
+            });
+        } 
     });
 }
 
@@ -23,12 +28,12 @@ manager.getGarues = (callback) => {
     let response = {
         garu: []
     };
-    let stateCode;
+    let statusCode;
 
     conn.query('select * from garu', null, function (err, rows) {
-        if (err) stateCode = 500;
+        if (err) statusCode = 500;
         else if (rows.length >= 0) {
-            stateCode = 200;
+            statusCode = 200;
             for (var i = 0; i < rows.length; i++) {
                 let garu = {
                     garuId: rows[i].garu_id,
@@ -41,7 +46,7 @@ manager.getGarues = (callback) => {
                 response.garu.push(garu);
             }
         }
-        callback(stateCode, response);
+        callback(statusCode, response);
     });
 }
 
@@ -49,29 +54,29 @@ manager.getMember = (garuId, callback) => {
     let response = {
         member: []
     };
-    let stateCode;
+    let statusCode;
 
     conn.query('select * from member', garuId, function (err, rows) {
-        if (err) stateCode = 500;
+        if (err) statusCode = 500;
         else if (rows.length >= 0) {
-            stateCode = 200;
+            statusCode = 200;
             for (var i = 0; i < rows.length; i++) {
                 let member=rows[i].user_id;
                 response.member.push(member);
             }
         }
-        callback(stateCode, response);
+        callback(statusCode, response);
     });
 }
 
 manager.addMember = (garuId, userId, callback) => {
-    let stateCode;
+    let statusCode;
     conn.query('insert into member values(?,?);', [garuId, userId], function (err, result) {
-        if (err) stateCode=500;
-        else if (!!result.affectedRows) stateCode=201;
-        else stateCode=400;
+        if (err) statusCode=500;
+        else if (!!result.affectedRows) statusCode=201;
+        else statusCode=400;
 
-        callback(stateCode);
+        callback(statusCode);
     });
 }
 

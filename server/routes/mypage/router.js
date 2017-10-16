@@ -9,8 +9,8 @@ let random = require('../../support/random');
 router.route('/user/info/:id').get(function(req,res){
     let id=req.params.id;
 
-    manager.getUserInfo(id, function(stateCode, response){
-        res.writeHead(stateCode, {
+    manager.getUserInfo(id, function(statusCode, response){
+        res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
         if(!!response.user) res.write(JSON.stringify(response));
@@ -21,8 +21,8 @@ router.route('/user/info/:id').get(function(req,res){
 router.route('/user/hub/:id').get(function(req,res){
     let id=req.params.id;
 
-    manager.getUserHub(id, function(stateCode, response){
-        res.writeHead(stateCode, {
+    manager.getUserHub(id, function(statusCode, response){
+        res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
         if(!!response.hub) res.write(JSON.stringify(response));
@@ -33,8 +33,8 @@ router.route('/user/hub/:id').get(function(req,res){
 router.route('/user/garu/:id').get(function(req,res){
     let id=req.params.id;
 
-    manager.getUserGaru(id, function(stateCode, response){
-        res.writeHead(stateCode, {
+    manager.getUserGaru(id, function(statusCode, response){
+        res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
         if(!!response.garu) res.write(JSON.stringify(response));
