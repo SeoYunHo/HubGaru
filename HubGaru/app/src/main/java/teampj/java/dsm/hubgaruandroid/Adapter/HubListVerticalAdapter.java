@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,8 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         String url = items.get(position).getPicUri();
-        Glide.with(context).load(url).into(holder.profilePic);
+        String baseUrl = "http://52.15.75.60:8080/file/";
+        Glide.with(context).load(baseUrl + url).into(holder.profilePic);
         holder.dateText.setText(items.get(position).getDate());
         holder.titleText.setText(items.get(position).getSongTitle());
 
@@ -55,6 +57,8 @@ public class HubListVerticalAdapter extends RecyclerView.Adapter<HubListVertical
                 intent.putExtra("songTitle", items.get(position).getSongTitle());
                 intent.putExtra("teamName", items.get(position).getGaruName());
                 intent.putExtra("date", items.get(position).getDate());
+                intent.putExtra("file", items.get(position).getMusicUri());
+                Log.d(items.get(position).getMusicUri(), "fileNameCheck");
                 context.startActivity(intent);
             }
         });

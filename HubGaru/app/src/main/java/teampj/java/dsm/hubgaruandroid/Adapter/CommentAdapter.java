@@ -52,7 +52,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 JsonObject user = response.body().get("user").getAsJsonObject();
                 holder.nameText.setText(user.get("name").getAsString());
                 holder.commentText.setText(mDataSet.get(position).getComment());
-                holder.dateText.setText(mDataSet.get(position).getDate());
+                String date = mDataSet.get(position).getDate();
+                date = date.substring(0, 10);
+                holder.dateText.setText(date);
                 Glide.with(context).load("").into(holder.profilImage);
             }
 

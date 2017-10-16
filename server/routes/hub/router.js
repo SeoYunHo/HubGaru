@@ -4,6 +4,7 @@ let express = require('express');
 let router = express.Router();
 let manager = require('./manager');
 
+let fs= require('fs');
 let random = require('../../support/random');
 
 router.route('/hub/:garuId').post(function (req, res) {
@@ -110,4 +111,52 @@ router.route('/hub/comment/:hubId').get(function (req, res) {
         res.end();
     });
 });
+
+router.route('/hub/rank/good').get(function(req, res){
+    manager.hubRankListGood(function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.hub) res.write(JSON.stringify(response));
+        res.end();
+    });
+});
+
+router.route('/hub/rank/date').get(function(req, res){
+    manager.hubRankListDate(function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.hub) res.write(JSON.stringify(response));
+        res.end();
+    });
+});
+
+router.route('/file/:file').get(function (req, res) {
+    let file = req.params.file;
+    
+    fs.readFile(__dirname+'/../../public/'+file, function (err, data) {
+	if (err) {
+		res.writeHead(500, {"Content-Type" : 'application/json'});
+		res.end();
+	}
+
+    let fileKind;
+
+    if(file.split('.')[file.split('.').length-1]==='jpeg') fileKind='image';
+    else if(file.split('.')[file.split('.').length-1]==='mp3')  fileKind='audio';
+    res.writeHead(200, {"Content-Type" : fileKind+'/'+file.split('.')[file.split('.').length-1]});
+    res.end(data);       
+    });
+});
+
+router.route('/file/:file').post(function (req, res) {
+    let file = req.params.file;
+
+    let stateCode;
+    fs.writeFile('logo.png', file, 'binary', function (err) {
+        if (err)
+            console.log('File saved.')
+    })
+})
 module.exports = router;

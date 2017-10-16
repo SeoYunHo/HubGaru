@@ -47,7 +47,8 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         String url = items.get(position).getPicUri();
-        Glide.with(context).load(url).into(holder.profilePic);
+        String baseUrl = "http://52.15.75.60:8080/file/";
+        Glide.with(context).load(baseUrl + url).into(holder.profilePic);
         holder.dateText.setText(items.get(position).getDate());
         holder.titleText.setText(items.get(position).getSongTitle());
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +59,7 @@ public class HubListAdapter extends RecyclerView.Adapter<HubListAdapter.ViewHold
                 intent.putExtra("songTitle", items.get(position).getSongTitle());
                 intent.putExtra("teamName", items.get(position).getGaruName());
                 intent.putExtra("date", items.get(position).getDate());
+                intent.putExtra("file", items.get(position).getMusicUri());
                 context.startActivity(intent);
             }
         });

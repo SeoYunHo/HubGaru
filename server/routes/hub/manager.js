@@ -148,7 +148,64 @@ manager.getGood = (hubId, callback) => {
 
         callback(stateCode, response);
     });
+}
 
+manager.hubRankListGood=(callback)=>{
+    let response = {
+        hub: []
+    }
+    let stateCode;
+
+    conn.query('select * from hub order by good desc', null, function(err, rows){
+        if (err) stateCode = 500;
+        else if (rows.length >= 0) {
+            stateCode = 200;
+            for(var i=0; i<rows.length; i++){
+                let hub = {
+                    file: rows[i].file_url,
+                    img: rows[i].img,
+                    name: rows[i].name,
+                    garuId: rows[i].garu_id,
+                    hubId: rows[i].hub_id,
+                    date: rows[i].date,
+                    good: rows[i].good
+                }
+
+                response.hub.push(hub);
+            }
+        }else stateCode=400;
+
+        callback(stateCode, response);
+    })
+}
+
+manager.hubRankListDate=(callback)=>{
+    let response = {
+        hub: []
+    }
+    let stateCode;
+
+    conn.query('select * from hub order by date desc', null, function(err, rows){
+        if (err) stateCode = 500;
+        else if (rows.length >= 0) {
+            stateCode = 200;
+            for(var i=0; i<rows.length; i++){
+                let hub = {
+                    file: rows[i].file_url,
+                    img: rows[i].img,
+                    name: rows[i].name,
+                    garuId: rows[i].garu_id,
+                    hubId: rows[i].hub_id,
+                    date: rows[i].date,
+                    good: rows[i].good
+                }
+
+                response.hub.push(hub);
+            }
+        }else stateCode=400;
+
+        callback(stateCode, response);
+    })
 }
 
 module.exports = manager;

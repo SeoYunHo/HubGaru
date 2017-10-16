@@ -1,6 +1,7 @@
 package teampj.java.dsm.hubgaruandroid.Activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -81,12 +82,18 @@ public class LogInActivity extends AppCompatActivity {
         HubService.getRetrofit(getApplicationContext()).singIn(id, pw).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                try{
                 if(response.code() == 201) {
                     sId = id;
                     getInfo(id);
                 }
                 else if(response.code() == 204) {
                     Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+                } catch (Resources.NotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -110,7 +117,6 @@ public class LogInActivity extends AppCompatActivity {
                     String picture = "http://www.freeiconspng.com/uploads/person-icon--icon-search-engine-3.png";
                     String name = element.getAsJsonPrimitive("name").getAsString();
                     String phone = element.getAsJsonPrimitive("phone").getAsString();
-
 
                     Intent intent = new Intent(LogInActivity.this, TabLayoutActivity.class);
 

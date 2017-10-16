@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -22,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import teampj.java.dsm.hubgaruandroid.Adapter.CommentAdapter;
 import teampj.java.dsm.hubgaruandroid.Model.CommentItem;
+import teampj.java.dsm.hubgaruandroid.Model.CommentItem2;
 import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
@@ -49,21 +50,21 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     static int hubLike;
     static boolean likeBtnStatus = false;
-    static boolean musicStatus = false;
     private Button teamMainBtn, enterBtn;
     private EditText commentText;
     private ImageButton likeBtn, statusBtn;
     private TextView likeNum, teamNameInfo, editDatInfo, songNameInfo;
-    private SeekBar seekBar;
     private MediaPlayer mediaPlayer;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private RecyclerView.Adapter adapter;
-    private ArrayList<UserInfoItem> userInfos ;
     private ArrayList<CommentItem> commentItems;
 
     private int TEAMCODE;
-    private String hubId, songTitle, teamName, editDate, sCommentText;
+    private String hubId, songTitle, teamName, editDate, sCommentText, sSongUrl;
+
+    final String baseurl = "http://52.15.75.60:8080/file/";
+    Uri uri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -76,41 +77,44 @@ public class HubOnViewActivity extends AppCompatActivity {
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
         likeBtn = (ImageButton) findViewById(R.id.likeBtn);
         recyclerView = (RecyclerView) findViewById(R.id.commentRecycler);
         teamMainBtn = (Button) findViewById(R.id.toMainBtn);
         teamNameInfo = (TextView) findViewById(R.id.teamName);
         editDatInfo = (TextView) findViewById(R.id.editDate);
         songNameInfo = (TextView) findViewById(R.id.songTitle);
-        mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
-        userInfos = new ArrayList<UserInfoItem>();
-
-//        userInfos.add(new UserInfoItem("sdklj","dlkf"));
-        System.out.println("userinfos size >>  "+        userInfos.size());
 
 //        infoSet
         hubId = intent.getStringExtra("id");
         songTitle = intent.getStringExtra("songTItle");
         teamName = intent.getStringExtra("teamName");
         editDate = intent.getStringExtra("date");
+//        sSongUrl = intent.getStringExtra("file");
+        sSongUrl = "first.mp3";
 
         teamNameInfo.setText(teamName);
         editDatInfo.setText(editDate);
         songNameInfo.setText(songTitle);
 
-        mediaPlayer.setLooping(true);
+        uri = Uri.parse(baseurl + sSongUrl);
+        mediaPlayer = new MediaPlayer();
+
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), uri);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
 
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-//        getComments();
         test();
 
         getLike();
-
 
         likeNum.setText(String.valueOf(hubLike));
 
@@ -127,25 +131,7 @@ public class HubOnViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sCommentText = commentText.getText().toString();
-//                postComment(sCommentText);
-            }
-        });
-
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser)
-                    mediaPlayer.seekTo(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+                postComment(sCommentText);
             }
         });
 
@@ -153,27 +139,25 @@ public class HubOnViewActivity extends AppCompatActivity {
         statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(musicStatus = false) {
-                    musicStatus = true;
-                } else {
-                    musicStatus = false;
-                }
-                if (mediaPlayer.isPlaying()) {
-                    statusBtn.setImageResource(R.drawable.play);
+                if (mediaPlayer != null) {
+                    mediaPlayer.pause();
                     mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                    statusBtn.setImageResource(R.drawable.play);
+                } else {
                     try {
+                        uri = Uri.parse(baseurl + sSongUrl);
+                        mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setDataSource(getApplicationContext(), uri);
                         mediaPlayer.prepare();
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //new MyThread().start();
-                    mediaPlayer.seekTo(0);
-                } else {
                     mediaPlayer.start();
                     statusBtn.setImageResource(R.drawable.pause);
-//                    Thread();
                 }
             }
         });
@@ -208,56 +192,37 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-//        enterBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String tmp = commentText.getText().toString();
-//
-//            }
-//        });
+    public void postComment(final String comment) {
+        Date todayDate = Calendar.getInstance().getTime();
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+        final String todayString = formatter.format(todayDate);
 
-        Log.d("b finish","finish");
-
-        class MyThread extends Thread {
+        HubService.getRetrofit(getApplicationContext())
+                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
+                .enqueue(new Callback<Void>() {
             @Override
-            public void run() {
-                while (musicStatus) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 201) {
+                    commentText.setText(null);
+                    commentItems.add(new CommentItem(comment, TabLayoutActivity.getId(), todayString));
+                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
-//    public void postComment(final String comment) {
-//        Date todayDate = Calendar.getInstance().getTime();
-//        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
-//        final String todayString = formatter.format(todayDate);
-//
-//        HubService.getRetrofit(getApplicationContext())
-//                .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
-//                .enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if(response.code() == 201) {
-//                    commentText.setText(null);
-//                    commentItems.add(new CommentItem(TabLayoutActivity.getPicture(), TabLayoutActivity.getName(), comment, todayString));
-//                    adapter.notifyDataSetChanged();
-//                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
-//                }
-//                else if(response.code() == 400) {
-//                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
     public void test(){
         HubService.getRetrofit(getApplicationContext()).getComments(hubId).enqueue(new Callback<JsonObject>() {
@@ -276,7 +241,8 @@ public class HubOnViewActivity extends AppCompatActivity {
 
                     commentItems.add(i, commentItem);
                 }
-                recyclerView.setAdapter(new CommentAdapter(commentItems, getApplicationContext()));
+                adapter = new CommentAdapter(commentItems, getApplicationContext());
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -342,6 +308,5 @@ public class HubOnViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("destroy size>>>",String.valueOf(userInfos.size()));
     }
 }

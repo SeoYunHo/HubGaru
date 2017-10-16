@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,9 @@ public class GaruAdapter extends RecyclerView.Adapter<GaruAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         String url = items.get(position).getTeamPic();
-        Glide.with(context).load(url).into(holder.teamPic);
+        Log.d(url, "garuPicId");
+        String baseUrl = "http://52.15.75.60:8080/file/";
+        Glide.with(context).load(baseUrl + url).into(holder.teamPic);
         holder.teamName.setText(items.get(position).getTeamName());
         holder.teamInfo.setText(items.get(position).getTeamIntro());
         holder.teamMem.setText(items.get(position).getLeader());

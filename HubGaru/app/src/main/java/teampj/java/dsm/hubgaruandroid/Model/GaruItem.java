@@ -7,11 +7,11 @@ import java.util.List;
  */
 
 public class GaruItem {
-    String teamName;
-    String teamCode;
-    String teamPic;
-    String teamIntro;
-    String leader;
+    private String teamName;
+    private String teamCode;
+    private String teamPic;
+    private String teamIntro;
+    private String leader;
 
     public GaruItem(String teamName, String teamCode, String teamPic, String teamIntro, String leader) {
         this.teamName = teamName;

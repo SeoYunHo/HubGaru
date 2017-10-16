@@ -74,7 +74,6 @@ public class HubService extends APIAdapter {
         Call<Void> minus(@Path("hubId") String hubId);
 
         @FormUrlEncoded
-        @Multipart
         @POST("/hub/comment/{hubId}")
         Call<Void> addComment(@Path("hubId") String hubId,
                               @Field("comment") String comment,
@@ -104,5 +103,11 @@ public class HubService extends APIAdapter {
                            @Field("name") String name,
                            @Field("file") String file,
                            @Field("img") String img);
+
+        @FormUrlEncoded
+        @POST("/account/modify/password/{id}")
+        Call<Void> changePw(@Path("id") String id,
+                            @Field("password") String password);
+
     }
 }

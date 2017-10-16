@@ -82,8 +82,8 @@ router.route('/account/signin').post(function (req, res) {
 });
 
 //아이디 중복 체크
-router.route('/account/idcheck').post(function (req, res) {
-    let id = req.body.id;
+router.route('/account/idcheck/:id').get(function (req, res) {
+    let id = req.params.id;
     manager.idCheck(id, function (response) {
         console.log(response);
         if (response.overlap) {
@@ -100,41 +100,28 @@ router.route('/account/idcheck').post(function (req, res) {
 });
 
 //아이디 찾기
-router.route('/account/findid').get(function (req, res) {
-    let name = req.body.name;
-    let phone = req.body.phone;
+router.route('/account/find/id').get(function (req, res) {
+    let name = req.query.name;
+    let phone = req.query.phone;
 
-    manager.getId(name, phone, function (response) {
-        if (!!response.id) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
-        }
-
-        res.write(JSON.stringify(response));
+    manager.getId(name, phone, function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if(!!response.id)res.write(JSON.stringify(response));
         res.end();
     });
 });
 
 //비밀번호 변경
-router.route('/account/findpassword').put(function (req, res) {
+router.route('/account/modify/password/:id').put(function (req, res) {
     let id = req.params.id;
     let password = SHA256(req.body.password);
 
-    manager.updatePassword(id, password, function (response) {
-        if (response.success) {
-            res.writeHead(201, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
-        }
+    manager.updatePassword(id, password, function (stateCode) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
         res.end();
     });
 });

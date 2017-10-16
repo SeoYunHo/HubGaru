@@ -162,29 +162,25 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_margin="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/colorPrimary"/>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageButton
                 android:layout_margin="8dp"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/play"
                 android:background="@null"
                 android:scaleType="fitXY"
                 android:id="@+id/play_pauseBtn"/>
-            <SeekBar
-                android:id="@+id/seekBar"
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"/>
+                android:layout_height="3dp"
+                android:background="@color/colorPrimary"/>
+
         </LinearLayout>
 
     </LinearLayout>

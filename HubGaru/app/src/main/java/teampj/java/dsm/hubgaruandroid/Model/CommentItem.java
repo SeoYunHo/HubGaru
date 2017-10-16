@@ -9,6 +9,15 @@ public class CommentItem {
     private String id;
     private String date;
 
+    public CommentItem(String comment, String id, String date) {
+        this.comment = comment;
+        this.id = id;
+        this.date = date;
+    }
+
+    public CommentItem() {
+    }
+
     public String getComment() {
         return comment;
     }

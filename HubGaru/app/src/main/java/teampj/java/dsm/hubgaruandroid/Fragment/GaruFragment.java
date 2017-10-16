@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,19 +60,6 @@ public class GaruFragment extends Fragment {
 //        recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
         getGaru();
 
-        HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                JsonArray array = response.body().getAsJsonArray("garu");
-                Toast.makeText(getContext(), response.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-
-            }
-        });
-
         createTeamBtn = (FloatingActionButton) view.findViewById(R.id.team_create_button);
         createTeamBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +79,7 @@ public class GaruFragment extends Fragment {
                 JsonArray jsonObject = response.body().getAsJsonArray("garu");
                 JsonArray jsonElements = jsonObject.getAsJsonArray();
                 arrayList = getArrayList(jsonElements);
+                Log.d(arrayList.get(0).getTeamPic(), "arrayListCheck");
                 adapter = new GaruAdapter(getContext(), arrayList);
                 recyclerView.setAdapter(adapter);
             }
@@ -114,39 +103,11 @@ public class GaruFragment extends Fragment {
             String intro = jsonObject.getAsJsonPrimitive("intro").getAsString();
             String img = jsonObject.getAsJsonPrimitive("img").getAsString();
 
+            Log.d(garuId + ", " + leaderId + ", " + name + ", " + intro + ", " + img, "checkLog");
             arrayList.add(new GaruItem(name, garuId, img, intro, leaderId));
         }
         return arrayList;
     }
-
-  /*  public List<GaruItem> getList() {
-
-        List<GaruItem> items = new ArrayList<>();
-
-        GaruItem garuItem1 = new GaruItem();
-        GaruItem garuItem2 = new GaruItem();
-        GaruItem garuItem3 = new GaruItem();
-
-        garuItem1.setLeader("DONGHEE");
-        garuItem1.setTeamIntro("I love java");
-        garuItem1.setTeamName("SUPER");
-        garuItem1.setTeamPic("https://i.pinimg.com/736x/86/26/f1/8626f17d9d099df368ac7fcc95c7faec--baby-girl-nursery-themes-nursery-decor.jpg");
-        items.add(garuItem1);
-
-        garuItem2.setLeader("DONGHEE");
-        garuItem2.setTeamIntro("I love java");
-        garuItem2.setTeamName("SUPER");
-        garuItem2.setTeamPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW4KWg10FKWM_Yoeejy51TwuXWyB4ME7fpKIGWSXG_4pTZdoyB");
-        items.add(garuItem2);
-
-        garuItem3.setLeader("DONGHEE");
-        garuItem3.setTeamIntro("I love java");
-        garuItem3.setTeamName("SUPER");
-        garuItem3.setTeamPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf-a5nSmSFfub2_k06nnM4PpgXZLapp-qhCcS9HABklUdux10uvQ");
-        items.add(garuItem3);
-
-        return items;
-    }*/
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

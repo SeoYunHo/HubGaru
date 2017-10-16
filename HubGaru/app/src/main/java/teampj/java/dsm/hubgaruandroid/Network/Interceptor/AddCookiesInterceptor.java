@@ -1,6 +1,7 @@
 package teampj.java.dsm.hubgaruandroid.Network.Interceptor;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ public class AddCookiesInterceptor implements Interceptor{
 
         for(String cookie : cookies) {
             builder.addHeader("Cookie", cookie);
+            Log.d(cookie.toString(), "cookieCheck");
         }
 
         return chain.proceed(builder.build());
