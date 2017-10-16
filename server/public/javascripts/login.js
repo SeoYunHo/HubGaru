@@ -16,6 +16,7 @@ $(document).ready(function(){
                 alert('야!! 성공했다!!')
             },
             error: function(xhr,status,error){
+                console.log(xhr);
                 console.log(status);
                 console.log(error);
                 alert('ㅠㅠ')
