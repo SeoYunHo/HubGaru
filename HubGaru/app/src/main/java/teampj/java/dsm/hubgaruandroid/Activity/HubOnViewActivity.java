@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -22,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,22 +50,21 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     static int hubLike;
     static boolean likeBtnStatus = false;
-    static boolean musicStatus = false;
     private Button teamMainBtn, enterBtn;
     private EditText commentText;
     private ImageButton likeBtn, statusBtn;
     private TextView likeNum, teamNameInfo, editDatInfo, songNameInfo;
-    private SeekBar seekBar;
     private MediaPlayer mediaPlayer;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private RecyclerView.Adapter adapter;
-    private ArrayList<UserInfoItem> userInfos ;
     private ArrayList<CommentItem> commentItems;
-    private ArrayList<CommentItem2> commentItems2;
 
     private int TEAMCODE;
-    private String hubId, songTitle, teamName, editDate, sCommentText;
+    private String hubId, songTitle, teamName, editDate, sCommentText, sSongUrl;
+
+    final String baseurl = "http://52.15.75.60:8080/file/";
+    Uri uri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -78,32 +77,37 @@ public class HubOnViewActivity extends AppCompatActivity {
 
         likeNum = (TextView) findViewById(R.id.thumbsNum);
         statusBtn = (ImageButton) findViewById(R.id.play_pauseBtn);
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
         likeBtn = (ImageButton) findViewById(R.id.likeBtn);
         recyclerView = (RecyclerView) findViewById(R.id.commentRecycler);
         teamMainBtn = (Button) findViewById(R.id.toMainBtn);
         teamNameInfo = (TextView) findViewById(R.id.teamName);
         editDatInfo = (TextView) findViewById(R.id.editDate);
         songNameInfo = (TextView) findViewById(R.id.songTitle);
-        mediaPlayer = MediaPlayer.create(this,R.raw.seecha);
         enterBtn = (Button) findViewById(R.id.enterBtn);
         commentText = (EditText) findViewById(R.id.commentEditText);
-        userInfos = new ArrayList<UserInfoItem>();
-
-//        userInfos.add(new UserInfoItem("sdklj","dlkf"));
-        System.out.println("userinfos size >>  "+        userInfos.size());
 
 //        infoSet
         hubId = intent.getStringExtra("id");
         songTitle = intent.getStringExtra("songTItle");
         teamName = intent.getStringExtra("teamName");
         editDate = intent.getStringExtra("date");
+//        sSongUrl = intent.getStringExtra("file");
+        sSongUrl = "first.mp3";
 
         teamNameInfo.setText(teamName);
         editDatInfo.setText(editDate);
         songNameInfo.setText(songTitle);
 
-        mediaPlayer.setLooping(true);
+        uri = Uri.parse(baseurl + sSongUrl);
+        mediaPlayer = new MediaPlayer();
+
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), uri);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
 
         recyclerView.hasFixedSize();
         manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -111,7 +115,6 @@ public class HubOnViewActivity extends AppCompatActivity {
         test();
 
         getLike();
-
 
         likeNum.setText(String.valueOf(hubLike));
 
@@ -133,49 +136,29 @@ public class HubOnViewActivity extends AppCompatActivity {
             }
         });
 
-        seekBar.setMax(mediaPlayer.getDuration());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser)
-                    mediaPlayer.seekTo(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
 //        playBtn onClick
         statusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(musicStatus = false) {
-                    musicStatus = true;
-                } else {
-                    musicStatus = false;
-                }
-                if (mediaPlayer.isPlaying()) {
-                    statusBtn.setImageResource(R.drawable.play);
+                if (mediaPlayer != null) {
+                    mediaPlayer.pause();
                     mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                    statusBtn.setImageResource(R.drawable.play);
+                } else {
                     try {
+                        uri = Uri.parse(baseurl + sSongUrl);
+                        mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setDataSource(getApplicationContext(), uri);
                         mediaPlayer.prepare();
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //new MyThread().start();
-                    mediaPlayer.seekTo(0);
-                } else {
                     mediaPlayer.start();
                     statusBtn.setImageResource(R.drawable.pause);
-//                    Thread();
                 }
             }
         });
@@ -210,8 +193,6 @@ public class HubOnViewActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Log.d("b finish","finish");
     }
 
     public void postComment(final String comment) {
@@ -328,6 +309,5 @@ public class HubOnViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("destroy size>>>",String.valueOf(userInfos.size()));
     }
 }
