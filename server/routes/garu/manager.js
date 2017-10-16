@@ -10,7 +10,7 @@ manager.checkId= (garuId) => {
         else return true;
     });
 }
-manager.addGaru = (garuId, leaderId, intro, name, file, img, callback) => {
+manager.addGaru = (garuId, leaderId, name, intro, file, img, callback) => {
     let statusCode;
     conn.query('insert into garu value(?,?,?,?,?,?);', [garuId, leaderId, intro, name, file, img], function (err, result) {
         if (err) statusCode=500;

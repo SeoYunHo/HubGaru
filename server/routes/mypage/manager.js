@@ -35,29 +35,30 @@ manager.getUserHub = (id, callback) => {
 
     getGaruId(id)
         .then((garuId) => {
+
             for (var i = 0; i < garuId.length; i++) {
-                conn.query('select * from hub where garu_id=?', garuId[i].garu_id, function (err, rows) {
-                    if (err) statusCode = 500;
-                    else if (rows.length > 0) {
-                        statusCode = 200;
-                        let hub = {
-                            hubId: rows[0].hub_id,
-                            garuId: rows[0],
-                            garu_id,
-                            name: rows[0].name,
-                            img: rows[0].img,
-                            file: rows[0].file_url
-                        }
-                        response.hub.push(hub);
-                        if (i == garuId.length - 1) {
+                (function (i) {
+                    conn.query('select * from hub where garu_id=?', garuId[i].garu_id, function (err, rows) {
+                        console.log(i == garuId.length-1);
+                        console.log(garuId[i].garu_id);
+                        if (err) statusCode = 500;
+                        else if (rows.length > 0) {
                             statusCode = 200;
-                            callback(statusCode, response);
+                            let hub = {
+                                hubId: rows[0].hub_id,
+                                garuId: rows[0].garu_id,
+                                name: rows[0].name,
+                                img: rows[0].img,
+                                file: rows[0].file_url
+                            }
+                            response.hub.push(hub);
+                            if (i == garuId.length-1) {
+                                statusCode = 200;
+                                callback(statusCode, response);
+                            }
                         }
-                    }else{
-                        statusCode=200;
-                        callback(statusCode, response);
-                    }
-                });
+                    });
+                })(i)
             }
         })
 }
@@ -98,6 +99,7 @@ manager.getUserGaru = (id, callback) => {
 function getGaruId(userId) {
     return new Promise((resolve, reject) => {
         conn.query('select * from member where user_id=?', userId, function (err, rows) {
+            console.log(rows);
             resolve(rows);
         });
     })
