@@ -18,7 +18,7 @@ $(document).ready(function(){
                 },
                 201: function() {
                     alert('로그인 성공');
-                    location.href='/main';
+                    location.href='/main_logined';
                 }
               }
         })
