@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import teampj.java.dsm.hubgaruandroid.Activity.LogInActivity;
 import teampj.java.dsm.hubgaruandroid.Activity.TabLayoutActivity;
 import teampj.java.dsm.hubgaruandroid.Adapter.GaruAdapter;
 import teampj.java.dsm.hubgaruandroid.Adapter.GaruHorizontalAdapter;
@@ -59,16 +60,17 @@ import teampj.java.dsm.hubgaruandroid.R;
  * Created by user on 2017-08-22.
  */
 
-public class MyPageFragment extends Fragment{
+public class MyPageFragment extends Fragment {
 
     // name, position, email
 
     private ImageView profilePic;
-//    private ImageButton editBtn;
+    //    private ImageButton editBtn;
+    private ImageButton logoutBtn/*, changeBtn*/;
     private RecyclerView recyclerView;
     private GaruHorizontalAdapter adapter;
     private RecyclerView.LayoutManager manager;
-    private  ArrayList<GaruItem> arrayList;
+    private ArrayList<GaruItem> arrayList;
     private TextView nameText, positionText, phoneNumText;
     Uri uri;
 
@@ -84,13 +86,16 @@ public class MyPageFragment extends Fragment{
         positionText = (TextView) view.findViewById(R.id.positionText);
         phoneNumText = (TextView) view.findViewById(R.id.phoneText);
         profilePic = (ImageView) view.findViewById(R.id.profilePic);
+        logoutBtn = (ImageButton) view.findViewById(R.id.logoutBtn);
+//        changeBtn = (ImageButton) view.findViewById(R.id.changePWBtn);
 
         manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.myPageRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
 
-        getGaru();
+//        getGaru();
+        getMyGaru();
 
         Glide.with(getActivity())
                 .load("https://i.pinimg.com/736x/e3/b5/3a/e3b53a8f65f9567014a7079435038946--adorable-animals-adorable-kittens.jpg")
@@ -107,14 +112,31 @@ public class MyPageFragment extends Fragment{
                 doTakeAlbumAction();
             }
         });
+//pw changBtn
+        /*changeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog changePwDialog = new changePwDialog(getContext());
+                changePwDialog.show();
+            }
+        });*/
 
-//        editBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Dialog infoEditDialog = new InfoEditDialog(getContext());
-//                infoEditDialog.show();
-//            }
-//        });
+//        logoutBtn onClick
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), LogInActivity.class));
+            }
+        });
+
+//        editBtn onClick
+        /*editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog infoEditDialog = new InfoEditDialog(getContext());
+                infoEditDialog.show();
+            }
+        });*/
 
         return view;
     }
@@ -137,28 +159,34 @@ public class MyPageFragment extends Fragment{
         });
     }
 
-//    public void getGaru() {
-//        HubService.getRetrofit(getContext()).getMyGaru(TabLayoutActivity.getId()).enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                JsonArray jsonObject = response.body().getAsJsonArray("garu");
-//                JsonArray jsonElements = jsonObject.getAsJsonArray();
-//                arrayList = getArrayList(jsonElements);
-//                adapter = new GaruHorizontalAdapter(getContext(), arrayList);
-//                recyclerView.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//
-//            }
-//        });
-//    }
+    public void getMyGaru() {
+        HubService.getRetrofit(getContext())
+                .getMyGaru(TabLayoutActivity.getId())
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.code() == 200) {
+                            JsonArray jsonObject = response.body().getAsJsonArray("garu");
+                            JsonArray jsonElements = jsonObject.getAsJsonArray();
+                            arrayList = getArrayList(jsonElements);
+                            adapter = new GaruHorizontalAdapter(getContext(), arrayList);
+                            recyclerView.setAdapter(adapter);
+                        } else if (response.code() == 500) {
+                            Toast.makeText(getContext(), "error 500 ", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                    }
+                });
+    }
 
     public ArrayList<GaruItem> getArrayList(JsonArray jsonElements) {
         ArrayList<GaruItem> arrayList = new ArrayList<>();
 
-        for(int i = 0; i < jsonElements.size(); i++) {
+        for (int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
             String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
@@ -175,7 +203,7 @@ public class MyPageFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        uri  = data.getData();
+        uri = data.getData();
         String realPath = getRealPath(getContext(), uri);
         try {
             Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
@@ -187,6 +215,38 @@ public class MyPageFragment extends Fragment{
 //        post해서 리스폰스로 사진을 받는다 그리고 글라이드에 추가해서 동그라미 모양으로!
     }
 
+    class changePwDialog extends Dialog{
+
+        private Context context;
+        private TextInputEditText editText;
+        private Button btn;
+
+        public changePwDialog(@NonNull Context context) {super(context);}
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            layoutParams.dimAmount = 0.8f;
+            getWindow().setAttributes(layoutParams);
+
+            setContentView(R.layout.password_input);
+            editText = (TextInputEditText) findViewById(R.id.changePwText);
+            btn = (Button) findViewById(R.id.changeOkBtn);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    changePw(editText.getText().toString(), TabLayoutActivity.getId());
+                    dismiss();
+                }
+            });
+        }
+    }
+
+//    dialog
     /*class InfoEditDialog extends Dialog {
 
         private Context context;
@@ -252,7 +312,7 @@ public class MyPageFragment extends Fragment{
             cursor.moveToFirst();
             return cursor.getString(column_index);
         } finally {
-            if(cursor != null) {
+            if (cursor != null) {
                 cursor.close();
             }
         }
@@ -263,4 +323,27 @@ public class MyPageFragment extends Fragment{
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, REQ_CODE);
     }
+
+    //changePw
+/*    public void changePw(String password, String id) {
+        HubService.getRetrofit(getContext())
+                .changePw(id, password)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 201) {
+                            Toast.makeText(getContext(), "Password Changed", Toast.LENGTH_SHORT).show();
+                        } else if (response.code() == 400) {
+                            Toast.makeText(getContext(), response.code(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }*/
 }

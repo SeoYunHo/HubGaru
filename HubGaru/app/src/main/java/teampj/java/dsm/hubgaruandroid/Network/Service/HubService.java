@@ -104,7 +104,10 @@ public class HubService extends APIAdapter {
                            @Field("file") String file,
                            @Field("img") String img);
 
-        
+        @FormUrlEncoded
+        @POST("/account/modify/password/{id}")
+        Call<Void> changePw(@Path("id") String id,
+                            @Field("password") String password);
 
     }
 }
