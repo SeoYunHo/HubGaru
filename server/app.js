@@ -24,12 +24,23 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(express.static('public'));
 
 app.use(expressSession({
     secret: 'my key',
     resave: true,
     saveUninitialized: true
 }));
+
+app.use('/main', function (req, res) {
+    res.sendFile(path.resolve(__dirname,'./public/html/index.html'));
+});
+app.use('/login', function (req, res) {
+    res.sendFile(path.resolve(__dirname,'./public/html/login.html'));
+});
+app.use('/registor', function (req, res) {
+    res.sendFile(path.resolve(__dirname,'./public/html/registor.html'));
+});
 
 app.use('/', mypage);
 app.use('/', user);
