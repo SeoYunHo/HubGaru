@@ -8,8 +8,8 @@ $(document).ready(function(){
         $.ajax({
             url:'/account/signin',
             data:{
-                id: id,
-                password: password
+                'id': id,
+                'password': password
             },
             type: 'POST',
             success: function(){
