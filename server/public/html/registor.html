@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+    회원가입 페이지입니다
+ -->
+
+<head>
+    <title>회원가입</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="css/noscript.css" />
+    </noscript>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="main">
+            <section class="post">
+                <h2>회원가입</h2>
+                <hr>
+
+                <div class="row uniform">
+                    <!-- 이름 -->
+                    <div class="6u 12u$(xsmall)">
+                        <input type="text" name="name" id="name" value="" placeholder="이름" />
+                    </div>
+                    <!-- 이메일 -->
+                    <div class="6u 12u$(xsmall)">
+                        <input type="email" name="email" id="email" value="" placeholder="이메일" />
+                    </div>
+                    <!-- 아이디 -->
+                    <div class="6u 12u$">
+                        <input type="text" name="id" id="id" value="" placeholder="아이디" />
+                    </div>
+                    <!-- 비밀번호 -->
+                    <div class="6u 12u$(xsmall)">
+                        <input type="password" name="pwd" id="pwd" value="" placeholder="비밀번호" />
+                    </div>
+                    <!-- 비밀번호 확인 -->
+                    <div class="6u 12u$(xsmall)">
+                        <input type="password" name="pwdCheck" id="pwdCheck" value="" placeholder="비밀번호 확인" />
+                    </div>
+                    <!-- 자기소개 -->
+                    <div class="12u$">
+                        <textarea name="intro" id="demo-message" placeholder="자기소개를 입력해주세요." rows="6"></textarea>
+                        <hr>
+                    </div>
+                    <!-- 버튼 -->
+                    <div class="12u$">
+                        <ul class="actions">
+                            <li>
+                                <input type="submit" value="OK" id="signup" class="special" />
+                            </li>
+                            <li>
+                                <input type="reset" value="Reset" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <!-- 스크립트 포함 -->
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/jquery.scrollex.min.js"></script>
+    <script src="javascripts/jquery.scrolly.min.js"></script>
+    <script src="javascripts/skel.min.js"></script>
+    <script src="javascripts/util.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script src="javascripts/registor.js"></script>
+</body>
+
+</html>
