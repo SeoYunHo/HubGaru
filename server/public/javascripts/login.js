@@ -17,7 +17,6 @@ $(document).ready(function(){
                   alert('로그인 실패');
                 },
                 201: function() {
-                    alert('로그인 성공');
                     location.href='/main_logined';
                 }
               }

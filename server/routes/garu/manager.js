@@ -43,7 +43,37 @@ manager.getGarues = (callback) => {
         }
         callback(stateCode, response);
     });
-
 }
+
+manager.getMember = (garuId, callback) => {
+    let response = {
+        member: []
+    };
+    let stateCode;
+
+    conn.query('select * from member', garuId, function (err, rows) {
+        if (err) stateCode = 500;
+        else if (rows.length >= 0) {
+            stateCode = 200;
+            for (var i = 0; i < rows.length; i++) {
+                let member=rows[i].user_id;
+                response.member.push(member);
+            }
+        }
+        callback(stateCode, response);
+    });
+}
+
+manager.addGaru = (garuId, userId, callback) => {
+    let stateCode;
+    conn.query('insert into garu value(?,?);', [garuId, userId], function (err, result) {
+        if (err) stateCode=500;
+        else if (!!result.affectedRows) stateCode=201;
+        else stateCode=400;
+        
+        callback(stateCode);
+    });
+}
+
 
 module.exports = manager;

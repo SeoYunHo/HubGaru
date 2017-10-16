@@ -42,5 +42,26 @@ router.route('/garu').get(function (req, res) {
     });
 });
 
+router.route('/garu/member/:garuId').get(function(req, res){
+    let garuId=req.params.garuId;
+    manager.getMember(garuId, function(stateCode, response){
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.member) res.write(JSON.stringify(response));
+        res.end();
+    });
+});
+
+router.route('/garu/member/:garuId').post(function(req, res){
+    let gaurId=req.params.garuId;
+    let userId=req.body.userId
+    manager.getMember(garuId, userId, function(stateCode){
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        res.end();
+    });
+});
 
 module.exports = router;
