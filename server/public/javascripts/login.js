@@ -12,15 +12,15 @@ $(document).ready(function(){
                 'password': password
             },
             type: 'POST',
-            success: function(){
-                alert('야!! 성공했다!!')
-            },
-            error: function(xhr,status,error){
-                console.log(xhr);
-                console.log(status);
-                console.log(error);
-                alert('ㅠㅠ')
-            }
+            statusCode: {
+                500: function() {
+                  alert('로그인 실패');
+                },
+                201: function() {
+                    alert('로그인 성공');
+                    location.href='/main';
+                }
+              }
         })
     })
 });
