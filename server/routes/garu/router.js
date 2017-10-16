@@ -54,9 +54,9 @@ router.route('/garu/member/:garuId').get(function(req, res){
 });
 
 router.route('/garu/member/:garuId').post(function(req, res){
-    let gaurId=req.params.garuId;
-    let userId=req.body.userId
-    manager.getMember(garuId, userId, function(stateCode){
+    let garuId=req.params.garuId;
+    let userId=req.body.userId;
+    manager.addMember(garuId, userId, function(stateCode){
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });

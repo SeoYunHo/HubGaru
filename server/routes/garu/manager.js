@@ -64,13 +64,13 @@ manager.getMember = (garuId, callback) => {
     });
 }
 
-manager.addGaru = (garuId, userId, callback) => {
+manager.addMember = (garuId, userId, callback) => {
     let stateCode;
-    conn.query('insert into garu value(?,?);', [garuId, userId], function (err, result) {
+    conn.query('insert into member values(?,?);', [garuId, userId], function (err, result) {
         if (err) stateCode=500;
         else if (!!result.affectedRows) stateCode=201;
         else stateCode=400;
-        
+
         callback(stateCode);
     });
 }
