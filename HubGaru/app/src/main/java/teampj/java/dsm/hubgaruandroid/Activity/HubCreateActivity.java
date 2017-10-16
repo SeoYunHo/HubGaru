@@ -86,27 +86,27 @@ public class HubCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String hubName = newHubName.getText().toString();
-                String garuCode = "0014";
+                String hubCode = "0012";
                 String teamPic = imageFile.getName();
                 String music = musicFile.getName();
 
-//                //서버로 값 전달
-//                HubService.getRetrofit(getApplicationContext())
-//                        .makeGaru(garuName, garuCode, garuIntro, teamPic, leader)
-//                        .enqueue(new Callback<JsonObject>() {
-//                            @Override
-//                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                                if(response.code() == 201){
-//                                    GaruCreateActivity.this.finish();
-//                                } else if (response.code() == 500) {
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                            }
-//                        });
-//
+                //서버로 값 전달
+                HubService.getRetrofit(getApplicationContext())
+                        .makeHub(hubName, hubCode, teamPic, music)
+                        .enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if(response.code() == 201){
+                                    HubCreateActivity.this.finish();
+                                } else if (response.code() == 500) {
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                            }
+                        });
+
                 HubCreateActivity.this.finish();
             }
         });
