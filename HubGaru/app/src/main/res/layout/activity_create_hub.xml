@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:text="허브 생성" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cardview_dark_background"
+        android:textStyle="bold"
+        android:text="악곡 허브를 생성합니다"/>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:text="허브 이름"/>
+        <EditText
+            android:id="@+id/new_hub_name"
+            android:layout_marginTop="5dp"
+            android:layout_height="30dp"
+            android:layout_width="160dp"
+            android:background="@drawable/linebox" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:text="커버 이미지"/>
+        <LinearLayout
+            android:id="@+id/filegogo"
+            android:layout_marginTop="10dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:background="@drawable/linebox"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/new_hub_image"
+                android:layout_margin="15dp"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:background="@drawable/sprout"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:text="허브Seed"/>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linebox">
+            <LinearLayout
+                android:id="@+id/record_theme_gogo"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/linebox">
+                <ImageView
+                    android:layout_margin="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/DrawerItem"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="테마 멜로디 녹음" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/rec_file_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textColor="@color/com_facebook_button_background_color"
+            android:text="*여기를 눌러 파일을 불러올 수 있습니다."/>
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+
+            <Button
+                android:id="@+id/cancle_hub_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@color/cardview_light_background"
+                android:text="취소" />
+
+            <Button
+                android:id="@+id/create_hub_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@color/DrawerItem"
+                android:textColor="@color/colorPrimary"
+                android:text="생성"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+</LinearLayout>

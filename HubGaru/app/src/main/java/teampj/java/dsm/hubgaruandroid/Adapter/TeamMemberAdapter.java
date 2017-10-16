@@ -1,5 +1,7 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
+import teampj.java.dsm.hubgaruandroid.Activity.TeamMemberActivity;
 import teampj.java.dsm.hubgaruandroid.Holder.TeamMemberViewHolder;
 import teampj.java.dsm.hubgaruandroid.Model.TeamMemberItem;
 import teampj.java.dsm.hubgaruandroid.R;
@@ -32,10 +36,16 @@ public class TeamMemberAdapter extends RecyclerView.Adapter<TeamMemberViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final TeamMemberViewHolder holder, int position) {
+    public void onBindViewHolder(final TeamMemberViewHolder holder, final int position) {
         TeamMemberItem item = items.get(position);
         holder.iconView.setText(item.getmIcon());
         holder.nameView.setText(item.getmName());
+        holder.iconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

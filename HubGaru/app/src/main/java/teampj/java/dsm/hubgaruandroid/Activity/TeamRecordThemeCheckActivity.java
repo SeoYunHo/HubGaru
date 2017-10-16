@@ -21,7 +21,7 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class TeamRecordThemeCheckActivity extends AppCompatActivity {
 
-    static final String RECORDED_FILE = "/sdcard/recorded.mp4";
+    static final String RECORDED_FILE = "/sdcard/GaruData/recorded.mp4";
 
     MediaPlayer player;
     int playbackPosition;
@@ -40,7 +40,7 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_theme_check);
         try{
-            //이따가
+            player.setDataSource(RECORDED_FILE);
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),"음악파일 로딩실패..",Toast.LENGTH_SHORT).show();

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="GARU의 NAME이다!"
+            android:text="GARUNAME"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -41,14 +41,14 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:background="@drawable/grass"
-                    android:text="팀에 대한 간략한 설명을 진행하겠다..\n 음..어.. 그렇고 그런 팀이다."
+                    android:text="팀에 대한 간략한 설명을 적는 곳입니다\n이것저것 적어놓으면 됩니다."
                     android:gravity="center"/>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="대표 허브다"
+                android:text="이 가루가 진행중인 허브"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -62,7 +62,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이런 자들이 필요하다"
+                android:text="이 가루가 필요한 사람"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:padding="10dp"
-                    android:text="수정이 필요하겠군"
+                    android:text="수정"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
                     android:textStyle="bold" />

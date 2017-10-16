@@ -19,11 +19,17 @@
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
-            android:text="팀 셋팅이다" />
+            android:text="가루 생성" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cardview_dark_background"
+            android:textStyle="bold"
+            android:text="허브들을 담는 가루를 생성합니다."/>
 
         <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:layout_margin="15dp"
             android:padding="10dp"
             android:textColor="#000000"
@@ -33,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:text="팀네임"/>
+                android:text="가루 이름"/>
             <EditText
-                android:id="@+id/new_team_name"
+                android:id="@+id/new_garu_name"
                 android:layout_marginTop="5dp"
                 android:layout_height="30dp"
                 android:layout_width="160dp"
@@ -47,33 +53,9 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:text="공개여부"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    android:id="@+id/isPublicCB"
-                    android:layout_height="30dp"
-                    android:layout_width="140dp"
-                    android:textSize="15sp"
-                    android:text="모두의 그것이다"/>
-                <CheckBox
-                    android:id="@+id/isPrivateCB"
-                    android:layout_height="30dp"
-                    android:layout_width="130dp"
-                    android:textSize="15sp"
-                    android:text="우리꺼다"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
                 android:text="소개"/>
             <EditText
-                android:id="@+id/new_team_info"
+                android:id="@+id/new_garu_intro"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -85,41 +67,33 @@
                 android:layout_marginTop="10dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:text="테마곡"/>
+                android:text="커버 이미지"/>
+
             <LinearLayout
                 android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/linebox">
-                <LinearLayout
-                    android:id="@+id/record_theme_gogo"
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/linebox">
-                    <ImageView
-                        android:layout_margin="10dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@color/DrawerItem"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:textSize="20sp"
-                        android:text="테마곡 녹음하러 가기." />
-                </LinearLayout>
+                android:padding="15dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/linebox"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/new_garu_iimage"
+                    android:layout_margin="15dp"
+                    android:layout_height="300px"
+                    android:layout_width="300px" />
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_gravity="right">
 
                 <Button
-                    android:id="@+id/nonononono"
+                    android:id="@+id/cancle_garu_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -127,10 +101,10 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:background="@color/cardview_light_background"
-                    android:text="아니 이건 안된다" />
+                    android:text="취소" />
 
                 <Button
-                    android:id="@+id/goodgoodgoodgogoggo"
+                    android:id="@+id/create_garu_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -139,7 +113,7 @@
                     android:textStyle="bold"
                     android:background="@color/DrawerItem"
                     android:textColor="@color/colorPrimary"
-                    android:text="좋아 이대로 간다"/>
+                    android:text="생성"/>
             </LinearLayout>
 
         </LinearLayout>

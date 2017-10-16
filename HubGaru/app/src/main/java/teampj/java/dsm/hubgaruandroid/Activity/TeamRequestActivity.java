@@ -51,6 +51,7 @@ public class TeamRequestActivity extends AppCompatActivity {
     private ImageView fileIcon;
     private TextView fileName;
 
+    private Uri selectedFile = null;
     private File newFile = null;
 
     private int TEAMCODE;
@@ -90,12 +91,23 @@ public class TeamRequestActivity extends AppCompatActivity {
         requestGoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //리퀘스트 업로드
                 Calendar calendar = Calendar.getInstance();
                 Uri file = Uri.fromFile(newFile);
-                //TeamRequestItem teamRequestItem = new TeamRequestItem("김지수",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), file);
                 String filename = new File(file.getPath()).getName();
-                TeamRequestItem teamRequestItem = new TeamRequestItem("서윤호",calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), filename);
+                TeamRequestItem teamRequestItem = new TeamRequestItem(TabLayoutActivity.getName(),calendar.getTime().toString().substring(0,22),requestName.getText().toString(), requestInfo.getText().toString(), filename);
                 databaseReference.child(String.valueOf(TEAMCODE)).child("Request_s").push().setValue(teamRequestItem);
+
+                //파일 업로드
+                StorageReference filepath = storageReference.child("Requests").child(selectedFile.getLastPathSegment());
+                filepath.putFile(selectedFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        if(selectedFile != null){
+                            Toast.makeText(TeamRequestActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 TeamRequestActivity.this.finish();
             }
         });
@@ -115,17 +127,9 @@ public class TeamRequestActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 0 && resultCode == RESULT_OK){
-            Uri selectedFile = data.getData();
+            selectedFile = data.getData();
             newFile = new File(selectedFile.getPath());
             fileName.setText(newFile.getName());
-
-            StorageReference filepath = storageReference.child("Requests").child(selectedFile.getLastPathSegment());
-            filepath.putFile(selectedFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(TeamRequestActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 
