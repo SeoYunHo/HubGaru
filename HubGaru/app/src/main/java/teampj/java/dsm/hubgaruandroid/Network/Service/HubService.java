@@ -31,8 +31,11 @@ public class HubService extends APIAdapter {
 
     public interface HubApi {
 
-        @GET("/garu")
-        Call<JsonObject> getGaru();
+        @GET("/hub/rank/good")
+        Call<JsonObject> getTopHub();
+
+        @GET("/hub/rank/date")
+        Call<JsonObject> getNewHub();
 
         @GET("/hub")
         Call<JsonObject> getHub();
@@ -64,6 +67,9 @@ public class HubService extends APIAdapter {
         @GET("/user/garu/{id}")
         Call<JsonObject> getMyGaru(@Path("id") String id);
 
+        @GET("/garu")
+        Call<JsonObject> getGaru();
+
         @GET("/hub/good/{hubId}")
         Call<JsonObject> getLike(@Path("hubId") String hubId);
 
@@ -82,12 +88,6 @@ public class HubService extends APIAdapter {
 
         @GET("/hub/comment/{hubId}")
         Call<JsonObject> getComments(@Path("hubId") String hubId);
-
-        @GET("/upload/{filename}")
-        Call<JsonObject> getPic(@Path("filename") String filename);
-
-         @GET("/upload/{filename}")
-         Call<JsonObject> getSong(@Path("fielname") String filename);
 
         @FormUrlEncoded
         @POST("/garu/{id}")

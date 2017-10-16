@@ -56,10 +56,6 @@ import teampj.java.dsm.hubgaruandroid.Model.UserInfoItem;
 import teampj.java.dsm.hubgaruandroid.Network.Service.HubService;
 import teampj.java.dsm.hubgaruandroid.R;
 
-/**
- * Created by user on 2017-08-22.
- */
-
 public class MyPageFragment extends Fragment {
 
     // name, position, email
@@ -94,7 +90,6 @@ public class MyPageFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
 
-//        getGaru();
         getMyGaru();
 
         Glide.with(getActivity())
@@ -141,8 +136,8 @@ public class MyPageFragment extends Fragment {
         return view;
     }
 
-    public void getGaru() {
-        HubService.getRetrofit(getContext()).getGaru().enqueue(new Callback<JsonObject>() {
+    public void getMyGaru() {
+        HubService.getRetrofit(getContext()).getMyGaru("nn").enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonArray jsonObject = response.body().getAsJsonArray("garu");
@@ -154,33 +149,9 @@ public class MyPageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Log.d("ERROR2",t.toString());
             }
         });
-    }
-
-    public void getMyGaru() {
-        HubService.getRetrofit(getContext())
-                .getMyGaru(TabLayoutActivity.getId())
-                .enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if (response.code() == 200) {
-                            JsonArray jsonObject = response.body().getAsJsonArray("garu");
-                            JsonArray jsonElements = jsonObject.getAsJsonArray();
-                            arrayList = getArrayList(jsonElements);
-                            adapter = new GaruHorizontalAdapter(getContext(), arrayList);
-                            recyclerView.setAdapter(adapter);
-                        } else if (response.code() == 500) {
-                            Toast.makeText(getContext(), "error 500 ", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-
-                    }
-                });
     }
 
     public ArrayList<GaruItem> getArrayList(JsonArray jsonElements) {
@@ -215,13 +186,15 @@ public class MyPageFragment extends Fragment {
 //        post해서 리스폰스로 사진을 받는다 그리고 글라이드에 추가해서 동그라미 모양으로!
     }
 
-    class changePwDialog extends Dialog{
+    class changePwDialog extends Dialog {
 
         private Context context;
         private TextInputEditText editText;
         private Button btn;
 
-        public changePwDialog(@NonNull Context context) {super(context);}
+        public changePwDialog(@NonNull Context context) {
+            super(context);
+        }
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -245,63 +218,6 @@ public class MyPageFragment extends Fragment {
             });
         }
     }
-
-//    dialog
-    /*class InfoEditDialog extends Dialog {
-
-        private Context context;
-        private TextInputEditText[] editTexts;
-        private Button yesBtn, noBtn;
-        private UserInfoItem item;
-        String name, position, email;
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            //뒷배경 흐리게
-            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-            layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-            layoutParams.dimAmount = 0.8f;
-            getWindow().setAttributes(layoutParams);
-
-            setContentView(R.layout.edit_my_info);
-
-            yesBtn = (Button) findViewById(R.id.yesBtn);
-            noBtn = (Button) findViewById(R.id.noBtn);
-
-            yesBtn.setOnClickListener(new View.OnClickListener() {
-
-                //TODO: yesBtn에서는 서버로 POST
-
-                @Override
-                public void onClick(View v) {
-
-                dismiss();
-                }
-            });
-
-            noBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
-        }
-
-        public InfoEditDialog (Context context, UserInfoItem item) {
-            super(context);
-
-            this.context = context;
-            this.item = item;
-        }
-
-        public InfoEditDialog (Context context) {
-            super(context);
-
-            this.context = context;
-        }
-    }*/
 
     public String getRealPath(Context context, Uri uri) {
         Cursor cursor = null;

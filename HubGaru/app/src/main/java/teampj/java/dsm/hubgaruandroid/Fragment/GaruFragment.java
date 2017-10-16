@@ -79,14 +79,13 @@ public class GaruFragment extends Fragment {
                 JsonArray jsonObject = response.body().getAsJsonArray("garu");
                 JsonArray jsonElements = jsonObject.getAsJsonArray();
                 arrayList = getArrayList(jsonElements);
-                Log.d(arrayList.get(0).getTeamPic(), "arrayListCheck");
                 adapter = new GaruAdapter(getContext(), arrayList);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Log.d("ERROR1", t.toString());
             }
         });
     }
@@ -103,7 +102,6 @@ public class GaruFragment extends Fragment {
             String intro = jsonObject.getAsJsonPrimitive("intro").getAsString();
             String img = jsonObject.getAsJsonPrimitive("img").getAsString();
 
-            Log.d(garuId + ", " + leaderId + ", " + name + ", " + intro + ", " + img, "checkLog");
             arrayList.add(new GaruItem(name, garuId, img, intro, leaderId));
         }
         return arrayList;

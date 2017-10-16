@@ -88,7 +88,7 @@ public class New_TOPHubFragment extends Fragment {
     }
 
     public void getNewHubs() {
-        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getContext()).getNewHub().enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonArray jsonObject = response.body().getAsJsonArray("hub");
@@ -106,7 +106,7 @@ public class New_TOPHubFragment extends Fragment {
     }
 
     public void getTopHubs() {
-        HubService.getRetrofit(getContext()).getHub().enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getContext()).getTopHub().enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonArray jsonObject = response.body().getAsJsonArray("hub");
