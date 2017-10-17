@@ -78,6 +78,9 @@ public class GaruCreateActivity extends AppCompatActivity {
                 String teamPic = imageFile.getName();
                 String leader = TabLayoutActivity.getId();
 
+                //파일 따로 업로드 하는 부분
+                //사진 1 업로드 해야 됨.
+
                 //서버로 값 전달
                 HubService.getRetrofit(getApplicationContext())
                         .makeGaru(garuName, garuCode, garuIntro, teamPic, leader)

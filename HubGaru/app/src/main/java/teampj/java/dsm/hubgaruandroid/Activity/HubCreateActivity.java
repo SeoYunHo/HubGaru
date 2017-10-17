@@ -85,14 +85,16 @@ public class HubCreateActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String garuID = "0012";
                 String hubName = newHubName.getText().toString();
-                String hubCode = "0012";
                 String teamPic = imageFile.getName();
                 String music = musicFile.getName();
 
-                //서버로 값 전달
+                //파일 따로 업로드 하는 부분
+                //파일 1 사진 1 업로드 해야 됨.
+
                 HubService.getRetrofit(getApplicationContext())
-                        .makeHub(hubName, hubCode, teamPic, music)
+                        .makeHub(garuID, hubName, teamPic, music)
                         .enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {

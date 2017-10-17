@@ -10,7 +10,7 @@
                     android:title="메인페이지" />
                 <item
                     android:id="@+id/nav_verson"
-                    android:title="버전" />
+                    android:title="새허브" />
             </menu>
         </item>
 

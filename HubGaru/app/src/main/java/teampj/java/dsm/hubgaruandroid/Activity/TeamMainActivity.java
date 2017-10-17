@@ -189,7 +189,13 @@ public class TeamMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_chat) {
             chattingBar.setVisibility(View.VISIBLE);
             contentView.setAdapter(C_adapter);
+        }else if (id == R.id.nav_main){
+            teamPage.setVisibility(View.VISIBLE);
+        }else if (id == R.id.nav_verson){
+            Intent main_to_newh = new Intent(TeamMainActivity.this, HubCreateActivity.class);
+            startActivity(main_to_newh);
         }
+
 
         teamMainDrawer.closeDrawer(GravityCompat.START);
         return true;
