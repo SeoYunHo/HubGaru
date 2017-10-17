@@ -12,7 +12,7 @@ manager.checkId= (garuId) => {
 }
 manager.addGaru = (garuId, leaderId, name, intro, file, img, callback) => {
     let statusCode;
-    conn.query('insert into garu value(?,?,?,?,?,?);', [garuId, leaderId, name, intro, file, img], function (err, result) {
+    conn.query('insert into garu value(?,?,?,?,?,?);', [garuId, leaderId, intro, name, file, img], function (err, result) {
         if (err) statusCode=500;
         else if (!!result.affectedRows){
             conn.query('insert into member value(?,?)',[garuId, leaderId], function(err, result){
