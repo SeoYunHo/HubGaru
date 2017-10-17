@@ -56,7 +56,7 @@ manager.getMember = (garuId, callback) => {
     };
     let statusCode;
 
-    conn.query('select * from member', garuId, function (err, rows) {
+    conn.query('select * from member where garu_id=?', garuId, function (err, rows) {
         if (err) statusCode = 500;
         else if (rows.length >= 0) {
             statusCode = 200;
