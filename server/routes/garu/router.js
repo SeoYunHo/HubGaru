@@ -37,9 +37,7 @@ router.route('/garu').get(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.garu) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -50,9 +48,7 @@ router.route('/garu/member/:garuId').get(function(req, res){
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.member) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });

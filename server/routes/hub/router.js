@@ -38,9 +38,7 @@ router.route('/hub').get(function (req, res) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.hub) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -52,9 +50,7 @@ router.route('/hub/detail/:garuid').get(function (req, res) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.hub) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -75,9 +71,7 @@ router.route('/hub/good/:hubId').get(function (req, res) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.good) res.write(JSON.stringify(response)).end();
         else res.end();
     })
 });
@@ -113,9 +107,7 @@ router.route('/hub/comment/:hubId').get(function (req, res) {
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.comment) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -125,9 +117,7 @@ router.route('/hub/rank/good').get(function(req, res){
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.hub) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -137,9 +127,7 @@ router.route('/hub/rank/date').get(function(req, res){
         res.writeHead(stateCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if (!!response.hub) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });

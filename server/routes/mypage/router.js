@@ -13,9 +13,7 @@ router.route('/user/info/:id').get(function(req,res){
         res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if(!!response.user) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -27,9 +25,7 @@ router.route('/user/hub/:id').get(function(req,res){
         res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if(!!response.hub) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
@@ -41,9 +37,7 @@ router.route('/user/garu/:id').get(function(req,res){
         res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
         });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response)).end();
-        }
+        if(!!response.garu) res.write(JSON.stringify(response)).end();
         else res.end();
     });
 });
