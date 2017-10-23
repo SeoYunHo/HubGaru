@@ -15,8 +15,8 @@ router.route('/garu/:id').post(function (req, res) {
     let bool = true;
     let file = req.body.file;
     let img;
-    if(!!req.body.img) img=req.body.img;
-    else img=null;
+    if (!!req.body.img) img = req.body.img;
+    else img = null;
 
     while (bool) {
         garuId = random.randomInt();
@@ -37,26 +37,30 @@ router.route('/garu').get(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.garu) res.write(JSON.stringify(response)).end();
-        else res.end();
+        if (!!response.garu) {
+            res.write(JSON.stringify(response));
+            res.end();
+        } else res.end();
     });
 });
 
-router.route('/garu/member/:garuId').get(function(req, res){
-    let garuId=req.params.garuId;
-    manager.getMember(garuId, function(statusCode, response){
+router.route('/garu/member/:garuId').get(function (req, res) {
+    let garuId = req.params.garuId;
+    manager.getMember(garuId, function (statusCode, response) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!response.member) res.write(JSON.stringify(response)).end();
-        else res.end();
+        if (!!response.member) {
+            res.write(JSON.stringify(response)).end();
+            res.end();
+        } else res.end();
     });
 });
 
-router.route('/garu/member/:garuId').post(function(req, res){
-    let garuId=req.params.garuId;
-    let userId=req.body.userId;
-    manager.addMember(garuId, userId, function(statusCode){
+router.route('/garu/member/:garuId').post(function (req, res) {
+    let garuId = req.params.garuId;
+    let userId = req.body.userId;
+    manager.addMember(garuId, userId, function (statusCode) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });

@@ -16,10 +16,10 @@ router.route('/account/signup').post(function (req, res) {
     let part = req.body.part;
     let password = SHA256(req.body.password);
     let user_intro = req.body.userIntro;
-    let phone=req.body.phone;
+    let phone = req.body.phone;
     console.log(id, name, part, password, user_intro, phone);
 
-    manager.signup(id, name, part, password, user_intro, phone,  function (statusCode) {
+    manager.signup(id, name, part, password, user_intro, phone, function (statusCode) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
@@ -75,8 +75,10 @@ router.route('/account/signin').post(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!message.message) res.write(JSON.stringify(message)).end();
-        else res.end();
+        if (!!message.message) {
+            res.write(JSON.stringify(message));
+            res.end();
+        } else res.end();
 
     });
 });
@@ -108,8 +110,10 @@ router.route('/account/find/id').get(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if(!!response.id)res.write(JSON.stringify(response)).end();
-        else res.end();
+        if (!!response.id) {
+            res.write(JSON.stringify(response));
+            res.end();
+        } else res.end();
     });
 });
 
