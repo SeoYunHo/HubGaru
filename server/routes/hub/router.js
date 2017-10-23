@@ -152,9 +152,9 @@ router.route('/file/:file').get(function (req, res) {
 
 router.route('/file/:file').post(function (req, res) {
     let file = req.params.file;
-
+    let fileName =req.params.fileName;
     let stateCode;
-    fs.writeFile('logo.png', file, 'binary', function (err) {
+    fs.writeFile(fileName, file, function (err) {
         if (err)
             console.log('File saved.')
     })
