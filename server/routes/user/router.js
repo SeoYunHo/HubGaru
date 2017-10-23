@@ -75,8 +75,10 @@ router.route('/account/signin').post(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if (!!message.message) res.write(JSON.stringify(message));
-        res.end();
+        if (!!response.hub) {
+            res.write(JSON.stringify(response)).end();
+        }
+        else res.end();
 
     });
 });
@@ -108,8 +110,10 @@ router.route('/account/find/id').get(function (req, res) {
         res.writeHead(statusCode, {
             'Content-Type': 'application/json'
         });
-        if(!!response.id)res.write(JSON.stringify(response));
-        res.end();
+        if (!!response.hub) {
+            res.write(JSON.stringify(response)).end();
+        }
+        else res.end();
     });
 });
 
