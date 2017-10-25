@@ -203,8 +203,6 @@ public class TeamMainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Intent team_to_main = new Intent(TeamMainActivity.this, TabLayoutActivity.class);
-        startActivity(team_to_main);
         TeamMainActivity.this.finish();
     }
 
@@ -249,7 +247,7 @@ public class TeamMainActivity extends AppCompatActivity
                     storageReference.child("Photos").child(chatItem.getDescStr()).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>(){
                         @Override
                         public void onSuccess(byte[] bytes) {
-                            String path = Environment.getExternalStorageDirectory()+"/GaruData/Photos/"+chatItem.getDescStr().toString();
+                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+chatItem.getDescStr().toString();
                             try{
                                 FileOutputStream fos = new FileOutputStream(path);
                                 fos.write(bytes);

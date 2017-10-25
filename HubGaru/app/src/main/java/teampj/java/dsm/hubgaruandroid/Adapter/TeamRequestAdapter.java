@@ -72,7 +72,7 @@ public class TeamRequestAdapter extends RecyclerView.Adapter<TeamRequestViewHold
                             @Override
                             public void onSuccess(StorageMetadata storageMetadata) {
                                 String filename = storageReference.child("Requests").child(item.getRequestFile()).getName();
-                                String path = Environment.getExternalStorageDirectory()+"/Download/"+filename;
+                                String path =Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+filename;
                                 try{
                                     Toast.makeText(context, filename + "다운로드 중..", Toast.LENGTH_SHORT).show();
                                     FileOutputStream fos = new FileOutputStream(path);

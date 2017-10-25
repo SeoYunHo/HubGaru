@@ -25,7 +25,8 @@
             android:exported="true"></activity>
         <activity android:name=".Activity.GaruCreateActivity"
             android:exported="true"></activity>
-        <activity android:name=".Activity.TeamRecordThemeActivity"></activity>
+        <activity android:name=".Activity.TeamRecordThemeActivity"
+            android:exported="true"></activity>
         <activity android:name=".Activity.TeamRecordThemeCheckActivity"></activity>
         <activity android:name=".Activity.TeamRequestActivity"></activity>
         <activity android:name=".Activity.HubOnViewActivity"></activity>

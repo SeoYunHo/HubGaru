@@ -91,18 +91,19 @@ public class HubService extends APIAdapter {
 
         @FormUrlEncoded
         @POST("/garu/{id}")
-        Call<JsonObject> makeGaru(@Path("id") String id,
+        Call<Void> makeGaru(@Path("id") String id,
                                   @Field("name") String name,
                                   @Field("intro") String intro,
                                   @Field("file") String file,
                                   @Field("img") String img);
 
         @FormUrlEncoded
-        @POST("/hub/id/{garuId}")
+        @POST("/hub/{garuId}")
         Call<Void> makeHub(@Path("garuId") String garuId,
                            @Field("name") String name,
                            @Field("file") String file,
-                           @Field("img") String img);
+                           @Field("img") String img,
+                           @Field("date") String date);
 
         @FormUrlEncoded
         @POST("/account/modify/password/{id}")

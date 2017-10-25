@@ -72,21 +72,21 @@ public class GaruCreateActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uid = TabLayoutActivity.getId();
                 String garuName = newGaruName.getText().toString();
-                String garuCode = "Testq";
                 String garuIntro = newGaruIntro.getText().toString();
+                String file = "0012";
                 String teamPic = imageFile.getName();
-                String leader = TabLayoutActivity.getId();
 
                 //파일 따로 업로드 하는 부분
                 //사진 1 업로드 해야 됨.
 
                 //서버로 값 전달
                 HubService.getRetrofit(getApplicationContext())
-                        .makeGaru(garuName, garuCode, garuIntro, teamPic, leader)
-                        .enqueue(new Callback<JsonObject>() {
+                        .makeGaru(uid, garuName, garuIntro, file, teamPic)
+                        .enqueue(new Callback<Void>() {
                             @Override
-                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            public void onResponse(Call<Void> call, Response<Void> response) {
                                 if(response.code() == 201){
                                     GaruCreateActivity.this.finish();
                                 } else if (response.code() == 500) {
@@ -94,7 +94,7 @@ public class GaruCreateActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                            public void onFailure(Call<Void> call, Throwable t) {
                             }
                         });
 

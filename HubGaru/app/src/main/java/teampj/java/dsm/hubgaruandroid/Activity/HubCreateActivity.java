@@ -2,8 +2,10 @@ package teampj.java.dsm.hubgaruandroid.Activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,7 +18,10 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -31,14 +36,18 @@ public class HubCreateActivity extends AppCompatActivity {
     private EditText newHubName;
     private ImageView newHubImage;
     private LinearLayout recordBtn;
+    private static TextView fileView;
     private TextView getFileBtn;
     private Button cancleBtn;
     private Button createBtn;
 
     private Uri HubImage;
-    private File imageFile;
 
-    private File musicFile;
+    private File imageFile;
+    private static File musicFile;
+
+    private byte[] imageBytes;
+    private static byte[] musicBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,9 @@ public class HubCreateActivity extends AppCompatActivity {
                 startActivity(ch_to_rt);
             }
         });
+
+        fileView = (TextView) findViewById(R.id.fileNameView);
+
         getFileBtn = (TextView) findViewById(R.id.rec_file_btn);
         getFileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,25 +97,25 @@ public class HubCreateActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String garuID = "0012";
+                String garuID = "907";
                 String hubName = newHubName.getText().toString();
-                String teamPic = imageFile.getName();
                 String music = musicFile.getName();
+                String teamPic = imageFile.getName();
 
                 //파일 따로 업로드 하는 부분
                 //파일 1 사진 1 업로드 해야 됨.
 
                 HubService.getRetrofit(getApplicationContext())
-                        .makeHub(garuID, hubName, teamPic, music)
+                        .makeHub(garuID, hubName, music, teamPic+".jpeg","2017-10_23")
                         .enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 if(response.code() == 201){
                                     HubCreateActivity.this.finish();
                                 } else if (response.code() == 500) {
+                                    Toast.makeText(getApplicationContext(),"업로드실패1",Toast.LENGTH_SHORT).show();
                                 }
                             }
-
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
                             }
@@ -114,8 +126,15 @@ public class HubCreateActivity extends AppCompatActivity {
         });
     }
 
+    public static void setMusicfile_R(){
+        musicFile = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/recorded.mp4");
+        musicBytes = fileTobyte(musicFile);
+        fileView.setText(musicFile.getName());
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         //super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 2 && resultCode == RESULT_OK){
             Uri uri = data.getData();
@@ -123,7 +142,9 @@ public class HubCreateActivity extends AppCompatActivity {
                 //Bitmap bm = BitmapFactory.decodeFile(path, bmOptions);
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 imageFile = saveBitmap(bm, uri.getPath());
+                imageBytes = fileTobyte(imageFile);
                 newHubImage.setImageBitmap(bm);
+                newHubImage.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -133,7 +154,8 @@ public class HubCreateActivity extends AppCompatActivity {
         if(requestCode == 1 && resultCode == RESULT_OK){
             Uri uri = data.getData();
             musicFile = new File(uri.getPath());
-
+            musicBytes = fileTobyte(musicFile);
+            fileView.setText(musicFile.getName());
         }
     }
 
@@ -145,7 +167,6 @@ public class HubCreateActivity extends AppCompatActivity {
                 FileOutputStream outputStream = null;
                 try {
                     outputStream = new FileOutputStream(path); //here is set your file path where you want to save or also here you can set file object directly
-
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream); // bitmap is your Bitmap instance, if you want to compress it you can compress reduce percentage
                     // PNG is a lossless format, the compression factor (100) is ignored
                 } catch (Exception e) {
@@ -164,5 +185,20 @@ public class HubCreateActivity extends AppCompatActivity {
             }
         }
         return file;
+    }
+
+    private static byte[] fileTobyte(File file){
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
     }
 }
