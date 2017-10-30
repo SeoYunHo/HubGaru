@@ -208,10 +208,13 @@ router.route('/file/:file').get(function (req, res) {
 
         if (file.split('.')[file.split('.').length - 1] === 'jpeg') fileKind = 'image';
         else if (file.split('.')[file.split('.').length - 1] === 'mp3') fileKind = 'audio';
-        res.writeHead(200, {
-            "Content-Type": fileKind + '/' + file.split('.')[file.split('.').length - 1]
-        });
-        res.end(data);
+        if (!res.headersSent) {
+            res.writeHead(200, {
+                "Content-Type": fileKind + '/' + file.split('.')[file.split('.').length - 1]
+            });
+            res.end(data);
+        }
+
     });
 });
 
@@ -219,7 +222,7 @@ router.route('/file/:file').post(function (req, res) {
     let file = req.params.file;
     let fileName = req.params.fileName;
     let stateCode;
-    
+
     console.log(file, fileName);
     fs.writeFile(fileName, file, function (err) {
         if (err) console.log(err);
