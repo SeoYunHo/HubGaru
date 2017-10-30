@@ -48,6 +48,33 @@ manager.getHub = (callback) => {
     });
 }
 
+manager.getGaruHub = (garuId, callback) => {
+    let response = {
+        hub: []
+    }
+    let statusCode;
+
+    conn.query('select * from hub where garuId=?;', garuId, function (err, rows) {
+        if (err) statusCode = 500;
+        else if (rows.length >= 0) {
+            statusCode = 200;
+            for (let i = 0; i < rows.length; i++) {
+                let hub = {
+                    file: rows[i].file_url,
+                    img: rows[i].img,
+                    name: rows[i].name,
+                    garuId: rows[i].garu_id,
+                    hubId: rows[i].hub_id,
+                    date: rows[i].date,
+                    good: rows[i].good
+                }
+                response.hub.push(hub);
+            }
+        }
+        callback(statusCode, response);
+    });
+}
+
 manager.getDetailHub = (callback) => {
     let response = {
         hub: null

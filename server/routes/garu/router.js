@@ -23,37 +23,44 @@ router.route('/garu/:id').post(function (req, res) {
         bool = manager.checkId(garuId);
     }
     manager.addGaru(garuId, leaderId, name, intro, file, img, function (statusCode, response) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
     });
 });
 
 //가루 받아오기
 router.route('/garu').get(function (req, res) {
     manager.getGarues(function (statusCode, response) {
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.garu) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
 
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.garu) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
     });
 });
 
 router.route('/garu/member/:garuId').get(function (req, res) {
     let garuId = req.params.garuId;
     manager.getMember(garuId, function (statusCode, response) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.member) {
-            res.write(JSON.stringify(response)).end();
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.member) {
+                res.write(JSON.stringify(response)).end();
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
@@ -61,10 +68,13 @@ router.route('/garu/member/:garuId').post(function (req, res) {
     let garuId = req.params.garuId;
     let userId = req.body.userId;
     manager.addMember(garuId, userId, function (statusCode) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     });
 });
 

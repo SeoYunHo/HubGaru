@@ -45,6 +45,21 @@ router.route('/hub').get(function (req, res) {
     });
 });
 
+router.route('/garu/hub/:garuId').get(function (req, res) {
+    let garuId=req.params.garuId;
+
+    manager.getGaruHub(garuId, function (stateCode, response) {
+        res.writeHead(stateCode, {
+            'Content-Type': 'application/json'
+        });
+        if (!!response.hub) {
+            res.write(JSON.stringify(response));
+            res.end();
+        } else res.end();
+    });
+});
+
+
 router.route('/hub/detail/:garuid').get(function (req, res) {
     let id = req.params.garuId;
 
