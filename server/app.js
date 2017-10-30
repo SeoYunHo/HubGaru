@@ -41,6 +41,10 @@ app.use('/login', function (req, res) {
 app.use('/registor', function (req, res) {
     res.sendFile(path.resolve(__dirname,'./public/html/registor.html'));
 });
+app.use('/main_logined', function (req, res) {
+    res.sendFile(path.resolve(__dirname,'./public/html/index_logined.html'));
+});
+
 
 app.use('/', mypage);
 app.use('/', user);
