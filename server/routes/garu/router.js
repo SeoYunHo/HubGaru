@@ -27,6 +27,7 @@ router.route('/garu/:id').post(function (req, res) {
             res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
             });
+            console.log(res.statusCode);
             res.end();
         }
     });
@@ -40,6 +41,7 @@ router.route('/garu').get(function (req, res) {
             res.writeHead(statusCode, {
                 'Content-Type': 'application/json'
             });
+            console.log(res.statusCode);
             if (!!response.garu) {
                 res.write(JSON.stringify(response));
                 res.end();

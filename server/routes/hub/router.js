@@ -38,11 +38,12 @@ router.route('/hub/:garuId').post(function (req, res) {
 router.route('/hub').get(function (req, res) {
 
     manager.getHub(function (stateCode, response) {
-        console.log(req.headersSent);
+        console.log(!req.headersSent);
         if (!res.headersSent) {
             res.writeHead(stateCode, {
                 'Content-Type': 'application/json'
             });
+            console.log(res.statusCode);
             if (!!response.hub) {
                 res.write(JSON.stringify(response));
                 res.end();
@@ -218,9 +219,11 @@ router.route('/file/:file').post(function (req, res) {
     let file = req.params.file;
     let fileName = req.params.fileName;
     let stateCode;
+    
+    console.log(file, fileName);
     fs.writeFile(fileName, file, function (err) {
-        if (err)
-            console.log('File saved.')
+        if (err) console.log(err);
+        console.log('File saved.');
     })
 })
 module.exports = router;
