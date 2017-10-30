@@ -32,7 +32,7 @@ router.route('/user/hub/:id').get(function (req, res) {
                 'Content-Type': 'application/json'
             });
             if (!!response.hub) {
-                res.write(JSON.stringify(response)).end();
+                res.write(JSON.stringify(response));
                 res.end();
             } else res.end();
         }
@@ -49,7 +49,7 @@ router.route('/user/garu/:id').get(function (req, res) {
                 'Content-Type': 'application/json'
             });
             if (!!response.garu) {
-                res.write(JSON.stringify(response)).end();
+                res.write(JSON.stringify(response));
                 res.end();
             } else res.end();
         }
