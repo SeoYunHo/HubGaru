@@ -35,6 +35,7 @@ router.route('/garu/:id').post(function (req, res) {
 //가루 받아오기
 router.route('/garu').get(function (req, res) {
     manager.getGarues(function (statusCode, response) {
+        console.log(req.headersSent);
         if (!res.headersSent) {
             res.writeHead(statusCode, {
                 'Content-Type': 'application/json'

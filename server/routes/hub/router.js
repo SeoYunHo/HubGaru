@@ -24,10 +24,13 @@ router.route('/hub/:garuId').post(function (req, res) {
     }
 
     manager.addHub(hubId, garuId, file, name, img, date, function (stateCode) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     });
 
 });
@@ -35,27 +38,34 @@ router.route('/hub/:garuId').post(function (req, res) {
 router.route('/hub').get(function (req, res) {
 
     manager.getHub(function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        console.log(req.headersSent);
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.hub) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
 router.route('/garu/hub/:garuId').get(function (req, res) {
-    let garuId=req.params.garuId;
+    let garuId = req.params.garuId;
 
     manager.getGaruHub(garuId, function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.hub) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
@@ -64,44 +74,57 @@ router.route('/hub/detail/:garuid').get(function (req, res) {
     let id = req.params.garuId;
 
     manager.getHubDetail(garuId, function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.hub) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
 router.route('/hub/good/:hubId').post(function (req, res) {
+
     let hubId = req.params.hubId;
     manager.addGood(hubId, function (stateCode) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     })
 });
 
 router.route('/hub/good/:hubId').get(function (req, res) {
     let hubId = req.params.hubId;
     manager.getGood(hubId, function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.good) res.write(JSON.stringify(response)).end();
-        else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.good) res.write(JSON.stringify(response)).end();
+            else res.end();
+        }
+
     })
 });
 
 router.route('/hub/good/:hubId').delete(function (req, res) {
     let hubId = req.params.hubId;
     manager.deleteGood(hubId, function (stateCode) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     })
 });
 
@@ -112,10 +135,13 @@ router.route('/hub/comment/:hubId').post(function (req, res) {
     let date = req.body.date
 
     manager.addComment(hubId, comment, id, date, function (stateCode) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     });
 });
 
@@ -123,37 +149,46 @@ router.route('/hub/comment/:hubId').get(function (req, res) {
     let hubId = req.params.hubId;
 
     manager.getComment(hubId, function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.comment) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.comment) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
 router.route('/hub/rank/good').get(function (req, res) {
     manager.hubRankListGood(function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.hub) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
 router.route('/hub/rank/date').get(function (req, res) {
     manager.hubRankListDate(function (stateCode, response) {
-        res.writeHead(stateCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.hub) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(stateCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.hub) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 

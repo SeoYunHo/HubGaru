@@ -20,10 +20,13 @@ router.route('/account/signup').post(function (req, res) {
     console.log(id, name, part, password, user_intro, phone);
 
     manager.signup(id, name, part, password, user_intro, phone, function (statusCode) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     });
 });
 
@@ -72,13 +75,16 @@ router.route('/account/signin').post(function (req, res) {
     let password = SHA256(req.body.password);
 
     manager.signin(id, password, function (statusCode, message) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!message.message) {
-            res.write(JSON.stringify(message));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!message.message) {
+                res.write(JSON.stringify(message));
+                res.end();
+            } else res.end();
+        }
+
 
     });
 });
@@ -87,17 +93,20 @@ router.route('/account/signin').post(function (req, res) {
 router.route('/account/idcheck/:id').get(function (req, res) {
     let id = req.params.id;
     manager.idCheck(id, function (response) {
-        console.log(response);
-        if (response.overlap) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-        } else {
-            res.writeHead(204, {
-                'Content-Type': 'application/json'
-            });
+        if (!res.headersSent) {
+            console.log(response);
+            if (response.overlap) {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+            } else {
+                res.writeHead(204, {
+                    'Content-Type': 'application/json'
+                });
+            }
+            res.end();
         }
-        res.end();
+
     });
 });
 
@@ -107,13 +116,16 @@ router.route('/account/find/id').get(function (req, res) {
     let phone = req.query.phone;
 
     manager.getId(name, phone, function (statusCode, response) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        if (!!response.id) {
-            res.write(JSON.stringify(response));
-            res.end();
-        } else res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            if (!!response.id) {
+                res.write(JSON.stringify(response));
+                res.end();
+            } else res.end();
+        }
+
     });
 });
 
@@ -123,10 +135,13 @@ router.route('/account/modify/password/:id').put(function (req, res) {
     let password = SHA256(req.body.password);
 
     manager.updatePassword(id, password, function (statusCode) {
-        res.writeHead(statusCode, {
-            'Content-Type': 'application/json'
-        });
-        res.end();
+        if (!res.headersSent) {
+            res.writeHead(statusCode, {
+                'Content-Type': 'application/json'
+            });
+            res.end();
+        }
+
     });
 });
 
