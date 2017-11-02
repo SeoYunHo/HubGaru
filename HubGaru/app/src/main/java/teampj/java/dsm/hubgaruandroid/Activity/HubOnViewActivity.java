@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,7 +92,8 @@ public class HubOnViewActivity extends AppCompatActivity {
         teamName = intent.getStringExtra("teamName");
         editDate = intent.getStringExtra("date");
 //        sSongUrl = intent.getStringExtra("file");
-        sSongUrl = "first.mp3";
+        sSongUrl = songTitle;
+        commentItems = new ArrayList<CommentItem>();
 
         teamNameInfo.setText(teamName);
         editDatInfo.setText(editDate);
@@ -203,26 +203,27 @@ public class HubOnViewActivity extends AppCompatActivity {
         HubService.getRetrofit(getApplicationContext())
                 .addComment(hubId, comment, TabLayoutActivity.getId(), todayString)
                 .enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.code() == 201) {
-                    commentText.setText(null);
-                    commentItems.add(new CommentItem(comment, TabLayoutActivity.getId(), todayString));
-                    Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.code() == 400) {
-                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.code() == 201) {
+                            commentText.setText(null);
+                            commentItems.add(new CommentItem(comment, TabLayoutActivity.getId(), todayString));
+                            Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
+                            adapter.notifyDataSetChanged();
+                        }
+                        else if(response.code() == 400) {
+                            Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "fail " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     public void test(){
@@ -232,7 +233,6 @@ public class HubOnViewActivity extends AppCompatActivity {
                 JsonArray jsonArray = response.body().get("comment").getAsJsonArray();
                 Log.d("response code", response.code()+"");
                 Log.d("response body", response.body()+"");
-                commentItems = new ArrayList<CommentItem>();
                 for(int i=0; i<jsonArray.size(); i++) {
                     CommentItem commentItem = new CommentItem();
                     JsonObject result = jsonArray.get(i).getAsJsonObject();
