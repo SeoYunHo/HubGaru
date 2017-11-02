@@ -1,7 +1,5 @@
 package teampj.java.dsm.hubgaruandroid.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +9,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import teampj.java.dsm.hubgaruandroid.Activity.TeamMainActivity;
-import teampj.java.dsm.hubgaruandroid.Activity.TeamMemberActivity;
 import teampj.java.dsm.hubgaruandroid.Holder.TeamMemberViewHolder;
 import teampj.java.dsm.hubgaruandroid.Model.TeamMemberItem;
 import teampj.java.dsm.hubgaruandroid.R;

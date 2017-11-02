@@ -31,7 +31,6 @@
         <activity android:name=".Activity.TeamRequestActivity"></activity>
         <activity android:name=".Activity.HubOnViewActivity"></activity>
         <activity android:name=".Activity.TeamSettingActivity"></activity>
-        <activity android:name=".Activity.TeamMemberActivity"></activity>
         <activity android:name=".Activity.LogInActivity">
         </activity>
         <activity android:name=".Activity.SignUpActivity">

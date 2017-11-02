@@ -8,12 +8,13 @@
         android:id="@+id/garuView"
         android:elevation="15dp"
         android:layout_margin="5dp"
+        android:background="@color/background2"
         app:cardCornerRadius="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:background="@color/background2"
+            android:background="@null"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

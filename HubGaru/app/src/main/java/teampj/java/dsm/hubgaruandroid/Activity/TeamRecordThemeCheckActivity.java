@@ -75,8 +75,8 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                player.seekTo(seekBar.getProgress());
-            }s
+                //player.seekTo(seekBar.getProgress());
+            }
         });
 
         play = (ImageView)findViewById(R.id.trc_play_btn);
@@ -142,6 +142,7 @@ public class TeamRecordThemeCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"그마안!",Toast.LENGTH_LONG).show();
+                player.stop();
                 if(timerTask != null){
                     timerTask.cancel();
                 }

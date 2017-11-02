@@ -110,5 +110,8 @@ public class HubService extends APIAdapter {
         Call<Void> changePw(@Path("id") String id,
                             @Field("password") String password);
 
+        @FormUrlEncoded
+        @POST("/file/{filename}")
+        Call<Void> uploadFIle(@Path("filename") String fileURL);
     }
 }

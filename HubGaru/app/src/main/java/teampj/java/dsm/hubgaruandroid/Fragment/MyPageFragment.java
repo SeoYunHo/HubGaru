@@ -137,7 +137,7 @@ public class MyPageFragment extends Fragment {
     }
 
     public void getMyGaru() {
-        HubService.getRetrofit(getContext()).getMyGaru("nn").enqueue(new Callback<JsonObject>() {
+        HubService.getRetrofit(getContext()).getMyGaru(TabLayoutActivity.getId()).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonArray jsonObject = response.body().getAsJsonArray("garu");

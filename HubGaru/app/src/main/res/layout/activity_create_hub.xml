@@ -3,7 +3,8 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
-android:layout_height="match_parent">
+android:layout_height="match_parent"
+    android:background="@android:color/white">
 
 <LinearLayout
     android:orientation="vertical"
@@ -27,57 +28,46 @@ android:layout_height="match_parent">
         android:textStyle="bold"
         android:text="악곡 허브를 생성합니다"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_margin="15dp"
         android:padding="10dp"
         android:textColor="#000000"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:text="허브 이름"/>
         <EditText
+            android:padding="5dp"
+            android:hint="허브이름"
             android:id="@+id/new_hub_name"
             android:layout_marginTop="5dp"
             android:layout_height="30dp"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:background="@drawable/linebox" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:text="커버 이미지"/>
-        <LinearLayout
+        <RelativeLayout
+            android:layout_below="@id/new_hub_name"
             android:id="@+id/filegogo"
             android:layout_marginTop="10dp"
-            android:layout_width="180dp"
+            android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@drawable/linebox"
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
                 android:id="@+id/new_hub_image"
-                android:layout_margin="15dp"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:background="@drawable/sprout"/>
-        </LinearLayout>
+                android:layout_width="match_parent" />
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/picture"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:text="허브Seed"/>
+        </RelativeLayout>
+
         <LinearLayout
+            android:id="@+id/tmp"
+            android:layout_below="@id/filegogo"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,12 +76,12 @@ android:layout_height="match_parent">
                 android:id="@+id/record_theme_gogo"
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/linebox">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:layout_margin="10dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:scaleType="fitXY"
                     android:background="@color/DrawerItem"/>
                 <TextView
                     android:id="@+id/fileNameView"
@@ -105,6 +95,7 @@ android:layout_height="match_parent">
         </LinearLayout>
 
         <TextView
+            android:layout_below="@id/tmp"
             android:id="@+id/rec_file_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,35 +104,38 @@ android:layout_height="match_parent">
             android:text="*여기를 눌러 파일을 불러올 수 있습니다."/>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right">
 
             <Button
                 android:id="@+id/cancle_hub_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:padding="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:background="@color/cardview_light_background"
+                android:layout_weight="1"
+                android:background="@drawable/linebox"
                 android:text="취소" />
 
             <Button
                 android:id="@+id/create_hub_btn"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:padding="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:background="@color/DrawerItem"
+                android:background="@drawable/linebox"
                 android:textColor="@color/colorPrimary"
                 android:text="생성"/>
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
 </LinearLayout>

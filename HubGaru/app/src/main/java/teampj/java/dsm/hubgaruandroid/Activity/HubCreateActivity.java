@@ -16,6 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedInputStream;
@@ -33,6 +39,10 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class HubCreateActivity extends AppCompatActivity {
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
     private EditText newHubName;
     private ImageView newHubImage;
     private LinearLayout recordBtn;
@@ -48,6 +58,8 @@ public class HubCreateActivity extends AppCompatActivity {
 
     private byte[] imageBytes;
     private static byte[] musicBytes;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,25 +114,54 @@ public class HubCreateActivity extends AppCompatActivity {
                 String music = musicFile.getName();
                 String teamPic = imageFile.getName();
 
-                //파일 따로 업로드 하는 부분
-                //파일 1 사진 1 업로드 해야 됨.
-
-                HubService.getRetrofit(getApplicationContext())
-                        .makeHub(garuID, hubName, music, teamPic+".jpeg","2017-10_23")
-                        .enqueue(new Callback<Void>() {
+                Uri file = Uri.fromFile(musicFile);
+                String filename = musicFile.getName();
+                StorageReference filepath = storageReference.child("Hub").child("Images").child(file.getLastPathSegment());
+                filepath.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if(response.code() == 201){
-                                    HubCreateActivity.this.finish();
-                                } else if (response.code() == 500) {
-                                    Toast.makeText(getApplicationContext(),"업로드실패1",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
+                            public void onSuccess(Uri uri) {
+                                String fileURL;
                             }
                         });
+                    }
+                });
+                /*
+                HubService.getRetrofit(getApplicationContext())
+                        .uploadFIle();
+                        */
 
+                Uri pfile = Uri.fromFile(imageFile);
+                String pfilename = musicFile.getName();
+                StorageReference pfilepath = storageReference.child("Hub").child("Images").child(pfile.getLastPathSegment());
+                pfilepath.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(),"사진업로드완료",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                 /*
+
+                 HubService.getRetrofit(getApplicationContext())
+                                    .makeHub(garuID, hubName, music, teamPic+".jpeg","2017-10_23")
+                        .enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.code() == 201){
+                                        HubCreateActivity.this.finish();
+                                    } else if (response.code() == 500) {
+                                        Toast.makeText(getApplicationContext(),"허브업로드실패",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                }
+                        });nn
+
+                  */
                 HubCreateActivity.this.finish();
             }
         });
@@ -143,8 +184,8 @@ public class HubCreateActivity extends AppCompatActivity {
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 imageFile = saveBitmap(bm, uri.getPath());
                 imageBytes = fileTobyte(imageFile);
+
                 newHubImage.setImageBitmap(bm);
-                newHubImage.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
             }
             catch(Exception e){
                 e.printStackTrace();

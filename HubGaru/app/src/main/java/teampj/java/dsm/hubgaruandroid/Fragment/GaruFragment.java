@@ -46,7 +46,7 @@ public class GaruFragment extends Fragment {
     private RecyclerView.LayoutManager manager;
     private SearchView searchView;
     private GaruAdapter adapter;
-    private  ArrayList<GaruItem> arrayList;
+    private ArrayList<GaruItem> arrayList;
 
     @Nullable
     @Override
@@ -54,7 +54,7 @@ public class GaruFragment extends Fragment {
         View view = inflater.inflate(R.layout.garu_hub, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.myhubRecyclerView);
-        manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
+        manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(manager);
 //        recyclerView.setAdapter(new GaruAdapter(getContext(), getList()));
@@ -93,7 +93,7 @@ public class GaruFragment extends Fragment {
     public ArrayList<GaruItem> getArrayList(JsonArray jsonElements) {
         ArrayList<GaruItem> arrayList = new ArrayList<>();
 
-        for(int i = 0; i < jsonElements.size(); i++) {
+        for (int i = 0; i < jsonElements.size(); i++) {
             JsonObject jsonObject = (JsonObject) jsonElements.get(i);
 
             String garuId = jsonObject.getAsJsonPrimitive("garuId").getAsString();
