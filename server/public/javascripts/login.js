@@ -8,16 +8,18 @@ $(document).ready(function(){
         $.ajax({
             url:'/account/signin',
             data:{
-                id: id,
-                password: password
+                'id': id,
+                'password': password
             },
             type: 'POST',
-            success: function(){
-                alert('야!! 성공했다!!')
-            },
-            error: function(){
-                alert('Shibal')
-            }
+            statusCode: {
+                500: function() {
+                  alert('로그인 실패');
+                },
+                201: function() {
+                    location.href='/main_logined';
+                }
+              }
         })
     })
 });
