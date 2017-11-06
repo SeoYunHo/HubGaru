@@ -88,18 +88,18 @@ public class HubOnViewActivity extends AppCompatActivity {
 
 //        infoSet
         hubId = intent.getStringExtra("id");
-        songTitle = intent.getStringExtra("songTItle");
+//        songTitle = intent.getStringExtra("songTItle");
         teamName = intent.getStringExtra("teamName");
         editDate = intent.getStringExtra("date");
-//        sSongUrl = intent.getStringExtra("file");
-        sSongUrl = songTitle;
+        sSongUrl = intent.getStringExtra("file");
+//        filesSongUrl = songTitle;
         commentItems = new ArrayList<CommentItem>();
 
         teamNameInfo.setText(teamName);
         editDatInfo.setText(editDate);
         songNameInfo.setText(songTitle);
 
-        uri = Uri.parse(baseurl + sSongUrl);
+        uri = Uri.parse(sSongUrl);
         mediaPlayer = new MediaPlayer();
 
         try {
@@ -148,7 +148,7 @@ public class HubOnViewActivity extends AppCompatActivity {
                     statusBtn.setImageResource(R.drawable.play);
                 } else {
                     try {
-                        uri = Uri.parse(baseurl + sSongUrl);
+                        uri = Uri.parse(sSongUrl);
                         mediaPlayer = new MediaPlayer();
                         mediaPlayer.setDataSource(getApplicationContext(), uri);
                         mediaPlayer.prepare();
@@ -197,7 +197,7 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public void postComment(final String comment) {
         Date todayDate = Calendar.getInstance().getTime();
-        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
         final String todayString = formatter.format(todayDate);
 
         HubService.getRetrofit(getApplicationContext())

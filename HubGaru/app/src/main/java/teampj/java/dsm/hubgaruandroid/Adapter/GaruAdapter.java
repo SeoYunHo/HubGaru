@@ -45,7 +45,7 @@ public class GaruAdapter extends RecyclerView.Adapter<GaruAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         String url = items.get(position).getTeamPic();
         Log.d(url, "garuPicId");
-        String baseUrl = "http://52.15.75.60:8080/file/";
+        String baseUrl = "";
         Glide.with(context).load(baseUrl + url).into(holder.teamPic);
         holder.teamName.setText(items.get(position).getTeamName());
         holder.teamInfo.setText(items.get(position).getTeamIntro());

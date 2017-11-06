@@ -126,7 +126,7 @@ public class TeamMainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                TeamChatItem chatItem = new TeamChatItem("조치원",chatEditText.getText().toString(), calendar.getTime().toString().substring(0,24));
+                TeamChatItem chatItem = new TeamChatItem("서윤호",chatEditText.getText().toString(), calendar.getTime().toString().substring(0,24));
                 databaseReference.child(String.valueOf(TEAMCODE)).child("Chat").push().setValue(chatItem);
             }
         });
@@ -180,6 +180,7 @@ public class TeamMainActivity extends AppCompatActivity
         teamPage.setVisibility(View.GONE);
         chattingBar.setVisibility(View.GONE);
         newRequestActionBar.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
 
         if (id == R.id.nav_request) {
             newRequestActionBar.setVisibility(View.VISIBLE);
@@ -191,6 +192,7 @@ public class TeamMainActivity extends AppCompatActivity
             contentView.setAdapter(C_adapter);
         }else if (id == R.id.nav_main){
             teamPage.setVisibility(View.VISIBLE);
+            contentView.setVisibility(View.GONE);
         }else if (id == R.id.nav_verson){
             Intent main_to_newh = new Intent(TeamMainActivity.this, HubCreateActivity.class);
             startActivity(main_to_newh);

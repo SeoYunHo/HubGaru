@@ -19,6 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -34,6 +40,10 @@ import teampj.java.dsm.hubgaruandroid.R;
 
 public class GaruCreateActivity extends AppCompatActivity {
 
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
     private EditText newGaruName;
     private EditText newGaruIntro;
     private ImageView newGaruImage;
@@ -42,6 +52,8 @@ public class GaruCreateActivity extends AppCompatActivity {
 
     private Uri GaruImage;
     private File imageFile;
+
+    String imageURL;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,35 +84,41 @@ public class GaruCreateActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uid = TabLayoutActivity.getId();
-                String garuName = newGaruName.getText().toString();
-                String garuIntro = newGaruIntro.getText().toString();
-                String file = "0012";
-                String teamPic = imageFile.getName();
+                final String uid = TabLayoutActivity.getId();
+                final String garuName = newGaruName.getText().toString();
+                final String garuIntro = newGaruIntro.getText().toString();
+                final String teamPic = imageFile.getName();
 
-                //파일 따로 업로드 하는 부분
-                //사진 1 업로드 해야 됨.
+                Toast.makeText(getApplicationContext(),"파일 업로드중...",Toast.LENGTH_SHORT).show();
+                final Uri pfile = GaruImage;
+                String filename = imageFile.getName();
+                StorageReference filepath = storageReference.child("Garu").child("Songs").child(pfile.getLastPathSegment());
+                filepath.putFile(pfile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "파일업로드 완료!", Toast.LENGTH_SHORT).show();
+                        imageURL = taskSnapshot.getDownloadUrl().toString();
 
-                //서버로 값 전달
-                HubService.getRetrofit(getApplicationContext())
-                        .makeGaru(uid, garuName, garuIntro, file, teamPic)
-                        .enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if(response.code() == 201){
-                                    GaruCreateActivity.this.finish();
-                                } else if (response.code() == 500) {
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                            }
-                        });
+                        HubService.getRetrofit(getApplicationContext())
+                                .makeGaru(uid, garuName, garuIntro, "trash", imageURL)
+                                .enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        if (response.code() == 201) {
+                                            GaruCreateActivity.this.finish();
+                                        } else if (response.code() == 500) {
+                                        }
+                                    }
 
-                GaruCreateActivity.this.finish();
-            }
-        });
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                    }
+                                });
+                    }
+                });
+                }
+            });
     }
 
     @Override
@@ -108,7 +126,7 @@ public class GaruCreateActivity extends AppCompatActivity {
         //super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 2 && resultCode == RESULT_OK){
             Uri uri = data.getData();
-
+            GaruImage = uri;
             try{
                 //Bitmap bm = BitmapFactory.decodeFile(path, bmOptions);
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());

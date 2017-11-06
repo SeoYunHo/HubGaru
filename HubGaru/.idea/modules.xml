@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HubGaru.iml" filepath="$PROJECT_DIR$/HubGaru.iml" />
-      <module fileurl="file://D:\Git\Android\HubGaru\HubGaru\HubGaru.iml" filepath="D:\Git\Android\HubGaru\HubGaru\HubGaru.iml" />
+      <module fileurl="file://D:/Git/Android/HubGaru/HubGaru/HubGaru.iml" filepath="D:/Git/Android/HubGaru/HubGaru/HubGaru.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Git\Android\HubGaru\HubGaru\app\app.iml" filepath="D:\Git\Android\HubGaru\HubGaru\app\app.iml" />
+      <module fileurl="file://D:/Git/Android/HubGaru/HubGaru/app/app.iml" filepath="D:/Git/Android/HubGaru/HubGaru/app/app.iml" />
     </modules>
   </component>
 </project>

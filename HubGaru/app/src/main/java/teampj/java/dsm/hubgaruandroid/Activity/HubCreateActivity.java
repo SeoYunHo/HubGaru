@@ -59,6 +59,9 @@ public class HubCreateActivity extends AppCompatActivity {
     private byte[] imageBytes;
     private static byte[] musicBytes;
 
+    private String fileURL;
+    private String pfileURL;
+
 
 
     @Override
@@ -73,7 +76,7 @@ public class HubCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK);
-                i.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                i.setType("*/*");
                 startActivityForResult(i, 2);
             }
         });
@@ -107,63 +110,51 @@ public class HubCreateActivity extends AppCompatActivity {
 
         createBtn = (Button)findViewById(R.id.create_hub_btn);
         createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String garuID = "907";
-                String hubName = newHubName.getText().toString();
-                String music = musicFile.getName();
-                String teamPic = imageFile.getName();
+                @Override
+                public void onClick(View v) {
+                    final String garuID = "907";
+                    final String hubName = newHubName.getText().toString();
+                    final String music = musicFile.getName();
+                    final String teamPic = imageFile.getName();
 
-                Uri file = Uri.fromFile(musicFile);
-                String filename = musicFile.getName();
-                StorageReference filepath = storageReference.child("Hub").child("Images").child(file.getLastPathSegment());
-                filepath.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String fileURL;
-                            }
-                        });
-                    }
-                });
-                /*
-                HubService.getRetrofit(getApplicationContext())
-                        .uploadFIle();
-                        */
+                    Toast.makeText(getApplicationContext(),"파일 업로드중...",Toast.LENGTH_SHORT).show();
+                    final Uri file = Uri.fromFile(musicFile);
+                    String filename = musicFile.getName();
+                    StorageReference filepath = storageReference.child("Hub").child("Songs").child(file.getLastPathSegment());
+                    filepath.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getApplicationContext(),"파일업로드 완료!",Toast.LENGTH_SHORT).show();
+                            fileURL = taskSnapshot.getDownloadUrl().toString();
 
-                Uri pfile = Uri.fromFile(imageFile);
-                String pfilename = musicFile.getName();
-                StorageReference pfilepath = storageReference.child("Hub").child("Images").child(pfile.getLastPathSegment());
-                pfilepath.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getApplicationContext(),"사진업로드완료",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                 /*
-
-                 HubService.getRetrofit(getApplicationContext())
-                                    .makeHub(garuID, hubName, music, teamPic+".jpeg","2017-10_23")
-                        .enqueue(new Callback<Void>() {
+                            Uri pfile = HubImage;
+                            String pfilename = musicFile.getName();
+                            StorageReference pfilepath = storageReference.child("Hub").child("Images").child(pfile.getLastPathSegment());
+                            pfilepath.putFile(pfile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    if(response.code() == 201){
-                                        HubCreateActivity.this.finish();
-                                    } else if (response.code() == 500) {
-                                        Toast.makeText(getApplicationContext(),"허브업로드실패",Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-                                }
-                        });nn
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    pfileURL = taskSnapshot.getDownloadUrl().toString();
 
-                  */
-                HubCreateActivity.this.finish();
-            }
+                                    HubService.getRetrofit(getApplicationContext())
+                                            .makeHub(garuID, hubName, fileURL+".mp3", pfileURL+".jpg","2017-11-02")
+                                            .enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    if(response.code() == 201){
+                                                        HubCreateActivity.this.finish();
+                                                    } else if (response.code() == 500) {
+                                                        Toast.makeText(getApplicationContext(),"허브업로드실패",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                                @Override
+                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                }
+                                            });
+                                }
+                            });
+                        }
+                    });
+                }
         });
     }
 
@@ -179,6 +170,7 @@ public class HubCreateActivity extends AppCompatActivity {
         //super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 2 && resultCode == RESULT_OK){
             Uri uri = data.getData();
+            HubImage = uri;
             try{
                 //Bitmap bm = BitmapFactory.decodeFile(path, bmOptions);
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
