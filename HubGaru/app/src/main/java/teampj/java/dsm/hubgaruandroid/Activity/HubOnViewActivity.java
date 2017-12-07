@@ -197,7 +197,7 @@ public class HubOnViewActivity extends AppCompatActivity {
 
     public void postComment(final String comment) {
         Date todayDate = Calendar.getInstance().getTime();
-        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-dd");
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("YYYY-MM-DD");
         final String todayString = formatter.format(todayDate);
 
         HubService.getRetrofit(getApplicationContext())
